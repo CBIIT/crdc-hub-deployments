@@ -1,0 +1,19 @@
+Notes: Jenkins pipeline
+project: crdc-dh
+services:
+  backend:
+    version: main.17
+    image: main.17
+    buildNumber: '17'
+  frontend:
+    version: dev.41
+    image: dev.41
+    buildNumber: '41'
+  authn:
+    version: 1.0.0.4
+    image: 1.0.0.4
+    buildNumber: '4'
+  authz:
+    version: 1.0.0.2
+    image: 1.0.0.2
+    buildNumber: '2'
