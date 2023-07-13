@@ -45,7 +45,7 @@ pipeline {
 
       PROJECT      = "crdc-hub"
 	  SERVICE      = "authn"
-	  ECR_REPO     = "crdc-dh-authn"
+	  ECR_REPO     = "crdc-hub-authn"
 	  DEPLOY_JOB   = "DeployAuthn"
 	  SLACK_SECRET = "crdcdh_slack_url"
 	  CODE_REPO    = "crdc-datahub-authn"
