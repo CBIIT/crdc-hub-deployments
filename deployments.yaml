@@ -10,9 +10,9 @@ services:
     image: dev.41
     buildNumber: '41'
   authn:
-    version: 1.0.0.4
-    image: 1.0.0.4
-    buildNumber: '4'
+    version: login.21
+    image: login.21
+    buildNumber: '21'
   authz:
     version: 1.0.0.2
     image: 1.0.0.2
