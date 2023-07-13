@@ -10,9 +10,9 @@ services:
     image: mvp-1.0.0.64
     buildNumber: '64'
   authn:
-    version: login.21
-    image: login.21
-    buildNumber: '21'
+    version: login.22
+    image: login.22
+    buildNumber: '22'
   authz:
     version: 1.0.0.8
     image: 1.0.0.8
