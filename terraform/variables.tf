@@ -293,6 +293,29 @@ variable "aws_account_id" {
   }
 }
 
+# S3 extra for submission
+#variable "control_object_ownership" {
+#  type = bool
+#}
+
+variable "eventbridge" {
+  type = bool
+}
+
+#variable "object_ownership" {
+#  type = string
+#}
+
+variable "s3_tags" {
+  type = map(string)
+}
+
+variable "s3_versioning_status" {
+  description = "Set the status of the bucket versioning feature. Options include Enabled and Disabled"
+  type = string 
+  default = "Enabled"
+}
+
 # Secrets
 #variable "secret_values" {
 #  type = map(object({
