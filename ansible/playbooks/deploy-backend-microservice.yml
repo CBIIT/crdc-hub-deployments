@@ -45,6 +45,9 @@
         mongo_db_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_user', nested=true, region='us-east-1' ) }}"
 #        mongo_db_database: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_database', nested=true, region='us-east-1' ) }}"
 #        cookie_secret: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.cookie_secret', nested=true, region='us-east-1' ) }}"
+        email_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.email_user', nested=true, region='us-east-1' ) }}"
+        email_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.email_password', nested=true, region='us-east-1' ) }}"
+        email_url: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.email_url', nested=true, region='us-east-1' ) }}"
         newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
         sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
         sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_backend', nested=true, region='us-east-1' ) }}"
@@ -88,17 +91,17 @@
             value: "abcd256asghaaamnkloofghj"
           ## Email notification config
           - name: EMAILS_ENABLED
-            value: "false" 
-          #- name: EMAIL_SMTP_HOST
-          #  value: "false" 
-          #- name: EMAIL_SMTP_PORT
-          #  value: "false" 
-          #- name: EMAIL_USER
-          #  value: "false" 
-          #- name: EMAIL_PASSWORD
-          #  value: "false" 
-          #- name: EMAIL_URL
-            #value: "false" 
+            value: "true" 
+          - name: EMAIL_SMTP_HOST
+            value: email-smtp.us-east-1.amazonaws.com
+          - name: EMAIL_SMTP_PORT
+            value: "465" 
+          - name: EMAIL_USER
+            value: "{{email_user}}"
+          - name: EMAIL_PASSWORD
+            value: "{{email_password}}"
+          - name: EMAIL_URL
+            value: "{{email_url}}"
           ## Opensearch
 #          - name: ES_HOST
 #            value: "{{ es_host }}"
