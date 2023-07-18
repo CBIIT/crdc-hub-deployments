@@ -298,9 +298,9 @@ variable "aws_account_id" {
 #  type = bool
 #}
 
-variable "eventbridge" {
-  type = bool
-}
+#variable "eventbridge" {
+#  type = bool
+#}
 
 #variable "object_ownership" {
 #  type = string
