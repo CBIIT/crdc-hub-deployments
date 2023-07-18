@@ -48,7 +48,7 @@ resource "aws_s3_bucket_versioning" "s3_submission" {
 
 data "aws_iam_role" "role" {
   name = local.iam_role_name
-  depends on = [module.ecs]
+  depends_on = [module.ecs]
 }
 
 data "aws_iam_policy_document" "task_execution_s3" {
@@ -78,7 +78,7 @@ data "aws_iam_policy_document" "task_execution_s3" {
 }
 
 resource "aws_iam_policy" "extra_s3_policy" {
-  name    = "iam-extra-s3-policy"
+  name    = "power-user-${var.tier}-iam-extra-s3-policy"
   policy = data.aws_iam_policy_document.task_execution_s3.json
 }
 
