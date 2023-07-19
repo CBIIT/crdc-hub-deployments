@@ -102,6 +102,8 @@
             value: "{{email_password}}"
           - name: EMAIL_URL
             value: "{{email_url}}"
+          - name: SCHEDULE_JOB
+            value: * */1 * * * *
           ## Opensearch
 #          - name: ES_HOST
 #            value: "{{ es_host }}"
