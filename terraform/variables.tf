@@ -316,7 +316,7 @@ variable "s3_versioning_status" {
   default = "Enabled"
 }
 
-variable "name" {
+variable "bucketname" {
   type = map(object({
     name  = string
     versioning  = string

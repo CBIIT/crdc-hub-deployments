@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "s3" {
-  for_each = var.name
-  bucket        = each.value
+  for_each = var.bucketname
+  bucket        = each.value.name
 #  force_destroy = var.s3_force_destroy
   tags = var.s3_tags
 }
