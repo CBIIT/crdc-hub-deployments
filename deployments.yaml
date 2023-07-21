@@ -6,9 +6,9 @@ services:
     image: 1.0.0.33
     buildNumber: '33'
   frontend:
-    version: amattu2-CRDCDH-39.68
-    image: amattu2-CRDCDH-39.68
-    buildNumber: '68'
+    version: mvp-1.0.0.69
+    image: mvp-1.0.0.69
+    buildNumber: '69'
   authn:
     version: login.22
     image: login.22
