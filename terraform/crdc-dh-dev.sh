@@ -2,7 +2,7 @@
 set -x
 
 TIER=dev
-REPOSITORY=https://github.com/CBIIT/crdc-dh-deployments.git
+REPOSITORY=https://github.com/CBIIT/crdc-hub-deployments.git
 SOURCE_DIR=~/$TIER
 
 rm -rf $SOURCE_DIR
