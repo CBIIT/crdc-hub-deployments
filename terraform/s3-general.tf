@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "s3" {
-  for_each = var.bucketname
+  for_each = var.name
   bucket        = each.value
 #  force_destroy = var.s3_force_destroy
   tags = var.s3_tags
@@ -17,7 +17,7 @@ resource "aws_s3_bucket" "s3" {
 #}
 
 resource "aws_s3_bucket_public_access_block" "s3" {
-  for_each = var.bucketname
+  for_each = var.name
   bucket                  = aws_s3_bucket.s3[each.key].id
   block_public_acls       = true
   block_public_policy     = true
@@ -26,7 +26,7 @@ resource "aws_s3_bucket_public_access_block" "s3" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "s3" {
-  for_each = var.bucketname
+  for_each = var.name
   bucket = aws_s3_bucket.s3[each.key].id
 
   rule {
@@ -37,7 +37,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "s3" {
 }
 
 resource "aws_s3_bucket_versioning" "s3" {
-  for_each = var.bucketname
+  for_each = var.name
   bucket = aws_s3_bucket.s3[each.key].id
   versioning_configuration {
     status = each.value.versioning

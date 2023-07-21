@@ -316,9 +316,9 @@ variable "s3_versioning_status" {
   default = "Enabled"
 }
 
-variable "bucketname" {
+variable "name" {
   type = map(object({
-    bucketname  = string
+    name  = string
     versioning  = string
 #    eventbridge = bool
   }))
