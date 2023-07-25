@@ -93,7 +93,7 @@
           - name: EMAILS_ENABLED
             value: "true" 
           - name: EMAIL_SMTP_HOST
-            value: email.us-east-1.amazonaws.com
+            value: email-smtp.us-east-1.amazonaws.com
           - name: EMAIL_SMTP_PORT
             value: "465" 
           - name: EMAIL_USER
