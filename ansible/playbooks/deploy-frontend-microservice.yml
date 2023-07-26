@@ -61,7 +61,7 @@
         container_env:
           # API URLs
           - name: REACT_APP_BACKEND_API
-            value: "{% if tier == 'prod' %}https://{{subdomain}}.{{domain_name}}/api/graphql/{% else %}https://{{subdomain}}-{{tier}}.{{domain_name}}/api/graphql/{% endif %}"
+            value: "{% if tier == 'prod' %}https://{{subdomain}}.{{domain_name}}/api/graphql{% else %}https://{{subdomain}}-{{tier}}.{{domain_name}}/api/graphql{% endif %}"
 #          - name: REACT_APP_FILE_SERVICE_API
 #            value: "{% if tier == 'prod' %}https://{{subdomain}}.{{domain_name}}/api/files/{% else %}https://{{subdomain}}-{{tier}}.{{domain_name}}/api/files/{% endif %}"
           # Versions
