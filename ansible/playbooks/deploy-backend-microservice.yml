@@ -95,7 +95,7 @@
           - name: EMAIL_SMTP_HOST
             value: email-smtp.us-east-1.amazonaws.com
           - name: EMAIL_SMTP_PORT
-            value: "587" 
+            value: "465" 
           - name: EMAIL_USER
             value: "{{email_user}}"
           - name: EMAIL_PASSWORD
