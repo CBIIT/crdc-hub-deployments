@@ -50,6 +50,7 @@ pipeline {
 	  SLACK_SECRET = "crdcdh_slack_url"
 	  CODE_REPO    = "crdc-datahub-authn"
 	  JOB_PATH     = "_default/_lower/CRDC-DH/_jobs"
+      REGISTRY_URL = "986019062625.dkr.ecr.us-east-1.amazonaws.com"
 	  REGION       = "us-east-1"
 	  DEPLOY_REPO  = "${env.PROJECT}-deployments"
       CODE_BRANCH  = "${params.CodeBranch}"
@@ -94,7 +95,7 @@ pipeline {
 				# build CTDC Docker container
 				echo "Building: $ECR_REPO:$CODE_BRANCH.$BUILD_NUMBER"
 				aws_account=$(aws sts get-caller-identity --query "Account" --output text)
-				repo_url="$aws_account.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO"
+				repo_url="$REGISTRY_URL/$ECR_REPO"
 
 				cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --no-cache -t $repo_url:$CODE_BRANCH.$BUILD_NUMBER .
 
