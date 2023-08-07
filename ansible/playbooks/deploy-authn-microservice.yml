@@ -16,8 +16,8 @@
         - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,v1.5
     set_fact:
       region: us-east-1
-      #ecr_repo: "986019062625.dkr.ecr.{{ region }}.amazonaws.com"
-      ecr_repo: "986019062625.dkr.ecr.us-east-1.amazonaws.com"
+      ecr_repo: "986019062625.dkr.ecr.{{ region }}.amazonaws.com"
+     # ecr_repo: "986019062625.dkr.ecr.us-east-1.amazonaws.com"
 
     #docker login
     - name: docker login
