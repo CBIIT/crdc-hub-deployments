@@ -14,6 +14,6 @@ services:
     image: login.28
     buildNumber: '28'
   authz:
-    version: 1.0.0.12
-    image: 1.0.0.12
-    buildNumber: '12'
+    version: 1.0.0.13
+    image: 1.0.0.13
+    buildNumber: '13'
