@@ -1,4 +1,5 @@
 resource "aws_sqs_queue" "sqs_queue" {
+  count = terraform.workspace == "dev" || terraform.workspace == "qa" ? 1 : 0
   name                      = "${local.resource_prefix}-queue.fifo"
   fifo_queue                = true
   delay_seconds             = 0
