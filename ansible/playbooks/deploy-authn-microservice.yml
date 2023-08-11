@@ -18,9 +18,10 @@
     #docker login
     - name: docker login
       include_role:
-        name: bento.common.ecr_login
+        name: ecr-central-login
       vars:
         region: us-east-1
+
 
     #deploy authn
     - name: deploy stage for authn microservice
