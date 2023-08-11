@@ -1,5 +1,5 @@
 module "ecs" {
-  source                    = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecs?ref=v1.7"
+  source                    = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecs?ref=v1.6"
   resource_prefix           = local.resource_prefix
   stack_name                = var.project
   tags                      = var.tags
@@ -11,5 +11,4 @@ module "ecs" {
   alb_https_listener_arn    = module.alb.alb_https_listener_arn
   target_account_cloudone   = var.target_account_cloudone
   allow_cloudwatch_stream   = var.allow_cloudwatch_stream
-  central_ecr_account_id    = var.central_ecr_account_id
 }
