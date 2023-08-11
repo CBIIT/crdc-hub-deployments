@@ -1,5 +1,5 @@
 module "ecs" {
-  source                    = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecs?ref=v1.7"
+  source                    = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecs?ref=v1.8"
   resource_prefix           = local.resource_prefix
   stack_name                = var.project
   tags                      = var.tags

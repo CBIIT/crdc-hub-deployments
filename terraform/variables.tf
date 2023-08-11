@@ -351,11 +351,6 @@ variable "katalon_security_group_id" {
   default     = "sg-0f07eae0a9b3a0bb8"
 }
 
-variable "use_local_account_id" {
-  type   = bool
-  default = false
-}
-
 variable "central_ecr_account_id" {
   type  = string
   default = "986019062625"
