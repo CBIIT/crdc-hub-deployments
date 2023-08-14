@@ -16,6 +16,7 @@ EOF
 }
 
 resource "aws_sqs_queue" "dead_letter_queue" {
+  count = terraform.workspace == "dev" || terraform.workspace == "qa" ? 1 : 0
   name                      = "${local.resource_prefix}-dead-letter-queue.fifo"
   fifo_queue                = true
 }
