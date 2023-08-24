@@ -41,7 +41,7 @@ pipeline {
   		steps {
 
   		checkout([$class: 'GitSCM',
-			branches: [[name: '*/central-ecr']],
+			branches: [[name: '*/ecr-account-fix']],
 			doGenerateSubmoduleConfigurations: false,
 			extensions: [[$class: 'RelativeTargetDirectory',
 			relativeTargetDir: "playbooks"]],
