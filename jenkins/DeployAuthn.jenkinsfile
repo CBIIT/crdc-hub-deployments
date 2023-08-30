@@ -32,7 +32,7 @@ pipeline {
   environment {
     PROJECT      = 'crdc-hub'
 	APP          = "authn"
-	REGION		 = "us"
+	REGION		 = "us-east-1"
 	SLACK_SECRET = "crdcdh_slack_url"
 	CLUSTER      = "${env.PROJECT}-${env.ENV}-ecs"
 	SERVICE      = "${env.PROJECT}-${env.ENV}-${env.APP}"
