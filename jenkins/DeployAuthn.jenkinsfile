@@ -34,6 +34,7 @@ pipeline {
 	APP          = "authn"
 	REGION		 = "us-east-1"
 	SLACK_SECRET = "crdcdh_slack_url"
+        ENV          = "${params.Environment}"
 	CLUSTER      = "${env.PROJECT}-${env.ENV}-ecs"
 	SERVICE      = "${env.PROJECT}-${env.ENV}-${env.APP}"
 
