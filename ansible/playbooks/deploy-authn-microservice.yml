@@ -76,8 +76,8 @@
             value: "{{image_version}}"
           - name: SESSION_SECRET
             value: "abcd256asghaaamnkloofghj"
-          - name: SESSION_TIMEOUT
-            value: "1200"
+#          - name: SESSION_TIMEOUT
+#            value: "1200"
           - name: IDP
             value: "nih"
 #          - name: GOOGLE_CLIENT_ID
