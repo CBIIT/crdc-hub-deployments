@@ -50,7 +50,6 @@ pipeline {
 	  SLACK_SECRET = "crdcdh_slack_url"
 	  CODE_REPO    = "crdc-datahub-authn"
 	  JOB_PATH     = "_default/_lower/CRDC-DH/_jobs"
-      REGISTRY_URL = "986019062625.dkr.ecr.us-east-1.amazonaws.com"
 	  REGION       = "us-east-1"
 	  DEPLOY_REPO  = "${env.PROJECT}-deployments"
       CODE_BRANCH  = "${params.CodeBranch}"
@@ -82,6 +81,17 @@ pipeline {
 
         }
 
+  	}
+
+      stage('Set Environment Variables'){
+ 		steps {
+ 			script {
+                // set ECR account number
+				env.ECR_ACCOUNT = sh(label: 'Get ECR account', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id ecr --query SecretString --output text | jq -r '.central_account_id'").trim()
+				// set repo URL
+				env.REGISTRY_URL = "${ECR_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com"
+			}
+ 		}
   	}
 
   	stage('Build'){

@@ -32,7 +32,12 @@ pipeline {
   environment {
 
       PROJECT      = 'crdc-hub'
+      APP          = "authz"
+      REGION		 = "us-east-1"
 	  SLACK_SECRET = "crdcdh_slack_url"
+      ENV          = "${params.Environment}"
+	CLUSTER      = "${env.PROJECT}-${env.ENV}-ecs"
+	SERVICE      = "${env.PROJECT}-${env.ENV}-${env.APP}"
 
   }
 
@@ -92,6 +97,60 @@ pipeline {
 						],
                     colorized: true)
  			}
+
+ 		}
+
+  	}
+
+  stage('verify deployment'){
+
+		steps {
+
+ 			script {
+
+			    sh label: 'Verify-Deploy', script: '''#!/bin/bash
+
+                # wait untiil the service is stable
+				aws ecs wait services-stable --cluster $CLUSTER --region $REGION --service $SERVICE
+
+				'''
+
+			}
+
+ 		}
+
+  	}
+	stage('Add Production Tag'){
+
+ 		when {
+
+	        expression { 
+
+                ENV == 'prod'
+
+            }
+
+        }
+
+		steps {
+
+ 			script {
+
+			    sh label: 'Docker-Tag', script: '''#!/bin/bash
+
+				# Tag image as production if deploying to prod tier
+				echo "Tagging Image as Production: $ECR_REPO:$IMAGE_TAG"
+
+				# login and get manifest
+				docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $REGISTRY_URL
+				MANIFEST=$(aws ecr batch-get-image --repository-name $REGISTRY_URL --image-ids imageTag=$IMAGE_TAG --output json | jq --raw-output --join-output '.images[0].imageManifest')
+
+                # tag as latest and push to ECR
+				aws ecr put-image --repository-name $REGISTRY_URL --image-tag production-$IMAGE_TAG --image-manifest "$MANIFEST"
+
+				'''
+
+			}
 
  		}
 
