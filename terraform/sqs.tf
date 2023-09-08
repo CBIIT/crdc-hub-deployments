@@ -9,7 +9,7 @@ resource "aws_sqs_queue" "sqs_queue" {
   receive_wait_time_seconds = 20
   redrive_policy = <<EOF
 {
-  "deadLetterTargetArn": "${aws_sqs_queue.dead_letter_queue.arn}",
+  "deadLetterTargetArn": "${aws_sqs_queue.dead_letter_queue[count.index].arn}",
   "maxReceiveCount": 5
 }
 EOF
