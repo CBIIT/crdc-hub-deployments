@@ -11,6 +11,7 @@ module "alb" {
   tags                = var.tags
   stack_name          = var.project
   alb_certificate_arn = data.aws_acm_certificate.amazon_issued.arn
+  program = "crdc"
 }
 
 #not used module s3 - shift the alb access logs to the central management account
