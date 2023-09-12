@@ -103,7 +103,14 @@
           - name: EMAIL_URL
             value: "{{email_url}}"
           - name: SCHEDULE_JOB
-            value: "* */1 * * * *"
+            value: "* */5 * * * *"
+          ## Application related
+          - name: INACTIVE_USER_DAYS
+            value: "60"
+          - name: REMIND_APPLICATION_DAYS
+            value: "30"
+          - name: INACTIVE_APPLICATION_DAYS
+            value: "45"
           ## Opensearch
 #          - name: ES_HOST
 #            value: "{{ es_host }}"
