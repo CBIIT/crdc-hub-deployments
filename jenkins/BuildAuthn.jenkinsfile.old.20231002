@@ -24,7 +24,7 @@ pipeline {
             selectedValue: 'DEFAULT',
             sortMode: 'ASCENDING_SMART',
             tagFilter: '*',
-            useRepository: 'https://github.com/CBIIT/crdc-datahub-authz')
+            useRepository: 'https://github.com/CBIIT/crdc-datahub-authn')
 
         booleanParam(
             defaultValue: true,
@@ -44,11 +44,11 @@ pipeline {
   environment {
 
       PROJECT      = "crdc-hub"
-	  SERVICE      = "authz"
-	  ECR_REPO     = "crdc-hub-authz"
-	  DEPLOY_JOB   = "DeployAuthz"
+	  SERVICE      = "authn"
+	  ECR_REPO     = "crdc-hub-authn"
+	  DEPLOY_JOB   = "DeployAuthn"
 	  SLACK_SECRET = "crdcdh_slack_url"
-	  CODE_REPO    = "crdc-datahub-authz"
+	  CODE_REPO    = "crdc-datahub-authn"
 	  JOB_PATH     = "_default/_lower/CRDC-DH/_jobs"
 	  REGION       = "us-east-1"
 	  DEPLOY_REPO  = "${env.PROJECT}-deployments"
@@ -83,7 +83,7 @@ pipeline {
 
   	}
 
-     stage('Set Environment Variables'){
+      stage('Set Environment Variables'){
  		steps {
  			script {
                 // set ECR account number
@@ -102,7 +102,7 @@ pipeline {
 
 			    sh label: 'Docker-Build', script: '''#!/bin/bash
 
-				# build CRDC Hub Docker container
+				# build CTDC Docker container
 				echo "Building: $ECR_REPO:$CODE_BRANCH.$BUILD_NUMBER"
 				aws_account=$(aws sts get-caller-identity --query "Account" --output text)
 				repo_url="$REGISTRY_URL/$ECR_REPO"
@@ -118,9 +118,14 @@ pipeline {
   	}
 
   	stage('Test'){
-              when {
-              expression { params.TrivyTestScan }
-              }
+
+        agent {
+            docker {
+                image 'cbiitssrepo/cicd-ansible_4.0'
+                args '--net=host -u root -v /var/run/docker.sock:/var/run/docker.sock'
+                reuseNode true
+            }
+        }
 
  		steps {
 
@@ -133,9 +138,8 @@ pipeline {
                 aws_account=$(aws sts get-caller-identity --query "Account" --output text)
 				repo_url="$REGISTRY_URL/$ECR_REPO"
 
-                docker run --rm --name trivy -u root -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy:latest image --exit-code 1 --severity HIGH,CRITICAL $repo_url:$CODE_BRANCH.$BUILD_NUMBER
                 #trivy image --exit-code 1 --severity HIGH,CRITICAL $repo_url:$CODE_BRANCH.$BUILD_NUMBER
-#                trivy image --timeout 15m --severity HIGH,CRITICAL $repo_url:$CODE_BRANCH.$BUILD_NUMBER
+                trivy image --timeout 15m --severity HIGH,CRITICAL $repo_url:$CODE_BRANCH.$BUILD_NUMBER
 
 				'''
 
