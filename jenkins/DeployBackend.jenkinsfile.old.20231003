@@ -32,9 +32,9 @@ pipeline {
   environment {
 
       PROJECT      = 'crdc-hub'
-      APP          = "authn"
+      APP          = "backend"
+	  SLACK_SECRET = "crdcdh_slack_url"
       REGION		 = "us-east-1"
-      SLACK_SECRET = "crdcdh_slack_url"
       ENV          = "${params.Environment}"
 	CLUSTER      = "${env.PROJECT}-${env.ENV}-ecs"
 	SERVICE      = "${env.PROJECT}-${env.ENV}-${env.APP}"
@@ -71,21 +71,21 @@ pipeline {
 
         agent {
             docker {
-                image 'cbiitssrepo/cicd-ansible-8.0:latest'
+                image 'cbiitssrepo/cicd-ansible_4.0'
                 args '--net=host -u root -v /var/run/docker.sock:/var/run/docker.sock'
                 reuseNode true
             }
         }
 
 	    environment {
-            AUTHN_VERSION = "${params.ImageTag}"
+            BE_VERSION = "${params.ImageTag}"
         }
 
  		steps {
 
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                 ansiblePlaybook(
-					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/deploy-authn-microservice.yml", 
+					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/deploy-backend-microservice.yml", 
             		inventory: "${WORKSPACE}/playbooks/ansible/playbooks/hosts",
                     extraVars: [
                         tier: "${params.Environment}",
@@ -97,7 +97,6 @@ pipeline {
 						],
                     colorized: true)
  			}
-
  		}
 
   	}
