@@ -48,6 +48,7 @@
         email_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.email_user', nested=true, region='us-east-1' ) }}"
         email_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.email_password', nested=true, region='us-east-1' ) }}"
         email_url: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.email_url', nested=true, region='us-east-1' ) }}"
+        submission_bucket: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.submission_bucket', nested=true, region='us-east-1' ) }}"
         newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
         sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
         sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_backend', nested=true, region='us-east-1' ) }}"
@@ -111,6 +112,8 @@
             value: "30"
           - name: INACTIVE_APPLICATION_DAYS
             value: "45"
+          - name: SUBMISSION_BUCKET
+            value: "{{submission_bucket}}"
           ## Opensearch
 #          - name: ES_HOST
 #            value: "{{ es_host }}"
