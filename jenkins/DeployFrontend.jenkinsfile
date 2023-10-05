@@ -3,7 +3,7 @@
 pipeline {
 	agent {
 		node {
-			label 'slave-ncias-d2947-c'
+			label 'crdc-dh-docker'
 		}
 	}
 
@@ -19,7 +19,7 @@ pipeline {
             defaultValue: 'dev',
             description: 'Choose the environment to deploy to',
             type: 'PT_SINGLE_SELECT',
-            value: 'dev,qa,stage,prod')
+            value: 'dev,dev2,qa,qa2,stage,prod')
 
   }
 
@@ -32,16 +32,16 @@ pipeline {
   environment {
 
 	PROGRAM      = "crdc"
-	PROJECT      = "ctdc"
-	APP          = "backend"
-	SLACK_SECRET = "ctdc_slack_url"
+	PROJECT      = "hub"
+	APP          = "frontend"
+	SLACK_SECRET = "crdcdh_slack_url"
 	REGION       = "us-east-1"
 	ECR_REPO     = "${env.PROGRAM}-${env.PROJECT}-${env.APP}"
-	DEPLOY_REPO  = "${env.PROJECT}-deployments"
+	DEPLOY_REPO  = "${env.PROGRAM}-${env.PROJECT}-deployments"
 	IMAGE_TAG    = "${params.ImageTag}"
 	ENV          = "${params.Environment}"
-	CLUSTER      = "${env.PROGRAM}-${env.ENV}-${env.PROJECT}-ecs"
-	SERVICE      = "${env.PROGRAM}-${env.ENV}-${env.PROJECT}-${env.APP}"
+	CLUSTER      = "${env.PROGRAM}-${env.PROJECT}-${env.ENV}-ecs"
+	SERVICE      = "${env.PROGRAM}-${env.PROJECT}-${env.ENV}-${env.APP}"
 
   }
 
@@ -56,7 +56,16 @@ pipeline {
 			extensions: [[$class: 'SubmoduleOption', 
 			recursiveSubmodules: true],
 			[$class: 'RelativeTargetDirectory',
-			relativeTargetDir: 'ctdc-deployments']],
+			relativeTargetDir: 'crdc-hub-deployments']],
+			userRemoteConfigs:
+			[[url: "https://github.com/CBIIT/${env.DEPLOY_REPO}"]]])
+
+		checkout([$class: 'GitSCM',
+			branches: [[name: "${env.ENV}"]],
+			extensions: [[$class: 'SubmoduleOption', 
+			recursiveSubmodules: true],
+			[$class: 'RelativeTargetDirectory',
+			relativeTargetDir: "crdc-hub-deployments-${env.ENV}"]],
 			userRemoteConfigs:
 			[[url: "https://github.com/CBIIT/${env.DEPLOY_REPO}"]]])
 
@@ -70,22 +79,32 @@ pipeline {
 
  			script {
 
-			    // set sumo vars for logging
-				env.SUMO_COLLECTOR_ENDPOINT = sh(label: 'Get Sumo Endpoint', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id bento/$PROJECT/$ENV --query SecretString --output text | jq -r '.sumo_collector_endpoint'").trim()
-				env.SUMO_COLLECTOR_TOKEN = sh(label: 'Get Sumo Token', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id bento/$PROJECT/$ENV --query SecretString --output text | jq -r '.sumo_collector_token_$APP'").trim()
+			    // set domain name
+				if (env.ENV == 'prod') {
 
-				// set neo4j vars
-				env.NEO4J_HOST = sh(label: 'Get Neo4j Host', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id bento/$PROJECT/$ENV --query SecretString --output text | jq -r '.neo4j_ip'").trim()
+                    env.DOMAIN_NAME = "hub.datacommons.cancer.gov"
+
+                } else {
+
+                    env.DOMAIN_NAME = "hub-${env.ENV}.datacommons.cancer.gov"
+                }
+
+                // set sumo vars for logging
+				env.SUMO_COLLECTOR_ENDPOINT = sh(label: 'Get Sumo Endpoint', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id bento/$PROGRAM-$PROJECT/$ENV --query SecretString --output text | jq -r '.sumo_collector_endpoint'").trim()
+				env.SUMO_COLLECTOR_TOKEN = sh(label: 'Get Sumo Token', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id bento/$PROGRAM-$PROJECT/$ENV --query SecretString --output text | jq -r '.sumo_collector_token_$APP'").trim()
+
+				// set backend version
+				env.BE_VERSION = getVersion(service: "backend",deploymentFile: "$PROGRAM-$PROJECT-deployments/deployments.yaml")
 
 				// set ECR account number
-				env.ECR_ACCOUNT = sh(label: 'Get ECR account', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id bento/$PROJECT/$ENV --query SecretString --output text | jq -r '.ecr_account'").trim()
+				env.ECR_ACCOUNT = sh(label: 'Get ECR account', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id ecr --query SecretString --output text | jq -r '.central_account_id'").trim()
 
 				// set repo URL
 				env.REPO_URL = "${ECR_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO}"
 
 				// set template file name
-				//env.TEMPLATE_FILE="ctdc-deployments/aws/${APP}_task.json"
-				env.TEMPLATE_FILE="ctdc-deployments/aws/${APP}_task_cloudwatch.json"
+
+                    env.TEMPLATE_FILE="crdc-hub-deployments/aws/${APP}_task.json"
 
 			}
 
@@ -101,20 +120,24 @@ pipeline {
 
 			    sh label: 'Task-Definition-Update', script: '''#!/bin/bash
 
-				# create new revision for $PROJECT-$APP Task Definition
+				# create new revision for $PROGRAM-$PROJECT-$APP Task Definition
 				echo "Updating Task Defintion to Use: $ECR_REPO:$IMAGE_TAG"
 				ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
 				IMAGE_ID="$REPO_URL:$IMAGE_TAG"
 
-				sed -i "s|{{account_id}}|$ACCOUNT_ID|" $TEMPLATE_FILE
-				sed -i "s|{{image_id}}|$IMAGE_ID|" $TEMPLATE_FILE
-				sed -i "s|{{image_tag}}|$IMAGE_TAG|" $TEMPLATE_FILE
-				sed -i "s|{{environment}}|$ENV|" $TEMPLATE_FILE
 				sed -i "s|{{program}}|$PROGRAM|" $TEMPLATE_FILE
 				sed -i "s|{{project}}|$PROJECT|" $TEMPLATE_FILE
+				sed -i "s|{{environment}}|$ENV|" $TEMPLATE_FILE
+				sed -i "s|{{account_id}}|$ACCOUNT_ID|" $TEMPLATE_FILE
+
+				sed -i "s|{{image_id}}|$IMAGE_ID|" $TEMPLATE_FILE
+				sed -i "s|{{image_tag}}|$IMAGE_TAG|" $TEMPLATE_FILE
+
 				sed -i "s|{{sumo_collector_endpoint}}|$SUMO_COLLECTOR_ENDPOINT|" $TEMPLATE_FILE
 				sed -i "s|{{sumo_collector_token}}|$SUMO_COLLECTOR_TOKEN|" $TEMPLATE_FILE
-				sed -i "s|{{neo4j_host}}|$NEO4J_HOST|" $TEMPLATE_FILE
+
+				sed -i "s|{{domain_name}}|$DOMAIN_NAME|" $TEMPLATE_FILE
+				sed -i "s|{{be_version}}|$BE_VERSION|" $TEMPLATE_FILE
 
 				aws ecs register-task-definition --cli-input-json file://$TEMPLATE_FILE
 
@@ -166,7 +189,7 @@ pipeline {
  		}
 
   	}
-	
+
 	stage('Add Production Tag'){
 
  		when {

@@ -1,0 +1,179 @@
+@Library('datacommons-jenkins-shared-library@v1.1') _
+
+pipeline {
+	agent {
+		node {
+			//label 'ctdc-docker'
+			label 'crdc-dh-docker'
+		}
+	}
+
+	parameters {
+
+        string(
+	        defaultValue: '',
+		    description: 'The image tag to deploy',
+		    name: 'ImageTag')
+
+		extendedChoice(
+            name: 'Environment',
+            defaultValue: 'dev',
+            description: 'Choose the environment to build',
+            type: 'PT_SINGLE_SELECT',
+            value: 'dev,dev2,qa,qa2,stage,prod')
+
+  }
+
+  options {
+  	ansiColor('xterm')
+	timestamps()
+  }
+
+  environment {
+
+      PROJECT      = 'crdc-hub'
+      APP          = "backend"
+	  SLACK_SECRET = "crdcdh_slack_url"
+      REGION		 = "us-east-1"
+      ENV          = "${params.Environment}"
+	CLUSTER      = "${env.PROJECT}-${env.ENV}-ecs"
+	SERVICE      = "${env.PROJECT}-${env.ENV}-${env.APP}"
+
+  }
+
+  stages{
+  	stage('checkout'){
+  		steps {
+
+  		checkout([$class: 'GitSCM',
+			branches: [[name: '*/main']],
+			doGenerateSubmoduleConfigurations: false,
+			extensions: [[$class: 'RelativeTargetDirectory',
+			relativeTargetDir: "playbooks"]],
+			submoduleCfg: [],
+			userRemoteConfigs:
+			[[url: 'https://github.com/CBIIT/crdc-hub-deployments']]])
+
+        checkout([$class: 'GitSCM',
+			branches: [[name: "${params.Environment}"]],
+			doGenerateSubmoduleConfigurations: false,
+			extensions: [[$class: 'RelativeTargetDirectory',
+			relativeTargetDir: "${env.PROJECT}-deployments"]],
+			submoduleCfg: [],
+			userRemoteConfigs:
+			[[url: 'https://github.com/CBIIT/crdc-hub-deployments']]])
+
+        }
+
+  	}
+
+  	stage('Deploy'){
+
+        agent {
+            docker {
+                image 'cbiitssrepo/cicd-ansible-8.0:latest'
+                args '--net=host -u root -v /var/run/docker.sock:/var/run/docker.sock'
+                reuseNode true
+            }
+        }
+
+	    environment {
+            BE_VERSION = "${params.ImageTag}"
+        }
+
+ 		steps {
+
+			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+                ansiblePlaybook(
+					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/deploy-backend-microservice.yml", 
+            		inventory: "${WORKSPACE}/playbooks/ansible/playbooks/hosts",
+                    extraVars: [
+                        tier: "${params.Environment}",
+						project_name: "${PROJECT}",
+						iam_prefix: "power-user",
+						subdomain: "hub",
+						domain_name: "datacommons.cancer.gov",
+						auth_enabled: false
+						],
+                    colorized: true)
+ 			}
+ 		}
+
+  	}
+
+  stage('verify deployment'){
+
+		steps {
+
+ 			script {
+
+			    sh label: 'Verify-Deploy', script: '''#!/bin/bash
+
+                # wait untiil the service is stable
+				aws ecs wait services-stable --cluster $CLUSTER --region $REGION --service $SERVICE
+
+				'''
+
+			}
+
+ 		}
+
+  	}
+	stage('Add Production Tag'){
+
+ 		when {
+
+	        expression { 
+
+                ENV == 'prod'
+
+            }
+
+        }
+
+		steps {
+
+ 			script {
+
+			    sh label: 'Docker-Tag', script: '''#!/bin/bash
+
+				# Tag image as production if deploying to prod tier
+				echo "Tagging Image as Production: $ECR_REPO:$IMAGE_TAG"
+
+				# login and get manifest
+				docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $REGISTRY_URL
+				MANIFEST=$(aws ecr batch-get-image --repository-name $REGISTRY_URL --image-ids imageTag=$IMAGE_TAG --output json | jq --raw-output --join-output '.images[0].imageManifest')
+
+                # tag as latest and push to ECR
+				aws ecr put-image --repository-name $REGISTRY_URL --image-tag production-$IMAGE_TAG --image-manifest "$MANIFEST"
+
+				'''
+
+			}
+
+ 		}
+
+  	}
+
+  }
+
+  post {
+
+    always {
+
+        notify(
+            secretPath: "notification/slack",
+            secretName: "${env.SLACK_SECRET}"
+        ) 
+
+    }
+
+    cleanup {
+
+        cleanWs()
+
+    }
+
+  }
+
+}
