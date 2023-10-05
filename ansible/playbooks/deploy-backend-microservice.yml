@@ -43,7 +43,7 @@
         mongo_db_port: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_port', nested=true, region='us-east-1' ) }}"
         mongo_db_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_password', nested=true, region='us-east-1' ) }}"
         mongo_db_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_user', nested=true, region='us-east-1' ) }}"
-#        mongo_db_database: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_database', nested=true, region='us-east-1' ) }}"
+        database_name: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.database_name', nested=true, region='us-east-1' ) }}"
 #        cookie_secret: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.cookie_secret', nested=true, region='us-east-1' ) }}"
         email_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.email_user', nested=true, region='us-east-1' ) }}"
         email_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.email_password', nested=true, region='us-east-1' ) }}"
@@ -86,8 +86,8 @@
             value: "{{ mongo_db_password }}"
           - name: MONGO_DB_USER
             value: "{{ mongo_db_user }}"
-#          - name: MONGO_DB_DATABASE
-#            value: "{{ mongo_db_database }}"
+          - name: DATABASE_NAME
+            value: "{{ database_name }}"
           - name: SESSION_SECRET
             value: "abcd256asghaaamnkloofghj"
           ## Email notification config
