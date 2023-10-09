@@ -58,7 +58,8 @@
 #        neo4j_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_user', nested=true, region='us-east-1' ) }}"
 #        neo4j_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_password', nested=true, region='us-east-1' ) }}"
 #        neo4j_ip: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_ip', nested=true, region='us-east-1' ) }}"
-
+        email_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.email_user', nested=true, region='us-east-1' ) }}"
+        email_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.email_password', nested=true, region='us-east-1' ) }}"
         newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
         sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
         sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_authz', nested=true, region='us-east-1' ) }}"
@@ -112,15 +113,15 @@
           - name: DATABASE_NAME
             value: "{{ database_name }}" 
           # Email Notification Config
-          #- name: EMAIL_SMTP_HOST
-          #  value: email-smtp.us-east-1.amazonaws.com
-          #- name: EMAIL_SMTP_PORT
-          #  value: "465"
+          - name: EMAIL_SMTP_HOST
+            value: email-smtp.us-east-1.amazonaws.com
+          - name: EMAIL_SMTP_PORT
+            value: "587"
           # If Sent From AWS SMTP
-          #- name: EMAIL_USER
-          #  value: "{{email_user}}"
-          #- name: EMAIL_PASSWORD
-          #  value: "{{email_user}}"
+          - name: EMAIL_USER
+            value: "{{email_user}}"
+          - name: EMAIL_PASSWORD
+            value: "{{email_password}}"
           # NIH LOGIN Config
 #          - name: NIH_CLIENT_ID
 #            value: "{{nih_client_id}}"
