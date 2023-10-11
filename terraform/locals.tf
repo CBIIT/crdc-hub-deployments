@@ -34,7 +34,7 @@ locals {
 # iam role for extra s3 to be accessible from ECS
   iam_role_name = "power-user-${var.project}-${var.tier}-ecs-task-execution-role"
   # ECS
-  application_url = terraform.workspace == "prod" ? var.domain_name : "${var.application_subdomain}-${terraform.workspace}.${var.domain_name}"
+  application_url = terraform.workspace == "prod" ? "${var.application_subdomain}.${var.domain_name}" : "${var.application_subdomain}-${terraform.workspace}.${var.domain_name}"
   
   # Secrets
   #dynamic_secrets = {
