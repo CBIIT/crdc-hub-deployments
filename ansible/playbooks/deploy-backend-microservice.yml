@@ -21,7 +21,10 @@
         name: ecr-central-login
       vars:
         region: us-east-1
-
+    - name: Get the current caller identity information
+      aws_caller_info:
+      register: caller_info
+    
     #deploy backend
     - name: deploy stage for backend microservice
       include_role:
@@ -123,6 +126,10 @@
 #          - name: REDIS_FILTER_ENABLE
 #            value: "false"
           ## New Relic
+          - name: ROLE_ARN:
+            value: "arn:aws:iam::{{ caller_info.account }}:role/power-user-crdc-hub-{{ tier}}-ecs-task-execution-role"
+          - name: SUBMISSION_BUCKET
+            value: "crdc-hub-{{ tier }}-submission"
           - name: NEW_RELIC_LICENSE_KEY
             value: "{{ newrelic_license_key }}"
           - name: NEW_RELIC_APP_NAME
