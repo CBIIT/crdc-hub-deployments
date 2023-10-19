@@ -127,8 +127,6 @@
 #          - name: REDIS_FILTER_ENABLE
 #            value: "false"
           ## New Relic
-          - name: ROLE_ARN
-            value: "arn:aws:iam::{{ caller_info.account }}:role/power-user-crdc-hub-{{ tier}}-ecs-task-execution-role"
           - name: SUBMISSION_BUCKET
             value: "crdc-hub-{{ tier }}-submission"
           - name: NEW_RELIC_LICENSE_KEY
