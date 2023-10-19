@@ -21,6 +21,7 @@
         name: ecr-central-login
       vars:
         region: us-east-1
+        
     - name: Get the current caller identity information
       aws_caller_info:
       register: caller_info
