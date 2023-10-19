@@ -107,7 +107,7 @@
           - name: EMAIL_URL
             value: "{{email_url}}"
           - name: SCHEDULE_JOB
-            value: "{% if tier == prod or tier == stage %}0 0 0 * * *{% else %}0 * * * * *{% endif %}"
+            value: "{% if tier == 'prod' or tier == 'stage' %}0 0 0 * * *{% else %}0 * * * * *{% endif %}"
           ## Application related
           - name: INACTIVE_USER_DAYS
             value: "60"
