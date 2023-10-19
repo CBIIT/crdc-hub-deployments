@@ -22,6 +22,13 @@
       vars:
         region: us-east-1
 
+    - name: Get the current caller identity information
+      aws_caller_info:
+      register: caller_info
+
+    - name: set account id
+      set_fact:
+        account_id: "{{ caller_info.account }}"
     #deploy backend
     - name: deploy stage for backend microservice
       include_role:
@@ -104,7 +111,7 @@
           - name: EMAIL_URL
             value: "{{email_url}}"
           - name: SCHEDULE_JOB
-            value: "* */5 * * * *"
+            value: "{% if tier == prod or tier == stage %}"0 0 0 * * *"{% else %}"0 * * * * *"{% endif %}"
           ## Application related
           - name: INACTIVE_USER_DAYS
             value: "60"
@@ -148,3 +155,4 @@
           ## Java
           - name: JAVA_OPTS
             value: "-javaagent:/usr/local/tomcat/newrelic/newrelic.jar"
+            
