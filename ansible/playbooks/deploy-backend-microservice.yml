@@ -143,6 +143,8 @@
             value: "STDOUT"
           - name: NEW_RELIC_LABELS
             value: "Project:{{ project_name }};Environment:{{ tier }}"
-          ## Java
           - name: JAVA_OPTS
             value: "-javaagent:/usr/local/tomcat/newrelic/newrelic.jar"
+          - name: ROLE_ARN
+            value: "arn:aws:iam::{{ caller_info.account }}:role/power-user-crdc-hub-{{ tier}}-ecs-task-execution-role"
+
