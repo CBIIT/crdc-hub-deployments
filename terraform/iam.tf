@@ -6,9 +6,7 @@ locals {
 module "iam_assumable_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
   role_permissions_boundary_arn = local.permission_boundary_arn
-  trusted_role_services = [
-    "ecs.amazonaws.com"
-  ]
+  custom_role_trust_policy        = data.aws_iam_policy_document.custom_trust_policy.json
   create_role = true
   role_name = "power-user-crdc-hub-${terraform.workspace}-submission-role"
   create_custom_role_trust_policy = true
