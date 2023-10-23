@@ -12,6 +12,7 @@ module "iam_assumable_role" {
   trusted_role_arns = [
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/power-user-crdc-hub-${terraform.workspace}-ecs-task-execution-role"
   ]
+  role_requires_mfa = false
   create_role = true
   role_name = "power-user-crdc-hub-${terraform.workspace}-submission-role"
   custom_role_policy_arns = [
