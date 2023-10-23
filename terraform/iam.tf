@@ -9,7 +9,7 @@ module "iam_assumable_role" {
   trusted_role_services = [
     "ecs.amazonaws.com"
   ]
-  truster_role_arns = [
+  trusted_role_arns = [
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/power-user-crdc-hub-${terraform.workspace}-ecs-task-execution-role"
   ]
   create_role = true
