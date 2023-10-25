@@ -302,3 +302,19 @@ data "aws_iam_policy_document" "integration_server_policy" {
 #  }
 #}
 
+
+data "aws_iam_policy_document" "custom_trust_policy" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+    }
+    principals {
+      type = "AWS"
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/power-user-crdc-hub-${terraform.workspace}-ecs-task-role"]
+    }
+  }
+}

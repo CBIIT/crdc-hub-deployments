@@ -355,3 +355,9 @@ variable "central_ecr_account_id" {
   type  = string
   default = "986019062625"
 }
+
+variable "use_custom_trust_policy" {
+  type = bool
+  description = "use custom role trust policy"
+  default = true
+}
