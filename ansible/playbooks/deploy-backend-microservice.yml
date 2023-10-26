@@ -59,21 +59,6 @@
         container_memory: 1024
         container_cpu: 512
         container_image_url: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}"
-        #Elasticsearch
-        #es_host: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.es_host', nested=true, region='us-east-1' ) }}"
-        #es_schema: "{% if project_name == 'bento' %}es-schema.graphql{% else %}es-schema-{{ project_name }}.graphql{% endif %}"
-        #enable_es_filter: "true"
-        #Redis vars
-        #enable_redis: "false"
-        #redis_port: "6379"
-        #use_cluster: "true"
-        #redis_host: localhost
-        #Entrypoint
-        #container_entrypoint:
-        #  - "/bin/bash"
-        #  - "-c"
-        #  - 'wget "https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip" -O newrelic-java.zip && rm -rf newrelic && unzip -o newrelic-java.zip && bin/catalina.sh run'
-        #Environment
         container_env:
           - name: PROJECT
             value: "{{ project_name }}"
@@ -117,9 +102,9 @@
             value: "45"
           - name: SUBMISSION_BUCKET
             value: "{{submission_bucket}}"
-          ## Opensearch
-#          - name: ES_HOST
-#            value: "{{ es_host }}"
+          # Opensearch
+         - name:  DEV_TIER
+           value: "{% if tier == 'dev2'  or tier == 'dev' %}DEV{% elif tier == 'qa' or tier == 'qa2' %}QA{% elif tier == 'stage'%}STAGE{% else %}''{% endif %}"
 #          - name: ES_SCHEMA
 #            value: "{{ es_schema }}"
 #          - name: ES_FILTER_ENABLED
