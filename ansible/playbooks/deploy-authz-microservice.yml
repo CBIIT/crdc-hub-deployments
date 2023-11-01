@@ -122,6 +122,8 @@
             value: "{{email_user}}"
           - name: EMAIL_PASSWORD
             value: "{{email_password}}"
+          - name: DEV_TIER
+            value: "{% if tier == 'dev2'  or tier == 'dev' %}[DEV]{% elif tier == 'qa' or tier == 'qa2' %}[QA]{% elif tier == 'stage' %}[STAGE]{% else %}{% endif %}"
           # NIH LOGIN Config
 #          - name: NIH_CLIENT_ID
 #            value: "{{nih_client_id}}"
