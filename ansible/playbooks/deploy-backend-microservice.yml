@@ -103,7 +103,7 @@
           - name: SUBMISSION_BUCKET
             value: "{{submission_bucket}}"
           - name: DEV_TIER
-            value: "{% if tier == 'dev2'  or tier == 'dev' %}'['DEV']'{% elif tier == 'qa' or tier == 'qa2' %}'['QA']'{% elif tier == 'stage' %}'['STAGE']'{% else %}{% endif %}"
+            value: "{% if tier == 'dev2'  or tier == 'dev' %}[DEV]{% elif tier == 'qa' or tier == 'qa2' %}[QA]{% elif tier == 'stage' %}[STAGE]{% else %}{% endif %}"
           - name: NEW_RELIC_LICENSE_KEY
             value: "{{ newrelic_license_key }}"
           - name: NEW_RELIC_APP_NAME
