@@ -91,7 +91,7 @@ resource "aws_iam_policy" "extra_s3_policy" {
 #attach the iam policy to the iam role
 resource "aws_iam_policy_attachment" "attach" {
   name = "iam-policy-attach"
-  roles = [data.aws_iam_role.role.name,data.data.aws_iam_role.task_role.name]
+  roles = [data.aws_iam_role.role.name,data.aws_iam_role.task_role.name]
   policy_arn = aws_iam_policy.extra_s3_policy.arn
 }
 
