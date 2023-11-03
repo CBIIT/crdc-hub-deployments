@@ -1,8 +1,4 @@
-locals {
-  env = regex("^(.*?)(2+)?$", terraform.workspace) != null ? regex("^(.*?)(2+)?$", terraform.workspace)[0] : terraform.workspace
-  submission_bucket_arn = "arn:aws:s3:::crdc-hub-${local.env}-submission"
-  permission_boundary_arn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/PermissionBoundary_PowerUser"
-}
+
 module "iam_assumable_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
   role_permissions_boundary_arn = local.permission_boundary_arn

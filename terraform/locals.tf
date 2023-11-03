@@ -36,5 +36,7 @@ locals {
   task_role_name = "power-user-${var.project}-${var.tier}-ecs-task-role"
   # ECS
   application_url = terraform.workspace == "prod" ? "${var.application_subdomain}.${var.domain_name}" : "${var.application_subdomain}-${terraform.workspace}.${var.domain_name}"
-  
+  env = regex("^(.*?)(2+)?$", terraform.workspace) != null ? regex("^(.*?)(2+)?$", terraform.workspace)[0] : terraform.workspace
+  submission_bucket_arn = "arn:aws:s3:::crdc-hub-${local.env}-submission"
+  permission_boundary_arn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/PermissionBoundary_PowerUser"
 }
