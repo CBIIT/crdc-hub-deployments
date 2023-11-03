@@ -51,6 +51,12 @@ data "aws_iam_role" "role" {
   depends_on = [module.ecs]
 }
 
+
+data "aws_iam_role" "task_role" {
+  name = local.task_role_name
+  depends_on = [module.ecs]
+}
+
 data "aws_iam_policy_document" "task_execution_s3" {
   statement {
     sid     = "AllowBucketAccess"
@@ -85,7 +91,7 @@ resource "aws_iam_policy" "extra_s3_policy" {
 #attach the iam policy to the iam role
 resource "aws_iam_policy_attachment" "attach" {
   name = "iam-policy-attach"
-  roles = [data.aws_iam_role.role.name]
+  roles = [data.aws_iam_role.role.name,data.data.aws_iam_role.task_role.name]
   policy_arn = aws_iam_policy.extra_s3_policy.arn
 }
 

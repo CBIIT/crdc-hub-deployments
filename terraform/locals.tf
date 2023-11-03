@@ -33,20 +33,8 @@ locals {
   
 # iam role for extra s3 to be accessible from ECS
   iam_role_name = "power-user-${var.project}-${var.tier}-ecs-task-execution-role"
+  task_role_name = "power-user-${var.project}-${var.tier}-ecs-task-role"
   # ECS
   application_url = terraform.workspace == "prod" ? "${var.application_subdomain}.${var.domain_name}" : "${var.application_subdomain}-${terraform.workspace}.${var.domain_name}"
   
-  # Secrets
-  #dynamic_secrets = {
-  #  app = {
-  #    secretKey   = ""
-  #    description = ""
-  #    secretValue = {
-#        es_host                       = var.create_opensearch_cluster ? module.opensearch[0].opensearch_endpoint : ""
-  #      sumo_collector_token_frontend = module.monitoring.sumo_source_urls.frontend[0]
-  #      sumo_collector_token_backend  = module.monitoring.sumo_source_urls.backend[0]
-#        sumo_collector_token_files    = module.monitoring.sumo_source_urls.files[0]
-  #    }
-  #  }
-  #}
 }
