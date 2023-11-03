@@ -14,6 +14,6 @@ services:
     image: 2.0.0.98
     buildNumber: '98'
   authz:
-    version: 2.0.0.56
-    image: 2.0.0.56
-    buildNumber: '56'
+    version: 2.0.0.62
+    image: 2.0.0.62
+    buildNumber: '62'
