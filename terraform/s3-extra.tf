@@ -4,16 +4,6 @@ resource "aws_s3_bucket" "s3_submission" {
   tags = var.s3_tags
 }
 
-#resource "aws_s3_bucket_ownership_controls" "s3" {
-#  bucket = aws_s3_bucket.s3.id
-#  rule {
-#    object_ownership = var.object_ownership
-#  }
-#}
-#resource "aws_s3_bucket_acl" "s3" {
-#  bucket = aws_s3_bucket.s3.id
-#  acl    = "private"
-#}
 
 resource "aws_s3_bucket_public_access_block" "s3_submission" {
   bucket                  = aws_s3_bucket.s3_submission.id
@@ -33,16 +23,39 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "s3_submission" {
   }
 }
 
-#resource "aws_s3_bucket_notification" "s3_submission" {
-#  bucket      = aws_s3_bucket.s3_submission.id
-#  eventbridge = var.eventbridge
-#}
 
 resource "aws_s3_bucket_versioning" "s3_submission" {
   bucket = aws_s3_bucket.s3_submission.id
 
   versioning_configuration {
     status = var.s3_versioning_status
+  }
+}
+
+
+resource "aws_s3_bucket_cors_configuration" "s3_submission" {
+  bucket = aws_s3_bucket.s3_submission.id
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = [ 
+      "GET",
+      "POST",
+      "HEAD",
+      "PUT"
+    ]
+    allowed_origins = [
+      "*.cancer.gov",
+      "*.cloudfront.net",
+      "*.datacommons.cancer.gov",
+      "http://localhost:4010"
+    ]
+    expose_headers  = [
+      "ETag",
+      "Content-Range",
+      "Content-Length",
+    ]
+    max_age_seconds = 3000
   }
 }
 
