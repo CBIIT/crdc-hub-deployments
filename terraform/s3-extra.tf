@@ -91,8 +91,8 @@ data "aws_iam_policy_document" "task_execution_s3" {
       "s3:ListBucket"
     ]
     resources = [
-      aws_s3_bucket.s3_submission.arn,
-      "${aws_s3_bucket.s3_submission.arn}/*",
+      "${local.submission_bucket_arn}/*",
+      local.submission_bucket_arn
     ]
   }
 }
