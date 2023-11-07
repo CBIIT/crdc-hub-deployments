@@ -1,5 +1,4 @@
 resource "aws_sqs_queue" "sqs_queues" {
-  count = terraform.workspace == "dev" || terraform.workspace == "qa" ? 1 : 0
   for_each = var.sqs_queues
   name    = each.value.name
   fifo_queue                = true
@@ -17,7 +16,6 @@ EOF
 }
 
 resource "aws_sqs_queue" "dead_letter_queue" {
-  count = terraform.workspace == "dev" || terraform.workspace == "qa" ? 1 : 0
   for_each = var.sqs_queues
   name = each.value.dead_letter_queue_name
   fifo_queue                = true
