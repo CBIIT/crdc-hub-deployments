@@ -1,6 +1,7 @@
-resource "aws_sqs_queue" "sqs_queue" {
+resource "aws_sqs_queue" "sqs_queues" {
   count = terraform.workspace == "dev" || terraform.workspace == "qa" ? 1 : 0
-  name                      = "${local.resource_prefix}-queue.fifo"
+  for_each = var.sqs_queues
+  name    = each.value.name
   fifo_queue                = true
   delay_seconds             = 0
   max_message_size          = 262144
@@ -9,7 +10,7 @@ resource "aws_sqs_queue" "sqs_queue" {
   receive_wait_time_seconds = 20
   redrive_policy = <<EOF
 {
-  "deadLetterTargetArn": "${aws_sqs_queue.dead_letter_queue[count.index].arn}",
+  "deadLetterTargetArn": "${aws_sqs_queue.dead_letter_queue[each.key].arn}",
   "maxReceiveCount": 5
 }
 EOF
@@ -17,7 +18,8 @@ EOF
 
 resource "aws_sqs_queue" "dead_letter_queue" {
   count = terraform.workspace == "dev" || terraform.workspace == "qa" ? 1 : 0
-  name                      = "${local.resource_prefix}-dead-letter-queue.fifo"
+  for_each = var.sqs_queues
+  name = each.value.dead_letter_queue_name
   fifo_queue                = true
 }
 
