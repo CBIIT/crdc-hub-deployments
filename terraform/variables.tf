@@ -361,3 +361,10 @@ variable "use_custom_trust_policy" {
   description = "use custom role trust policy"
   default = true
 }
+# SQS
+variable "sqs_queues" {
+  type = map(object({
+    name  = string
+    dead_letter_queue_name = string
+  }))
+}
