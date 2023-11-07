@@ -364,7 +364,7 @@ variable "use_custom_trust_policy" {
 # SQS
 variable "sqs_queues" {
   type = map(object({
-    name  = string
+    queue  = string
     dead_letter_queue_name = string
   }))
 }
