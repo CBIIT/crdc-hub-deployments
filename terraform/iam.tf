@@ -1,7 +1,7 @@
 
 module "iam_assumable_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
-  role_permissions_boundary_arn = local.permission_boundary_arn
+  role_permissions_boundary_arn = terraform.workspace == "stage" || terraform.workspace == "prod" ? null :  local.permission_boundary_arn
   trusted_role_services = [
     "ecs.amazonaws.com"
   ]
