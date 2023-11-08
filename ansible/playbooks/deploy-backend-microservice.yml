@@ -105,7 +105,11 @@
           - name: DEV_TIER
             value: "{% if tier == 'dev2'  or tier == 'dev' %}[DEV]{% elif tier == 'qa' or tier == 'qa2' %}[QA]{% elif tier == 'stage' %}[STAGE]{% else %}{% endif %}"
           - name: LOADER_QUEUE
-            value: "45"
+            value: "{{ project_name }}-{{ tier }}-loader-queue.fifo"
+          - name: FILE_QUEUE
+            value: "{{ project_name }}-{{ tier }}-file-queue.fifo"
+          - name: METADATA_QUEUE
+            value: "{{ project_name }}-{{ tier }}-metadata-queue.fifo"
           - name: NEW_RELIC_LICENSE_KEY
             value: "{{ newrelic_license_key }}"
           - name: NEW_RELIC_APP_NAME
