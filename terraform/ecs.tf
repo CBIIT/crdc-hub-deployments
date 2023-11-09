@@ -1,5 +1,5 @@
 module "ecs" {
-  source                    = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecs?ref=main"
+  source                    = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecs?ref=permission-boundary"
   resource_prefix           = local.resource_prefix
   stack_name                = var.project
   tags                      = var.tags
