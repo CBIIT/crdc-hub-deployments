@@ -81,47 +81,6 @@ pipeline {
                 }
         }
 
-      stage('Add Production Tag'){
-
- 		when {
-
-	        expression {
-
-                ENV == 'prod'
-
-            }
-
-        }
-
-		steps {
-
- 			script {
-
-			    sh label: 'Docker-Tag', script: '''#!/bin/bash
-
-				# Tag image as production if deploying to prod tier
-				echo "Tagging Image as Production: $ECR_REPO:$IMAGE_TAG-$DATE"
-                                aws_account=$(aws sts get-caller-identity --query "Account" --output text)
-                                repo_url="$REGISTRY_URL/$ECR_REPO"
-
-                                #DATE
-                                DATE="$DATE"
-				# login and get manifest
-				docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $repo_url
-				
-				docker pull $repo_url:$IMAGE_TAG
-				docker tag $repo_url:$IMAGE_TAG $repo_url:prod-$IMAGE_TAG-$DATE
-				docker push $repo_url:prod-$IMAGE_TAG-$DATE
-				'''
-                
-                IMAGE_TAG = "prod-$IMAGE_TAG"
-				
-                echo "updated image tag: $IMAGE_TAG"
-			}
-
- 		}
-
-  	}
 
   	stage('Deploy'){
 
