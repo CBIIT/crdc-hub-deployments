@@ -75,7 +75,7 @@ pipeline {
                 // set central ECR account number
                                 env.ECR_ACCOUNT = sh(label: 'Get ECR account', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id ecr --query SecretString --output text | jq -r '.central_account_id'").trim()
                                 // set repo URL
-                                env.REPO_URL = "${ECR_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO}"
+                                env.REGISTRY_URL = "${ECR_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com"
                         }
                 }
         }
@@ -100,15 +100,17 @@ pipeline {
 
 				# Tag image as production if deploying to prod tier
 				echo "Tagging Image as Production: $ECR_REPO:$IMAGE_TAG"
+                                aws_account=$(aws sts get-caller-identity --query "Account" --output text)
+                                repo_url="$REGISTRY_URL/$ECR_REPO"
 
                                 #DATE
                                 DATE=$(date +%m-%d-%Y.%H%M)
 				# login and get manifest
-				docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $REPO_URL
+				docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $repo_url
 				
-				docker pull $REPO_URL:$IMAGE_TAG
-				docker tag $REPO_URL:$IMAGE_TAG $REPO_URL:prod-$IMAGE_TAG-$DATE
-				docker push $REPO_URL:prod-$IMAGE_TAG
+				docker pull $repo_url:$IMAGE_TAG
+				docker tag $repo_url:$IMAGE_TAG $repo_url:prod-$IMAGE_TAG-$DATE
+				docker push $repo_url:prod-$IMAGE_TAG-$DATE
 				'''
                 
                 IMAGE_TAG = "prod-$IMAGE_TAG"
