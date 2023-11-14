@@ -76,6 +76,7 @@ pipeline {
                                 env.ECR_ACCOUNT = sh(label: 'Get ECR account', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id ecr --query SecretString --output text | jq -r '.central_account_id'").trim()
                                 // set repo URL
                                 env.REGISTRY_URL = "${ECR_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com"
+                                env.DATE = sh(script: 'date +%m-%d-%Y.%H%M', returnStdout: true).trim()
                         }
                 }
         }
@@ -104,7 +105,8 @@ pipeline {
                                 repo_url="$REGISTRY_URL/$ECR_REPO"
 
                                 #DATE
-                                DATE=$(date +%m-%d-%Y.%H%M)
+                                DATE="$DATE"
+                                echo $DATE
 				# login and get manifest
 				docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $repo_url
 				
