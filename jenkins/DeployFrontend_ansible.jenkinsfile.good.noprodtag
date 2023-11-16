@@ -31,12 +31,12 @@ pipeline {
 
   environment {
 
-      PROJECT      = 'crdc-hub'
-      APP          = "backend"
-	  SLACK_SECRET = "crdcdh_slack_url"
+      PROJECT      = "crdc-hub"
+      APP          = "frontend"
       REGION		 = "us-east-1"
       ECR_REPO     = "${env.PROJECT}-${env.APP}"
       IMAGE_TAG    = "${params.ImageTag}"
+	  SLACK_SECRET = "crdcdh_slack_url"
       ENV          = "${params.Environment}"
 	CLUSTER      = "${env.PROJECT}-${env.ENV}-ecs"
 	SERVICE      = "${env.PROJECT}-${env.ENV}-${env.APP}"
@@ -81,47 +81,6 @@ pipeline {
                 }
         }
 
-      stage('Add Production Tag'){
-
-                when {
-
-                expression {
-
-                ENV == 'prod'
-
-            }
-
-        }
-
-                steps {
-
-                        script {
-
-                            sh label: 'Docker-Tag', script: '''#!/bin/bash
-
-                                # Tag image as production if deploying to prod tier
-                                echo "Tagging Image as Production: $ECR_REPO:$IMAGE_TAG-$DATE"
-                                aws_account=$(aws sts get-caller-identity --query "Account" --output text)
-                                repo_url="$REGISTRY_URL/$ECR_REPO"
-
-                                #DATE
-                                DATE="$DATE"
-                                # login and get manifest
-                                docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $repo_url
-
-                                docker pull $repo_url:$IMAGE_TAG
-                                docker tag $repo_url:$IMAGE_TAG $repo_url:prod-$IMAGE_TAG-$DATE
-                                docker push $repo_url:prod-$IMAGE_TAG-$DATE
-                                '''
-
-                IMAGE_TAG = "prod-$IMAGE_TAG"
-
-                echo "updated image tag: $IMAGE_TAG-$DATE"
-                        }
-
-                }
-
-        }
 
   	stage('Deploy'){
 
@@ -134,14 +93,15 @@ pipeline {
         }
 
 	    environment {
-            BE_VERSION = "${params.ImageTag}"
+            FE_VERSION = "${params.ImageTag}"
+            BE_VERSION = getVersion(service: "backend",deploymentFile: "${PROJECT}-deployments/deployments.yaml")
         }
 
  		steps {
 
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                 ansiblePlaybook(
-					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/deploy-backend-microservice.yml", 
+					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/deploy-frontend-microservice.yml", 
             		inventory: "${WORKSPACE}/playbooks/ansible/playbooks/hosts",
                     extraVars: [
                         tier: "${params.Environment}",
@@ -153,6 +113,7 @@ pipeline {
 						],
                     colorized: true)
  			}
+
  		}
 
   	}
@@ -177,6 +138,7 @@ pipeline {
   	}
   }
 
+  
   post {
 
     always {
