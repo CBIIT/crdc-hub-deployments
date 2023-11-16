@@ -29,6 +29,10 @@
     - name: deploy stage for backend microservice
       include_role:
         name: bento.common.ecs
+        apply:
+          environment:
+            AWS_RETRY_MODE: "standard"
+            AWS_MAX_ATTEMPTS: 10
       vars:
         ansible_python_interpreter: /usr/bin/python3
         execution_role: "{% if iam_prefix is defined and iam_prefix != '' %}{{ iam_prefix }}-{{ project_name }}-{{ tier }}-ecs-task-execution-role{% else %}{{ project_name }}-{{ tier }}-task-execution-role{% endif %}"

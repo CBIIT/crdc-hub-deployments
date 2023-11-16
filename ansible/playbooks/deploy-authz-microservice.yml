@@ -26,6 +26,10 @@
     - name: deploy stage for authz microservice
       include_role:
         name: bento.common.ecs
+        apply:
+          environment:
+            AWS_RETRY_MODE: "standard"
+            AWS_MAX_ATTEMPTS: 10
       vars:
         execution_role: "{% if iam_prefix is defined and iam_prefix != '' %}{{ iam_prefix }}-{{ project_name }}-{{ tier }}-ecs-task-execution-role{% else %}{{ project_name }}-{{ tier }}-task-execution-role{% endif %}"
         task_role: "{% if iam_prefix is defined and iam_prefix != '' %}{{ iam_prefix }}-{{ project_name }}-{{ tier }}-ecs-task-role{% else %}{{ project_name }}-{{ tier }}-task-role{% endif %}"

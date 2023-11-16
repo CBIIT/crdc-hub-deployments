@@ -26,6 +26,10 @@
     - name: deploy stage for frontend microservice
       include_role:
         name: bento.common.ecs
+        apply:
+          environment:
+            AWS_RETRY_MODE: "standard"
+            AWS_MAX_ATTEMPTS: 10
       vars:
         ansible_python_interpreter: /usr/bin/python3
         project_name: "{{ project_name }}"
