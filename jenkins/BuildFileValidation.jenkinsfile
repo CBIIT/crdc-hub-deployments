@@ -17,7 +17,7 @@ pipeline {
             value: 'dev,dev2,qa,qa2,stage,prod')
 
         gitParameter(branchFilter: 'origin/(.*)',
-            defaultValue: 'docker-service',
+            defaultValue: 'master',
             name: 'CodeBranch',
             type: 'GitParameterDefinition',
             quickFilterEnabled: true,
