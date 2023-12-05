@@ -16,7 +16,10 @@
     newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
     sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
     sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_file_validator', nested=true, region='us-east-1' ) }}"
-
+    container_env:
+      - name: SESSION_SECRET
+        value: "abcd256asghaaamnkloofghj"
+        
   tasks:
     #install collections
     - name: install aws collection
