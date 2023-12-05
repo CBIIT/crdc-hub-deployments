@@ -48,7 +48,7 @@ pipeline {
   		steps {
 
   		checkout([$class: 'GitSCM',
-			branches: [[name: '*/main']],
+			branches: [[name: '*/validator']],
 			doGenerateSubmoduleConfigurations: false,
 			extensions: [[$class: 'RelativeTargetDirectory',
 			relativeTargetDir: "playbooks"]],
