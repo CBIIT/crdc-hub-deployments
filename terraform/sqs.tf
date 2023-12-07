@@ -22,13 +22,13 @@ resource "aws_sqs_queue" "dead_letter_queue" {
 }
 
 #added role to the sqs
-data "aws_iam_role" "role" {
+data "aws_iam_role" "sqs_role" {
   name = local.iam_role_name
   depends_on = [module.ecs]
 }
 
 
-data "aws_iam_role" "task_role" {
+data "aws_iam_role" "sqs_task_role" {
   name = local.task_role_name
   depends_on = [module.ecs]
 }
@@ -51,6 +51,6 @@ resource "aws_iam_policy" "sqs_policy" {
 #attach the iam policy to the iam role
 resource "aws_iam_policy_attachment" "attach_sqs" {
   name = "iam-sqs-policy-attach"
-  roles = [data.aws_iam_role.role.name,data.aws_iam_role.task_role.name]
+  roles = [data.aws_iam_role.sqs_role.name,data.aws_iam_role.sqs_task_role.name]
   policy_arn = aws_iam_policy.sqs_policy.arn
 }
