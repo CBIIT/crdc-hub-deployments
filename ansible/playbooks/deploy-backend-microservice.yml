@@ -69,6 +69,8 @@
           ## Versions
           - name: VERSION
             value: "{{ image_version }}"
+          - name: DATE
+            value: "{{ansible_date_time.date}}"
           ## Database
           - name: MONGO_DB_HOST
             value: "{{ mongo_db_host }}"
