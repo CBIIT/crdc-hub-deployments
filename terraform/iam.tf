@@ -40,10 +40,11 @@ data "aws_iam_policy_document" "s3" {
     resources = ["*"]
   }
 }
+
+
 module "iam_policy_s3" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
   name        = "power-user-crdc-hub-${terraform.workspace}-submission-policy"
-  path        = "/"
   description = "s3 submission policy"
   policy = data.aws_iam_policy_document.s3.json
 }

@@ -21,3 +21,20 @@ resource "aws_sqs_queue" "dead_letter_queue" {
   fifo_queue                = true
 }
 
+data "aws_iam_role" "task_role" {
+  name = local.task_role_name
+  depends_on = [module.ecs]
+}
+
+module "iam_policy_sqs" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
+  name        = "power-user-crdc-hub-${terraform.workspace}-sqs-policy"
+  description = "sqs submission policy"
+  policy = data.aws_iam_policy_document.task_execution_sqs.json
+}
+
+resource "aws_iam_policy_attachment" "sqs_attach" {
+  name = "iam-policy-attach-sqs"
+  roles = [data.aws_iam_role.task_role.name,data.aws_iam_role.task_role.name]
+  policy_arn = module.iam_policy_sqs.arn
+}
