@@ -44,8 +44,8 @@ pipeline {
   environment {
 
       PROJECT      = "crdc-hub"
-	  SERVICE      = "file-validation"
-	  ECR_REPO     = "crdc-hub-file-validation"
+	  SERVICE      = "file-validator"
+	  ECR_REPO     = "crdc-hub-file-validator"
 	  DEPLOY_JOB   = "DeployFileValidation"
 	  SLACK_SECRET = "crdcdh_slack_url"
 	  CODE_REPO    = "crdc-datahub-validator"
