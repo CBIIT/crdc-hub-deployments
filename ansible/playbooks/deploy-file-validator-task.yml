@@ -123,10 +123,11 @@
         started_by: vdonkor
         launch_type: FARGATE
         region: "{{ region }}"
-        # network_configuration:
-        #   subnets:
-        #   - subnet-abcd1234
-        #   security_groups:
-        #   - sg-aaaa1111
-        #   - my_security_group
+        network_configuration:
+          subnets:
+          - subnet-409a0424
+          - subnet-4f35f112
+          # security_groups:
+          
+          # - my_security_group
       register: task_output
