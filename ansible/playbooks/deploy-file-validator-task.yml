@@ -4,6 +4,7 @@
   gather_facts: no
   vars:
     ansible_python_interpreter: /usr/bin/python3
+    ecs_cluster_name: "{{ project_name }}-{{ tier }}-ecs"
     execution_role: "{% if iam_prefix is defined and iam_prefix != '' %}{{ iam_prefix }}-{{ project_name }}-{{ tier }}-ecs-task-execution-role{% else %}{{ project_name }}-{{ tier }}-task-execution-role{% endif %}"
     task_role: "{% if iam_prefix is defined and iam_prefix != '' %}{{ iam_prefix }}-{{ project_name }}-{{ tier }}-ecs-task-role{% else %}{{ project_name }}-{{ tier }}-task-role{% endif %}"
     project_name: "{{ project_name }}"
@@ -19,6 +20,8 @@
     container_env:
       - name: SESSION_SECRET
         value: "abcd256asghaaamnkloofghj"
+    container_memory: 1024
+    container_cpu: 512
         
   tasks:
     #install collections
