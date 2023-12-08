@@ -250,6 +250,13 @@ data "aws_iam_policy_document" "integration_server_policy" {
     ]
     resources = ["arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:db:ccdc-*"]
   }
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecs:RunTask"
+    ]
+    resources = ["*"]
+  }
 }
 
 # S3 - NOT Used since the ALB access log shifted to the central management acct
