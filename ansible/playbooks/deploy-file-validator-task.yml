@@ -119,7 +119,7 @@
         count: 1
         operation: run
         cluster: "{{ ecs_cluster_name }}"
-        task_definition: "{{ task_name }}:{{ task_revision }}"
+        task_definition: "{{ task_name }}"
         started_by: vdonkor
         launch_type: FARGATE
         region: "{{ region }}"
