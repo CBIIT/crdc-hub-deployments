@@ -65,10 +65,10 @@
         container_image_url: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}"
         container_env:
           - name: PROJECT
-            value: "{{ project_name }}"
+            value: "{{project_name}}"
           ## Versions
           - name: VERSION
-            value: "{{ image_version }}"
+            value: "{{image_version}}"
           - name: DATE
             value: "{{ansible_date_time.date}}"
           ## Database
@@ -133,4 +133,3 @@
             value: "-javaagent:/usr/local/tomcat/newrelic/newrelic.jar"
           - name: ROLE_ARN
             value: "arn:aws:iam::{{ caller_info.account }}:role/power-user-crdc-hub-{{ tier}}-ecs-task-execution-role"
-            
