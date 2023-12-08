@@ -64,13 +64,13 @@
         container_cpu: 512
         container_image_url: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}"
         container_env:
+          - name: DATE
+            value: "{{ ansible_date_time.date }}"
           - name: PROJECT
-            value: "{{project_name}}"
+            value: "{{ project_name }}"
           ## Versions
           - name: VERSION
-            value: "{{image_version}}"
-          - name: DATE
-            value: "{{ansible_date_time.date}}"
+            value: "{{ image_version }}"
           ## Database
           - name: MONGO_DB_HOST
             value: "{{ mongo_db_host }}"
