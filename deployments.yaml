@@ -6,9 +6,9 @@ services:
     image: 2.1.0.235
     buildNumber: '235'
   frontend:
-    version: mvp-2.1.0.200
-    image: mvp-2.1.0.200
-    buildNumber: '200'
+    version: mvp-2.1.0.203
+    image: mvp-2.1.0.203
+    buildNumber: '203'
   authn:
     version: 1.0.0.90
     image: 1.0.0.90
