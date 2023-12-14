@@ -13,7 +13,7 @@ services:
     version: 1.0.0.90
     image: 1.0.0.90
     buildNumber: '90'
-  authz:
-    version: 1.0.0.42
-    image: 1.0.0.42
-    buildNumber: '42'
+#  authz:
+#    version: 1.0.0.42
+#    image: 1.0.0.42
+#    buildNumber: '42'
