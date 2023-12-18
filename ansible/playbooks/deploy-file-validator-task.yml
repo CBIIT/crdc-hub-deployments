@@ -1,7 +1,7 @@
 - name: deploy validator service
   hosts: all
   connection: local
-  gather_facts: no
+  gather_facts: yes
   vars:
     ansible_python_interpreter: /usr/bin/python3
     ecs_cluster_name: "{{ project_name }}-{{ tier }}-ecs"
@@ -17,11 +17,38 @@
     newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
     sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
     sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_file_validator', nested=true, region='us-east-1' ) }}"
+    mongo_db_host: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_host', nested=true, region='us-east-1' ) }}"
+    mongo_db_port: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_port', nested=true, region='us-east-1' ) }}"
+    mongo_db_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_password', nested=true, region='us-east-1' ) }}"
+    mongo_db_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_user', nested=true, region='us-east-1' ) }}"
+    database_name: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.database_name', nested=true, region='us-east-1' ) }}"
+    container_memory: 1024
+    container_cpu: 512
     container_env:
       - name: SESSION_SECRET
         value: "abcd256asghaaamnkloofghj"
-    container_memory: 1024
-    container_cpu: 512
+      - name: PROJECT
+        value: "{{ project_name }}"
+      - name: VERSION
+        value: "{{ image_version }}"
+      - name: TIER
+        value: "{{ tier }}"
+      - name: MONGO_DB_HOST
+        value: "{{ mongo_db_host }}"
+      - name: MONGO_DB_PORT
+        value: "{{ mongo_db_port }}"
+      - name: MONGO_DB_PASSWORD
+        value: "{{ mongo_db_password }}"
+      - name: MONGO_DB_USER
+        value: "{{ mongo_db_user }}"
+      - name: DATABASE_NAME
+        value: "{{ database_name }}"
+      - name: LOADER_QUEUE
+        value: "{{ project_name }}-{{ tier }}-loader-queue.fifo"
+      - name: FILE_QUEUE
+        value: "{{ project_name }}-{{ tier }}-file-queue.fifo"
+      - name: METADATA_QUEUE
+        value: "{{ project_name }}-{{ tier }}-metadata-queue.fifo"
         
   tasks:
     - name: Get the current caller identity information
