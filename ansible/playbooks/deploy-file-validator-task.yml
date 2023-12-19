@@ -26,11 +26,11 @@
 #    crdcsecurity: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.crdcsecurity', nested=true, region='us-east-1' ) }}"
     crdcsubnet:
       dev:
-        - subnet-409a0424
-        - subnet-4f35f112
+        subnet1: "subnet-409a0424"
+        subnet2: "subnet-4f35f112"
     crdcsecurity:
       dev:
-        - sg-0af2d5ce75ffc8cfe
+        value: "sg-0af2d5ce75ffc8cfe"
     container_memory: 1024
     container_cpu: 512
     container_env:
@@ -161,8 +161,9 @@
         region: "{{ region }}"
         network_configuration:
           subnets:
-          - "{{ crdcsubnet['dev'] }}"
+          - "{{ crdcsubnet['dev']['subnet1'] }}"
+          - "{{ crdcsubnet['dev']['subnet2'] }}"
           security_groups:
-          - "{{ crdcsecurity['dev'] }}"
+          - "{{ crdcsecurity['dev']['value'] }}"
           # - my_security_group
       register: task_output
