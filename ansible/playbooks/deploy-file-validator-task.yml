@@ -27,7 +27,7 @@
     crdcsubnets:
       dev:
         subnet-409a0424
-      - subnet-4f35f112
+        subnet-4f35f112
     container_env:
       - name: SESSION_SECRET
         value: "abcd256asghaaamnkloofghj"
