@@ -22,8 +22,15 @@
     mongo_db_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_password', nested=true, region='us-east-1' ) }}"
     mongo_db_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_user', nested=true, region='us-east-1' ) }}"
     database_name: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.database_name', nested=true, region='us-east-1' ) }}"
-    crdcsubnet: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.crdcsubnet', nested=true, region='us-east-1' ) }}"
-    crdcsecurity: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.crdcsecurity', nested=true, region='us-east-1' ) }}"
+#    crdcsubnet: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.crdcsubnet', nested=true, region='us-east-1' ) }}"
+#    crdcsecurity: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.crdcsecurity', nested=true, region='us-east-1' ) }}"
+    crdcsubnet:
+      dev:
+        - subnet-409a0424
+        - subnet-4f35f112
+    crdcsecurity:
+      dev:
+        - sg-0af2d5ce75ffc8cfe
     container_memory: 1024
     container_cpu: 512
     container_env:
@@ -154,8 +161,8 @@
         region: "{{ region }}"
         network_configuration:
           subnets:
-          - "{{ crdcsubnet }}"
+          - "{{ crdcsubnet[tier] }}"
           security_groups:
-          - "{{ crdcsecurity }}"
+          - "{{ crdcsecurity[tier] }}"
           # - my_security_group
       register: task_output
