@@ -153,7 +153,9 @@
         launch_type: FARGATE
         region: "{{ region }}"
         network_configuration:
-          subnets: "{{ crdcsubnet }}"
-          security_groups: "{{ crdcsecurity }}"
+          subnets:
+          "{{ crdcsubnet }}"
+          security_groups:
+          "{{ crdcsecurity }}"
           # - my_security_group
       register: task_output
