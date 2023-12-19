@@ -154,8 +154,8 @@
         region: "{{ region }}"
         network_configuration:
           subnets:
-            "{{ crdcsubnet }}"
+          - "{{ crdcsubnet }}"
           security_groups:
-            "{{ crdcsecurity }}"
+          - "{{ crdcsecurity }}"
           # - my_security_group
       register: task_output
