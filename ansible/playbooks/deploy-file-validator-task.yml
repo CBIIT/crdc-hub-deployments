@@ -24,6 +24,8 @@
     database_name: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.database_name', nested=true, region='us-east-1' ) }}"
     container_memory: 1024
     container_cpu: 512
+    subnet1: subnet-409a0424
+    subnet2: subnet-4f35f112
     container_env:
       - name: SESSION_SECRET
         value: "abcd256asghaaamnkloofghj"
@@ -152,8 +154,8 @@
         region: "{{ region }}"
         network_configuration:
           subnets:
-          - subnet-409a0424
-          - subnet-4f35f112
+          - "{{ subnet1 }}"
+          - "{{ subnet2 }}"
           security_groups:
           - sg-0af2d5ce75ffc8cfe
           # - my_security_group
