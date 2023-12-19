@@ -158,9 +158,7 @@
         launch_type: FARGATE
         region: "{{ region }}"
         network_configuration:
-          subnets:
-          "{{crdhsubnets[tier]}}"
-          security_groups:
-          "{{crdhsecurity[tier]}}" 
+          subnets: "{{ crdhsubnets[tier] }}"
+          security_groups: "{{ crdhsecurity[tier] }}"
           # - my_security_group
       register: task_output
