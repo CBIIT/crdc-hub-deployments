@@ -44,9 +44,9 @@ pipeline {
   environment {
 
       PROJECT      = "crdc-hub"
-	  SERVICE      = "loader-validator"
+	  SERVICE      = "essentialvalidation"
 	  ECR_REPO     = "crdc-hub-loader-validator"
-	  DEPLOY_JOB   = "DeployEssentialValidation"
+	  DEPLOY_JOB   = "DeployEssentialvalidation"
 	  SLACK_SECRET = "crdcdh_slack_url"
 	  CODE_REPO    = "crdc-datahub-validator"
 	  JOB_PATH     = "_default/_lower/CRDC-DH/_jobs"

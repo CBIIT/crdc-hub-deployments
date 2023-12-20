@@ -44,9 +44,9 @@ pipeline {
   environment {
 
       PROJECT      = "crdc-hub"
-	  SERVICE      = "file-validator"
-	  ECR_REPO     = "crdc-hub-file-validator"
-	  DEPLOY_JOB   = "DeployFileValidation"
+	  SERVICE      = "metadatavalidation"
+	  ECR_REPO     = "crdc-hub-metadata-validator"
+	  DEPLOY_JOB   = "DeployMetadatavalidation"
 	  SLACK_SECRET = "crdcdh_slack_url"
 	  CODE_REPO    = "crdc-datahub-validator"
 	  JOB_PATH     = "_default/_lower/CRDC-DH/_jobs"
@@ -106,7 +106,7 @@ pipeline {
 				aws_account=$(aws sts get-caller-identity --query "Account" --output text)
 				repo_url="$REGISTRY_URL/$ECR_REPO"
 
-				cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --no-cache -t $repo_url:$CODE_BRANCH.$BUILD_NUMBER -f $WORKSPACE/$CODE_FOLDER/filevalidation.dockerfile .
+				cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --no-cache -t $repo_url:$CODE_BRANCH.$BUILD_NUMBER -f $WORKSPACE/$CODE_FOLDER/metadatavalidation.dockerfile .
 
 				'''
 
