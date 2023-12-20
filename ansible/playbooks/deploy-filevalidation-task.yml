@@ -25,7 +25,10 @@
 #    crdcsubnet: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.crdcsubnet', nested=true, region='us-east-1' ) }}"
 #    crdcsecurity: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.crdcsecurity', nested=true, region='us-east-1' ) }}"
     crdcsubnet:
-      "{{ tier }}":
+      dev:
+        subnet1: "subnet-409a0424"
+        subnet2: "subnet-4f35f112"
+      qa:
         subnet1: "subnet-409a0424"
         subnet2: "subnet-4f35f112"
     crdcsecurity:
@@ -161,8 +164,8 @@
         region: "{{ region }}"
         network_configuration:
           subnets:
-          - "{{ crdcsubnet[tier]['subnet1'] }}"
-          - "{{ crdcsubnet[tier1]['subnet2'] }}"
+          - "{{ crdcsubnet[1]['subnet1'] }}"
+          - "{{ crdcsubnet[1]['subnet2'] }}"
           security_groups:
           - "{{ crdcsecurity['dev']['value'] }}"
           # - my_security_group
