@@ -32,7 +32,7 @@ pipeline {
   environment {
 
       PROJECT      = 'crdc-hub'
-      APP          = "file-validator"
+      APP          = "filevalidation"
 	  SLACK_SECRET = "crdcdh_slack_url"
       REGION		 = "us-east-1"
       ECR_REPO     = "${env.PROJECT}-${env.APP}"
