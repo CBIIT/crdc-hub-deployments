@@ -161,8 +161,8 @@
         region: "{{ region }}"
         network_configuration:
           subnets:
-          - "{{ crdcsubnet[{{ tier }}]['subnet1'] }}"
-          - "{{ crdcsubnet[{{ tier }}]['subnet2'] }}"
+          - "{{ crdcsubnet[1]['subnet1'] }}"
+          - "{{ crdcsubnet[1]['subnet2'] }}"
           security_groups:
           - "{{ crdcsecurity['dev']['value'] }}"
           # - my_security_group
