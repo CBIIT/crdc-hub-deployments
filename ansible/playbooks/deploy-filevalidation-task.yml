@@ -11,7 +11,7 @@
     platform: aws
     region: us-east-1
     service_name: "{{ project_name }}-{{ tier }}-filevalidation"
-    container_name: "filevalidation"
+    container_name: "file-validator"
     image_version: "{{ lookup('env','FILEVALIDATION_VERSION') }}"
     tier: "{{ lookup('env','TIER') }}"
     newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
@@ -77,6 +77,9 @@
       loop:
         - amazon.aws
         - community.aws:<=3.2.0
+  
+    - name: remove old web task definitions
+      shell: aws ecs list-task-definitions --family-prefix {{ project_name }}-{{ tier }}-{{ container_name }} --query 'taskDefinitionArns[0:-3]' --output text | xargs -I {} aws ecs deregister-task-definition --no-cli-pager --task-definition {}
 
     - name: create task definition
       community.aws.ecs_taskdefinition:
@@ -164,8 +167,8 @@
         region: "{{ region }}"
         network_configuration:
           subnets:
-          - "{{ crdcsubnet[1]['subnet1'] }}"
-          - "{{ crdcsubnet[1]['subnet2'] }}"
+          - "{{ crdcsubnet['dev']['subnet1'] }}"
+          - "{{ crdcsubnet['dev'1]['subnet2'] }}"
           security_groups:
           - "{{ crdcsecurity['dev']['value'] }}"
           # - my_security_group
