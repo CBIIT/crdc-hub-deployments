@@ -11,9 +11,8 @@
     platform: aws
     region: us-east-1
     service_name: "{{ project_name }}-{{ tier }}-filevalidation"
-    container_name: "file-validator"
+    container_name: "filevalidation"
     image_version: "{{ lookup('env','FILEVALIDATION_VERSION') }}"
-    tier: "{{ lookup('env','TIER') }}"
     newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
     sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
     sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_file_validator', nested=true, region='us-east-1' ) }}"
@@ -151,30 +150,16 @@
         region: "{{ region }}"
       register: task
  
-    - name: show tasks info
-      debug: 
-        msg: "{{ task }}"
 
     - name: set facts
       set_fact:
         task_revision: "{{ task.revision }}"
         task_name: "{{ task.family }}"
 
-    - name: show tasks
-      ecs_task:
-        cluster: "{{ ecs_cluster_name }}"
-        task_definition:  "{{ task_name }}"
-        region: "{{ region }}"
-      register: tasks_info
-
-    
-    - name: show task info
-      debug:
-        msg: "{{tasks_info}}"
 
     - name: RUN a task on Fargate
       ecs_task:
-        count: 1
+        count: 2
         operation: run
         cluster: "{{ ecs_cluster_name }}"
         task_definition: "{{ task_name }}"
