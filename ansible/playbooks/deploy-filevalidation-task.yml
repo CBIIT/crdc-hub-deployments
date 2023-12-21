@@ -78,8 +78,8 @@
         - amazon.aws
         - community.aws:<=3.2.0
   
-    - name: remove old web task definitions
-      shell: aws ecs list-task-definitions --family-prefix {{ project_name }}-{{ tier }}-{{ container_name }} --query 'taskDefinitionArns[0:-3]' --output text | xargs -I {} aws ecs deregister-task-definition --no-cli-pager --task-definition {}
+    # - name: remove old web task definitions
+    #   shell: aws ecs list-task-definitions --family-prefix {{ project_name }}-{{ tier }}-{{ container_name }} --query 'taskDefinitionArns[0:-3]' --output text | xargs -I {} aws ecs deregister-task-definition --no-cli-pager --task-definition {}
 
     - name: create task definition
       community.aws.ecs_taskdefinition:
@@ -150,11 +150,23 @@
         task_definition: "{{ service_name }}"
         region: "{{ region }}"
       register: task
+ 
+    - name: show tasks info
+      debug: 
+        msg: "{{ task }}"
 
     - name: set facts
       set_fact:
         task_revision: "{{ task.revision }}"
         task_name: "{{ task.family }}"
+
+    # - name: Stop a task
+    #   ecs_task:
+    #     operation: stop
+    #     cluster: "{{ ecs_cluster_name }}"
+    #     task_definition: console-sample-app-static-taskdef
+    #     task: "arn:aws:ecs:us-west-2:172139249013:task/3f8353d1-29a8-4689-bbf6-ad79937ffe8a"
+
 
     - name: RUN a task on Fargate
       ecs_task:
@@ -167,9 +179,15 @@
         region: "{{ region }}"
         network_configuration:
           subnets:
-          - "{{ crdcsubnet['dev']['subnet1'] }}"
-          - "{{ crdcsubnet['dev'1]['subnet2'] }}"
+          - "{{ crdcsubnet[tier]['subnet1'] }}"
+          - "{{ crdcsubnet[tier]['subnet2'] }}"
           security_groups:
-          - "{{ crdcsecurity['dev']['value'] }}"
+          - "{{ crdcsecurity[tier]['value'] }}"
           # - my_security_group
       register: task_output
+
+    - name: show subnets info
+      debug:
+        msg: | 
+           "{{ crdcsubnet[tier]['subnet1'] }}" 
+           "{{ crdcsubnet[tier]['subnet2'] }}"
