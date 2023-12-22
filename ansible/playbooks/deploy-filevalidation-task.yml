@@ -13,6 +13,7 @@
     service_name: "{{ project_name }}-{{ tier }}-filevalidation"
     container_name: "filevalidation"
     image_version: "{{ lookup('env','FILEVALIDATION_VERSION') }}"
+    ecr_repo: "{{ecr_central_account_id}}.dkr.ecr.{{ region }}.amazonaws.com"
     container_image_url: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}"
     newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
     sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
