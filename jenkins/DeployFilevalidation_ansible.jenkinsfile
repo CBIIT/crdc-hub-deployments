@@ -134,7 +134,7 @@ pipeline {
         }
 
 	    environment {
-            FILE_VALIDATOR_VERSION = "${params.ImageTag}"
+            FILEVALIDATION_VERSION = "${params.ImageTag}"
         }
 
  		steps {
