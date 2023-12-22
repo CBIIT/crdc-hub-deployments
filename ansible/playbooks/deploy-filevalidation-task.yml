@@ -126,7 +126,7 @@
           - name: "{{ container_name }}"
             essential: true
     #        image: nginx:stable-alpine3.17-slim
-             image: "{{ container_image_url }}":"{{ image_version }}"
+             image: "{{ container_image_url }}:{{ image_version }}"
             environment: "{{ container_env }}"
             entryPoint: "{% if container_entrypoint is defined %}{{ container_entrypoint }}{% else %}[]{% endif %}"
             logConfiguration:
