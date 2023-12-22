@@ -117,7 +117,7 @@
           - name: "{{ container_name }}"
             essential: true
     #        image: nginx:stable-alpine3.17-slim
-             image: "{{ container_image_url }}:{{ image_version }}"
+             image: "{{ image_version }}"
             environment: "{{ container_env }}"
             entryPoint: "{% if container_entrypoint is defined %}{{ container_entrypoint }}{% else %}[]{% endif %}"
             logConfiguration:
@@ -166,7 +166,7 @@
         operation: run
         cluster: "{{ ecs_cluster_name }}"
         task_definition: "{{ task_name }}"
-        started_by: vdonkor
+        started_by: script
         launch_type: FARGATE
         region: "{{ region }}"
         network_configuration:
