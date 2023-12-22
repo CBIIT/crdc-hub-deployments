@@ -13,6 +13,7 @@
     service_name: "{{ project_name }}-{{ tier }}-filevalidation"
     container_name: "filevalidation"
     image_version: "{{ lookup('env','FILEVALIDATION_VERSION') }}"
+    container_image_url: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}"
     newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
     sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
     sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_file_validator', nested=true, region='us-east-1' ) }}"
@@ -117,7 +118,7 @@
           - name: "{{ container_name }}"
             essential: true
     #        image: nginx:stable-alpine3.17-slim
-             image: "{{ image_version }}"
+             image: "{{ container_image_url }}:{{ image_version }}"
             environment: "{{ container_env }}"
             entryPoint: "{% if container_entrypoint is defined %}{{ container_entrypoint }}{% else %}[]{% endif %}"
             logConfiguration:
