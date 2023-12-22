@@ -45,7 +45,7 @@ pipeline {
 
       PROJECT      = "crdc-hub"
 	  SERVICE      = "metadatavalidation"
-	  ECR_REPO     = "crdc-hub-metadata-validator"
+	  ECR_REPO     = "crdc-hub-metadatavalidation"
 	  DEPLOY_JOB   = "DeployMetadatavalidation"
 	  SLACK_SECRET = "crdcdh_slack_url"
 	  CODE_REPO    = "crdc-datahub-validator"

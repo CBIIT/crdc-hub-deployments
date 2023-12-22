@@ -45,7 +45,7 @@ pipeline {
 
       PROJECT      = "crdc-hub"
 	  SERVICE      = "filevalidation"
-	  ECR_REPO     = "crdc-hub-file-validator"
+	  ECR_REPO     = "crdc-hub-filevalidation"
 	  DEPLOY_JOB   = "DeployFilevalidation"
 	  SLACK_SECRET = "crdcdh_slack_url"
 	  CODE_REPO    = "crdc-datahub-validator"
