@@ -28,11 +28,13 @@
         subnet1: "subnet-409a0424"
         subnet2: "subnet-4f35f112"
       qa:
-        subnet1: "subnet-409a0424"
-        subnet2: "subnet-4f35f112"
+        subnet1: "subnet-819c02e5"
+        subnet2: "subnet-8832f6d5"
     crdcsecurity:
       dev:
         value: "sg-0af2d5ce75ffc8cfe"
+      qa:
+        value: "sg-07b385d024d388ed2"
     container_memory: 1024
     container_cpu: 512
     container_env:
@@ -114,8 +116,8 @@
                 value: "{{ newrelic_license_key }}"
           - name: "{{ container_name }}"
             essential: true
-            image: nginx:stable-alpine3.17-slim
-            # image: "{{ container_image_url }}:{{ image_version }}"
+    #        image: nginx:stable-alpine3.17-slim
+             image: "{{ container_image_url }}:{{ image_version }}"
             environment: "{{ container_env }}"
             entryPoint: "{% if container_entrypoint is defined %}{{ container_entrypoint }}{% else %}[]{% endif %}"
             logConfiguration:
@@ -155,8 +157,9 @@
       set_fact:
         task_revision: "{{ task.revision }}"
         task_name: "{{ task.family }}"
-
-
+    - name: Removed old running tasks before running the new ones
+      shell: aws ecs list-tasks --cluster {{ ecs_cluster_name }} --family {{ project_name }}-{{ tier }}-{{ container_name }} --desired-status Running --region us-east-1 --query taskArns --output text | xargs -I {} aws ecs stop-task --cluster {{ ecs_cluster_name }} --region us-east-1 --task {}
+      register: task_output
     - name: RUN a task on Fargate
       ecs_task:
         count: 2
@@ -175,8 +178,8 @@
           # - my_security_group
       register: task_output
 
-    - name: show subnets info
-      debug:
-        msg: | 
-           "{{ crdcsubnet[tier]['subnet1'] }}" 
-           "{{ crdcsubnet[tier]['subnet2'] }}"
+#    - name: show subnets info
+#      debug:
+#        msg: | 
+#           "{{ crdcsubnet[tier]['subnet1'] }}" 
+#           "{{ crdcsubnet[tier]['subnet2'] }}"
