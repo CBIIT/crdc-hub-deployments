@@ -193,8 +193,9 @@
           # - my_security_group
       register: task_output
 
-#    - name: show subnets info
-#      debug:
-#        msg: | 
-#           "{{ crdcsubnet[tier]['subnet1'] }}" 
-#           "{{ crdcsubnet[tier]['subnet2'] }}"
+    - name: show subnets info
+      debug:
+        msg: | 
+           "{{ crdcsubnet[tier]['subnet1'] }}" 
+           "{{ crdcsubnet[tier]['subnet2'] }}"
+           "{{ crdcsecurity[tier]['value'] }}"
