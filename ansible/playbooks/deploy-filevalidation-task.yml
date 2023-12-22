@@ -63,8 +63,16 @@
         value: "{{ project_name }}-{{ tier }}-file-queue.fifo"
       - name: METADATA_QUEUE
         value: "{{ project_name }}-{{ tier }}-metadata-queue.fifo"
+      - name: EXPORTER_QUEUE
+        value: "{{ project_name }}-{{ tier }}-export-queue.fifo"
         
   tasks:
+    - name: docker login
+      include_role:
+        name: ecr-central-login
+      vars:
+        region: us-east-1
+
     - name: Get the current caller identity information
       aws_caller_info:
       register: caller_info
