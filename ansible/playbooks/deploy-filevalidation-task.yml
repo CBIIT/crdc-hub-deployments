@@ -34,7 +34,7 @@
         subnet2: "subnet-8832f6d5"
     crdcsecurity:
       dev:
-        value: "sg-0ac843a2b447d9f0c"
+        value: "sg-0065bfdc51209a789"
       qa:
         value: "sg-07b385d024d388ed2"
     container_memory: 1024
