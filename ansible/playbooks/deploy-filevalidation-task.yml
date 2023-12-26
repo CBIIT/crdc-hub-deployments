@@ -28,13 +28,13 @@
     crdcsubnet:
       dev:
         subnet1: "subnet-409a0424"
-        subnet2: "subnet-4f35f112"
+        #subnet2: "subnet-4f35f112"
       qa:
         subnet1: "subnet-819c02e5"
         subnet2: "subnet-8832f6d5"
     crdcsecurity:
       dev:
-        value: "sg-0af2d5ce75ffc8cfe"
+        value: "sg-0ac843a2b447d9f0c"
       qa:
         value: "sg-07b385d024d388ed2"
     container_memory: 1024
