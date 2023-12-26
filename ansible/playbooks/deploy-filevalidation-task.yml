@@ -28,7 +28,7 @@
     crdcsubnet:
       dev:
         subnet1: "subnet-409a0424"
-        #subnet2: "subnet-4f35f112"
+        subnet2: "subnet-4f35f112"
       qa:
         subnet1: "subnet-819c02e5"
         subnet2: "subnet-8832f6d5"
