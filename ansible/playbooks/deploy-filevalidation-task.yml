@@ -172,8 +172,8 @@
       set_fact:
         task_revision: "{{ task.revision }}"
         task_name: "{{ task.family }}"
-    #- name: Removed old running tasks before running the new ones
-    #  shell: aws ecs list-tasks --cluster {{ ecs_cluster_name }} --family {{ project_name }}-{{ tier }}-{{ container_name }} --desired-status Running --region us-east-1 --query taskArns --output text | xargs -I {} aws ecs stop-task --cluster {{ ecs_cluster_name }} --region us-east-1 --task {}
+    - name: Removed old running tasks before running the new ones
+      shell: aws ecs list-tasks --cluster {{ ecs_cluster_name }} --family {{ project_name }}-{{ tier }}-{{ container_name }} --desired-status Running --region us-east-1 --query taskArns --output text | xargs -I {} aws ecs stop-task --cluster {{ ecs_cluster_name }} --region us-east-1 --task {}
       register: task_output
     - name: RUN a task on Fargate
       ecs_task:
