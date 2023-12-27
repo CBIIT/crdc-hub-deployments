@@ -14,6 +14,6 @@ services:
     image: 1.0.0.90
     buildNumber: '90'
   filevalidation:
-    version: master.35
-    image: master.35
-    buildNumber: '35'
+    version: master.36
+    image: master.36
+    buildNumber: '36'
