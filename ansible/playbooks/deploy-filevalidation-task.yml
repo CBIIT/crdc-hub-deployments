@@ -177,7 +177,7 @@
       register: task_output
     - name: RUN a task on Fargate
       ecs_task:
-        count: 1
+        count: 2
         operation: run
         cluster: "{{ ecs_cluster_name }}"
         task_definition: "{{ task_name }}"
