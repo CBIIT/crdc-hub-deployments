@@ -10,14 +10,14 @@
     project_name: "{{ project_name }}"
     platform: aws
     region: us-east-1
-    service_name: "{{ project_name }}-{{ tier }}-filevalidation"
-    container_name: "filevalidation"
-    image_version: "{{ lookup('env','FILEVALIDATION_VERSION') }}"
+    service_name: "{{ project_name }}-{{ tier }}-essentialvalidation"
+    container_name: "essentialvalidation"
+    image_version: "{{ lookup('env','ESSENTIALVALIDATION_VERSION') }}"
     ecr_repo: "{{ecr_central_account_id}}.dkr.ecr.{{ region }}.amazonaws.com"
     container_image_url: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}"
     newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
     sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
-    sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_file_validator', nested=true, region='us-east-1' ) }}"
+    sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_essential_validation', nested=true, region='us-east-1' ) }}"
     mongo_db_host: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_host', nested=true, region='us-east-1' ) }}"
     mongo_db_port: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_port', nested=true, region='us-east-1' ) }}"
     mongo_db_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_password', nested=true, region='us-east-1' ) }}"
