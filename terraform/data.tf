@@ -257,6 +257,13 @@ data "aws_iam_policy_document" "integration_server_policy" {
     ]
     resources = ["*"]
   }
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecs:StopTask"
+    ]
+    resources = ["*"]
+  }
 }
 
 # S3 - NOT Used since the ALB access log shifted to the central management acct
