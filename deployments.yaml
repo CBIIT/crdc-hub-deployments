@@ -18,9 +18,9 @@ services:
     image: master.42
     buildNumber: '42'
   essentialvalidation:
-    version: master.5
-    image: master.5
-    buildNumber: '5'
+    version: master.7
+    image: master.7
+    buildNumber: '7'
   metadatavalidation:
     version: master.6
     image: master.6
