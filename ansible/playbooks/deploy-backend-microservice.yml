@@ -113,7 +113,7 @@
           - name: TIER
             value: "{{ tier }}"
           - name: REVIEW_COMMITTEE_EMAIL
-            value: "{% if tier == 'prod' or tier == 'stage' %}CRDCSubmissions@nih.gov{% elif tier == 'dev' or tier == 'dev2' %}ming.ying@nih.gov, austin.mueller@nih.gov{% else %}sofia.david@nih.gov, sowjanya.kallakuri@nih.gov, laxmi.lolla@nih.gov{% endif %}"
+            value: "{% if tier == 'prod' or tier == 'stage' %}NCICRDCSubmissions@nih.gov{% elif tier == 'dev' or tier == 'dev2' %}ming.ying@nih.gov, austin.mueller@nih.gov{% else %}sofia.david@nih.gov, sowjanya.kallakuri@nih.gov, laxmi.lolla@nih.gov{% endif %}"
           - name: LOADER_QUEUE
             value: "{{ project_name }}-{{ tier }}-loader-queue.fifo"
           - name: FILE_QUEUE
