@@ -45,7 +45,7 @@ pipeline {
 
       PROJECT      = "crdc-hub"
 	  SERVICE1      = "filevalidation"
-	  SERVICE2      = "essentialvalidation
+	  SERVICE2      = "essentialvalidation"
 	  SERVICE3      = "metadatavalidation"
 	  ECR_REPO1     = "crdc-hub-filevalidation"
 	  ECR_REPO2     = "crdc-hub-essentialvalidation"
