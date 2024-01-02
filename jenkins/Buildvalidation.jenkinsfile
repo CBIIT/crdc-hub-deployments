@@ -321,7 +321,7 @@ pipeline {
 
   	}
 
-  	stage('Update Code Tag'){
+  	stage('Update Code Tag1'){
      
             when {
                expression {params.BuildFilevalidation}
@@ -339,6 +339,9 @@ pipeline {
             }
 
  		}
+            }
+
+        stage('Update Code Tag2'){
           when {
                expression {params.BuildEssentialvalidation}
                  }
@@ -355,6 +358,10 @@ pipeline {
             }
 
                 }
+
+            }
+
+       stage('Update Code Tag3'){
           when {
                expression {params.BuildMetadatavalidation}
                  }
