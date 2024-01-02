@@ -333,7 +333,6 @@ pipeline {
                 tagRepo ( 
                     gitTag: "${env.CODE_BRANCH}",
                     gitUrl: "github.com/CBIIT/${env.CODE_REPO}",
-                    #checkoutDirectory: "${env.PROJECT}-${env.SERVICE1}"
                     checkoutDirectory: "${env.PROJECT}-validation"
                 )
 
@@ -353,7 +352,6 @@ pipeline {
                 tagRepo (
                     gitTag: "${env.CODE_BRANCH}",
                     gitUrl: "github.com/CBIIT/${env.CODE_REPO}",
-                    #checkoutDirectory: "${env.PROJECT}-${env.SERVICE2}"
                     checkoutDirectory: "${env.PROJECT}-validation"
                 )
 
@@ -374,7 +372,6 @@ pipeline {
                 tagRepo (
                     gitTag: "${env.CODE_BRANCH}",
                     gitUrl: "github.com/CBIIT/${env.CODE_REPO}",
-                    #checkoutDirectory: "${env.PROJECT}-${env.SERVICE3}"
                     checkoutDirectory: "${env.PROJECT}-validation"
                 )
 
