@@ -99,7 +99,7 @@ pipeline {
  		}
   	}
 
-  	stage('Build'){
+  	stage('Build1'){
 
               when {
                  expression {params.BuildFilevalidation}  
@@ -113,15 +113,18 @@ pipeline {
 				# build CRDC DH Docker container
 				echo "Building: $ECR_REPO1:$CODE_BRANCH.$BUILD_NUMBER"
 				aws_account=$(aws sts get-caller-identity --query "Account" --output text)
-				repo_url="$REGISTRY_URL/$ECR_REPO1"
+				repo_url1="$REGISTRY_URL/$ECR_REPO1"
 
-				cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --no-cache -t $repo_url:$CODE_BRANCH.$BUILD_NUMBER -f $WORKSPACE/$CODE_FOLDER/filevalidation.dockerfile .
+				cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --no-cache -t $repo_url1:$CODE_BRANCH.$BUILD_NUMBER -f $WORKSPACE/$CODE_FOLDER/filevalidation.dockerfile .
 
 				'''
 
 			}
 
  		}
+       }
+     
+      stage('Build2'){
 
            when {
                  expression {params.BuildEssentialvalidation}
@@ -135,15 +138,18 @@ pipeline {
                                 # build CRDC DH Docker container
                                 echo "Building: $ECR_REPO2:$CODE_BRANCH.$BUILD_NUMBER"
                                 aws_account=$(aws sts get-caller-identity --query "Account" --output text)
-                                repo_url="$REGISTRY_URL/$ECR_REPO2"
+                                repo_url2="$REGISTRY_URL/$ECR_REPO2"
 
-                                cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --no-cache -t $repo_url:$CODE_BRANCH.$BUILD_NUMBER -f $WORKSPACE/$CODE_FOLDER/essentialvalidation.dockerfile .
+                                cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --no-cache -t $repo_url2:$CODE_BRANCH.$BUILD_NUMBER -f $WORKSPACE/$CODE_FOLDER/essentialvalidation.dockerfile .
 
                                 '''
 
                         }
 
                 }
+         }
+
+      stage('Build3'){
         when {
                  expression {params.BuildMetadatavalidation}
                    }
@@ -156,9 +162,9 @@ pipeline {
                                 # build CRDC DH Docker container
                                 echo "Building: $ECR_REPO3:$CODE_BRANCH.$BUILD_NUMBER"
                                 aws_account=$(aws sts get-caller-identity --query "Account" --output text)
-                                repo_url="$REGISTRY_URL/$ECR_REPO3"
+                                repo_url3="$REGISTRY_URL/$ECR_REPO3"
 
-                                cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --no-cache -t $repo_url:$CODE_BRANCH.$BUILD_NUMBER -f $WORKSPACE/$CODE_FOLDER/metadatavalidation.dockerfile .
+                                cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --no-cache -t $repo_url3:$CODE_BRANCH.$BUILD_NUMBER -f $WORKSPACE/$CODE_FOLDER/metadatavalidation.dockerfile .
 
                                 '''
 
@@ -202,7 +208,7 @@ pipeline {
 
   	}
 
-  	stage('push to ECR'){
+  	stage('push to ECR1'){
 
              when {
                expression {params.BuildFilevalidation}
@@ -231,6 +237,9 @@ pipeline {
 			}
 
  		}
+            }
+
+      stage('push to ECR2'){
           when {
                expression {params.BuildEssentialvalidation}
                   }
@@ -258,6 +267,9 @@ pipeline {
                         }
 
                 }
+            }
+
+      stage('push to ECR3'){
         when {
                expression {params.BuildMetadatavalidation}
                   }
