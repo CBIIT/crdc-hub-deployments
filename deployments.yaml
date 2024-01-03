@@ -17,3 +17,7 @@ services:
     version: master.2
     image: master.2
     buildNumber: '2'
+  essentialvalidation:
+    version: master.2
+    image: master.2
+    buildNumber: '2'
