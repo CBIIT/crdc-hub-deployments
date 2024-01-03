@@ -182,29 +182,23 @@ pipeline {
 
   	}
 
-  	stage('Test'){
+  	stage('Test1'){
              when {
-                expression { params.TrivyTestScan }
+                expression { params.TrivyTestScan1 }
               }
 
  		steps {
 
  			script {
 
-			    sh label: 'Trivy-Test', script: '''#!/bin/bash
+			    sh label: 'Trivy-Test1', script: '''#!/bin/bash
 
 				# Test image for vulnerabilities
                 echo "Testing Image with Trivy: $ECR_REPO1:$CODE_BRANCH.$BUILD_NUMBER"
-                echo "Testing Image with Trivy: $ECR_REPO2:$CODE_BRANCH.$BUILD_NUMBER"
-                echo "Testing Image with Trivy: $ECR_REPO3:$CODE_BRANCH.$BUILD_NUMBER"
                 aws_account=$(aws sts get-caller-identity --query "Account" --output text)
 				repo_url1="$REGISTRY_URL/$ECR_REPO1"
-				repo_url2="$REGISTRY_URL/$ECR_REPO2"
-				repo_url3="$REGISTRY_URL/$ECR_REPO3"
 
                 docker run --rm --name trivy -u root -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy:latest image --exit-code 1 --severity HIGH,CRITICAL $repo_url1:$CODE_BRANCH.$BUILD_NUMBER
-                docker run --rm --name trivy -u root -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy:latest image --exit-code 1 --severity HIGH,CRITICAL $repo_url2:$CODE_BRANCH.$BUILD_NUMBER
-                docker run --rm --name trivy -u root -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy:latest image --exit-code 1 --severity HIGH,CRITICAL $repo_url3:$CODE_BRANCH.$BUILD_NUMBER
                 #trivy image --exit-code 1 --severity HIGH,CRITICAL $repo_url:$CODE_BRANCH.$BUILD_NUMBER
 #                trivy image --timeout 15m --severity HIGH,CRITICAL $repo_url:$CODE_BRANCH.$BUILD_NUMBER
 
@@ -215,6 +209,56 @@ pipeline {
  		}
 
   	}
+
+     stage('Test2'){
+             when {
+                expression { params.TrivyTestScan2 }
+              }
+
+                steps {
+
+                        script {
+
+                            sh label: 'Trivy-Test2', script: '''#!/bin/bash
+
+                                # Test image for vulnerabilities
+                echo "Testing Image with Trivy: $ECR_REPO2:$CODE_BRANCH.$BUILD_NUMBER"
+                aws_account=$(aws sts get-caller-identity --query "Account" --output text)
+                                repo_url2="$REGISTRY_URL/$ECR_REPO2"
+
+                docker run --rm --name trivy -u root -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy:latest image --exit-code 1 --severity HIGH,CRITICAL $repo_url2:$CODE_BRANCH.$BUILD_NUMBER
+                               '''
+
+                        }
+
+                }
+
+        }
+
+      stage('Test3'){
+             when {
+                expression { params.TrivyTestScan3 }
+              }
+
+                steps {
+
+                        script {
+
+                            sh label: 'Trivy-Test3', script: '''#!/bin/bash
+
+                                # Test image for vulnerabilities
+                echo "Testing Image with Trivy: $ECR_REPO3:$CODE_BRANCH.$BUILD_NUMBER"
+                aws_account=$(aws sts get-caller-identity --query "Account" --output text)
+                                repo_url3="$REGISTRY_URL/$ECR_REPO3"
+
+                docker run --rm --name trivy -u root -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy:latest image --exit-code 1 --severity HIGH,CRITICAL $repo_url3:$CODE_BRANCH.$BUILD_NUMBER
+                               '''
+
+                        }
+
+                }
+
+        }
 
   	stage('push to ECR1'){
 
