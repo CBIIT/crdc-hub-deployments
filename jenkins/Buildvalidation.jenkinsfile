@@ -32,7 +32,15 @@ pipeline {
 
         booleanParam(
             defaultValue: true,
-            name: 'RunDeployStage')
+            name: 'RunDeployFilevalidation')
+
+        booleanParam(
+            defaultValue: true,
+            name: 'RunDeployEssentialvalidation')
+
+        booleanParam(
+            defaultValue: true,
+            name: 'RunDeployMetadatavalidation')
 
   }
 
@@ -397,11 +405,25 @@ pipeline {
     success {
 
 		script {
-			if (params.RunDeployStage) {
+			if (params.RunDeployFilevalidation) {
 				echo 'Run the deployment for this sevice'
-				build job: "$JOB_PATH/$DEPLOY_JOB", parameters: [string(name: 'ImageTag', value: "$CODE_BRANCH.$BUILD_NUMBER"), extendedChoice(name: 'Environment', value: "${params.Environment}")]
+				build job: "$JOB_PATH/$DEPLOY_JOB1", parameters: [string(name: 'ImageTag', value: "$CODE_BRANCH.$BUILD_NUMBER"), extendedChoice(name: 'Environment', value: "${params.Environment}")]
 			}
 		}
+
+               script {
+                        if (params.RunDeployEssentialvalidation) {
+                                echo 'Run the deployment for this sevice'
+                                build job: "$JOB_PATH/$DEPLOY_JOB2", parameters: [string(name: 'ImageTag', value: "$CODE_BRANCH.$BUILD_NUMBER"), extendedChoice(name: 'Environment', value: "${params.Environment}")]
+                        }
+                }
+
+               script {
+                        if (params.RunDeployMetadatavalidation) {
+                                echo 'Run the deployment for this sevice'
+                                build job: "$JOB_PATH/$DEPLOY_JOB3", parameters: [string(name: 'ImageTag', value: "$CODE_BRANCH.$BUILD_NUMBER"), extendedChoice(name: 'Environment', value: "${params.Environment}")]
+                        }
+                }
     }
 
     always {
