@@ -13,15 +13,3 @@ services:
     version: 1.0.0.90
     image: 1.0.0.90
     buildNumber: '90'
-  filevalidation:
-    version: master.1
-    image: master.1
-    buildNumber: '1'
-  essentialvalidation:
-    version: master.3
-    image: master.3
-    buildNumber: '3'
-  metadatavalidation:
-    version: master.1
-    image: master.1
-    buildNumber: '1'
