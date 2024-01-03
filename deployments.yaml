@@ -13,3 +13,7 @@ services:
     version: 1.0.0.90
     image: 1.0.0.90
     buildNumber: '90'
+  filevalidation:
+    version: master.2
+    image: master.2
+    buildNumber: '2'
