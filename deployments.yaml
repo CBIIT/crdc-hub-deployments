@@ -21,3 +21,7 @@ services:
     version: master.3
     image: master.3
     buildNumber: '3'
+  metadatavalidation:
+    version: master.3
+    image: master.3
+    buildNumber: '3'
