@@ -300,7 +300,10 @@ pipeline {
 
   	}
 
- 	stage('Update Deployment Manifest'){
+ 	stage('Update Deployment Manifest1'){
+            when {
+              expression {params.BuildFilevalidation}
+                 }
 
 		steps {
  			
@@ -310,8 +313,6 @@ pipeline {
                         version: "${env.CODE_BRANCH}.${BUILD_NUMBER}",
                         image:  "${env.CODE_BRANCH}.${BUILD_NUMBER}",
                         service: "${env.SERVICE1}",
-                        service: "${env.SERVICE2}",
-                        service: "${env.SERVICE3}",
                         deploymentFile: "${env.PROJECT}-deployments/deployments.yaml",
                         deploymentRepoUrl: "https://github.com/CBIIT/${env.DEPLOY_REPO}",
                         deploymentCheckoutDirectory: "${env.PROJECT}-deployments"
@@ -322,6 +323,54 @@ pipeline {
  		}
 
   	}
+
+      stage('Update Deployment Manifest2'){
+            when {
+              expression {params.BuildEssentialvalidation}
+                 }
+
+                steps {
+
+                        script {
+                if (params.UpdateDeploymentVersion) {
+                    writeDeployment(
+                        version: "${env.CODE_BRANCH}.${BUILD_NUMBER}",
+                        image:  "${env.CODE_BRANCH}.${BUILD_NUMBER}",
+                        service: "${env.SERVICE2}",
+                        deploymentFile: "${env.PROJECT}-deployments/deployments.yaml",
+                        deploymentRepoUrl: "https://github.com/CBIIT/${env.DEPLOY_REPO}",
+                        deploymentCheckoutDirectory: "${env.PROJECT}-deployments"
+                    )
+                }
+            }
+
+                }
+
+        }
+
+      stage('Update Deployment Manifest3'){
+            when {
+              expression {params.BuildMetadatavalidation}
+                 }
+
+                steps {
+
+                        script {
+                if (params.UpdateDeploymentVersion) {
+                    writeDeployment(
+                        version: "${env.CODE_BRANCH}.${BUILD_NUMBER}",
+                        image:  "${env.CODE_BRANCH}.${BUILD_NUMBER}",
+                        service: "${env.SERVICE3}",
+                        deploymentFile: "${env.PROJECT}-deployments/deployments.yaml",
+                        deploymentRepoUrl: "https://github.com/CBIIT/${env.DEPLOY_REPO}",
+                        deploymentCheckoutDirectory: "${env.PROJECT}-deployments"
+                    )
+                }
+            }
+
+                }
+
+        }
 
   	stage('Update Code Tag'){
      
