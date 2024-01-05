@@ -22,6 +22,6 @@ services:
     image: master.9
     buildNumber: '9'
   metadatavalidation:
-    version: master.9
-    image: master.9
-    buildNumber: '9'
+    version: master.7
+    image: master.7
+    buildNumber: '7'
