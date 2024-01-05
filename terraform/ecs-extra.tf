@@ -1,14 +1,100 @@
-module "ecs-extra" {
-  source                    = "~/crdc-hub-deployments/terraform/modules/ecs-extra"
-  project                = var.project
-  aws_region                = var.aws_region
-  tier                      = var.tier
-  ecs_network_mode          = var.ecs_network_mode
-  security_group_ids        = var.security_group_ids
-  tags                      = var.tags
-  subnet_ids                = var.subnet_ids
-  ecs_launch_type           = var.ecs_launch_type
-  ecs_scheduling_strategy_extra  = var.ecs_scheduling_strategy_extra
-  extratask                 = var.extratask
-  policy                    = var.policy
+# Log Group for ECS Service
+resource "aws_cloudwatch_log_group" "extra_task_log_group" {
+  for_each   =  var.extratask
+  name = "/${var.project}/${var.tier}/${each.value.name}"
+}
+
+#task definition
+resource "aws_ecs_task_definition" "extra_task_definition" {
+  for_each                 = var.extratask
+  family                   = "${var.project}-${var.tier}-${each.value.name}"
+  network_mode             = var.ecs_network_mode
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = each.value.cpu
+  memory                   = each.value.memory
+  execution_role_arn       = module.ecs.ecs_task_execution_role_arn
+  task_role_arn            = module.ecs.ecs_task_role_arn
+
+  container_definitions = jsonencode([
+    {
+      name      = each.value.name
+      image     = each.value.image_url
+      essential = true,
+      firelensConfiguration = {
+          type = "fluentbit"
+        }
+     
+     logConfiguration = {
+          logDriver      = "awsfirelens"
+          options =  {
+            
+            awslogs-group = aws_cloudwatch_log_group.extra_task_log_group[each.value.name].name
+            awslogs-region = var.aws_region
+            
+          }
+        }
+    }
+  ])
+
+}
+
+#ecs service
+resource "aws_ecs_service" "ecs_service_extra" {
+  for_each                 = var.extratask
+  name                     = "${var.project}-${var.tier}-${each.value.name}"
+  cluster                  = module.ecs.ecs_cluster_arn
+  task_definition                    = aws_ecs_task_definition.extra_task_definition[each.key].arn
+  desired_count                      = each.value.number_container_replicas
+  launch_type                        = var.ecs_launch_type
+  scheduling_strategy                = var.ecs_scheduling_strategy_extra
+  enable_ecs_managed_tags            = true
+  enable_execute_command             = true
+  deployment_minimum_healthy_percent = 0
+  deployment_maximum_percent         = 200
+
+  deployment_circuit_breaker {
+    enable   = true
+    rollback = true
+  }
+
+  network_configuration {
+    security_groups  = var.security_group_ids
+    subnets          = var.subnet_ids
+    assign_public_ip = false
+  }
+  
+}
+
+# adding the metrics to scale in/out
+resource "aws_appautoscaling_target" "extratask_autoscaling_target" {
+  for_each                 = var.extratask
+  max_capacity       = each.value.scheduled_max_capacity
+  min_capacity       = each.value.scheduled_min_capacity
+  resource_id        = "service/${module.ecs.ecs_cluster_arn}/${aws_ecs_service.ecs_service_extra[each.key].name}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace  = "ecs"
+}
+
+# adding autoscaling policy
+resource "aws_appautoscaling_policy" "sqs_scaling_policy" {
+  for_each                 = var.policy
+  name         = "${var.project}-${var.tier}-${each.value.name}"
+  #scaling_target_id = aws_appautoscaling_target.extratask_autoscaling_target[each.key].id
+  resource_id        = aws_appautoscaling_target.extratask_autoscaling_target[each.key].id
+  scalable_dimension = aws_appautoscaling_target.extratask_autoscaling_target[each.key].scalable_dimension
+  service_namespace  = aws_appautoscaling_target.extratask_autoscaling_target[each.key].service_namespace
+  policy_type            = "TargetTrackingScaling"
+  target_tracking_scaling_policy_configuration {
+    customized_metric_specification {
+      dimensions {  
+        name = each.value.name
+        value = "${var.project}-${var.tier}-${each.value.name}.fifo"
+      }
+      metric_name = "ApproximateNumberOfMessagesVisible"
+      namespace = "AWS/SQS"
+      statistic = "Minimum"
+      unit  = "Count"
+    }
+    target_value = 0.5
+  }
 }

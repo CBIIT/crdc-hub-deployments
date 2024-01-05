@@ -79,13 +79,16 @@ resource "aws_appautoscaling_target" "extratask_autoscaling_target" {
 resource "aws_appautoscaling_policy" "sqs_scaling_policy" {
   for_each                 = var.policy
   name         = "${var.project}-${var.tier}-${each.value.name}"
-  scaling_target_id = aws_appautoscaling_target.extratask_autoscaling_target[each.key].id
+  #scaling_target_id = aws_appautoscaling_target.extratask_autoscaling_target[each.key].id
+  resource_id        = aws_appautoscaling_target.extratask_autoscaling_target[each.key].id
+  scalable_dimension = aws_appautoscaling_target.extratask_autoscaling_target[each.key].scalable_dimension
+  service_namespace  = aws_appautoscaling_target.extratask_autoscaling_target[each.key].service_namespace
   policy_type            = "TargetTrackingScaling"
   target_tracking_scaling_policy_configuration {
     customized_metric_specification {
-      metric_dimension {  
+      dimensions {  
         name = each.value.name
-        value = "/${var.project}/${var.tier}/${each.value.name}.fifo"
+        value = "${var.project}-${var.tier}-${each.value.name}.fifo"
       }
       metric_name = "ApproximateNumberOfMessagesVisible"
       namespace = "AWS/SQS"
