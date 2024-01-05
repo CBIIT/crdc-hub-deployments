@@ -73,6 +73,7 @@ resource "aws_appautoscaling_target" "extratask_autoscaling_target" {
   resource_id        = "service/${module.ecs.ecs_cluster_arn}/${aws_ecs_service.ecs_service_extra[each.key].name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
+  role_arn      = var.role_arn_autoscaling
 }
 
 # adding autoscaling policy
@@ -87,7 +88,7 @@ resource "aws_appautoscaling_policy" "sqs_scaling_policy" {
   target_tracking_scaling_policy_configuration {
     customized_metric_specification {
       dimensions {  
-        name = each.value.name
+        name = "QueueName"
         value = "${var.project}-${var.tier}-${each.value.name}.fifo"
       }
       metric_name = "ApproximateNumberOfMessagesVisible"
@@ -95,6 +96,6 @@ resource "aws_appautoscaling_policy" "sqs_scaling_policy" {
       statistic = "Minimum"
       unit  = "Count"
     }
-    target_value = 0.5
+    target_value = 0.95
   }
 }

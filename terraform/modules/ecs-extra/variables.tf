@@ -43,6 +43,9 @@ variable "ecs_scheduling_strategy_extra" {
   default     = "REPLICA"
 }
 
+variable "role_arn_autoscaling" {
+  type        = string
+}
 
 variable "extratask" {
   type = map(object({
