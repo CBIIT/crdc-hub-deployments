@@ -184,7 +184,7 @@ pipeline {
 
   	stage('Test1'){
              when {
-                expression { params.TrivyTestScan1 }
+                expression { params.TrivyTestScan-Filevalidation }
               }
 
  		steps {
@@ -212,7 +212,7 @@ pipeline {
 
      stage('Test2'){
              when {
-                expression { params.TrivyTestScan2 }
+                expression { params.TrivyTestScan-Essentialvalidation }
               }
 
                 steps {
@@ -237,7 +237,7 @@ pipeline {
 
       stage('Test3'){
              when {
-                expression { params.TrivyTestScan3 }
+                expression { params.TrivyTestScan-Metadatavalidation }
               }
 
                 steps {
