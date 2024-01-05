@@ -141,7 +141,7 @@ pipeline {
 
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                 ansiblePlaybook(
-					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/deploy-metadatavalidation-task.yml", 
+					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/deploy-metadatavalidation-service.yml", 
             		inventory: "${WORKSPACE}/playbooks/ansible/playbooks/hosts",
                     extraVars: [
                         tier: "${params.Environment}",
@@ -157,24 +157,24 @@ pipeline {
 
   	}
 
-//  stage('verify deployment'){
+  stage('verify deployment'){
 
-//		steps {
+		steps {
 
- //			script {
+ 			script {
 
-//			    sh label: 'Verify-Deploy', script: '''#!/bin/bash
+			    sh label: 'Verify-Deploy', script: '''#!/bin/bash
 
- //               # wait untiil the service is stable
-//				aws ecs wait services-stable --cluster $CLUSTER --region $REGION --service $SERVICE
+                # wait untiil the service is stable
+				aws ecs wait services-stable --cluster $CLUSTER --region $REGION --service $SERVICE
 
-//				'''
+				'''
 
-//			}
+			}
 
- //		}
+ 		}
 
-  //	}
+  	}
   }
 
   post {
