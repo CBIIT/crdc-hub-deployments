@@ -1,0 +1,113 @@
+- name: deploy filevalidation service
+  hosts: all
+  connection: local
+  gather_facts: yes
+
+  tasks:
+    #install collections
+    - name: install aws collection
+      shell: "ansible-galaxy collection install {{ item | quote }} --force"
+      loop:
+        - community.docker:<=3.4.3
+        - amazon.aws:<=5.4.0
+        - community.aws:<=3.2.0
+        #- git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,main
+        #- git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,ctdc
+        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,v1.5
+
+    #docker login
+    - name: docker login
+      include_role:
+        name: ecr-central-login
+      vars:
+        region: us-east-1
+
+    - name: Get the current caller identity information
+      aws_caller_info:
+      register: caller_info
+    #deploy backend
+    - name: deploy stage for backend microservice
+      include_role:
+        name: bento.common.ecs
+        apply:
+          environment:
+            AWS_RETRY_MODE: "standard"
+            AWS_MAX_ATTEMPTS: 10
+      vars:
+        ansible_python_interpreter: /usr/bin/python3
+        execution_role: "{% if iam_prefix is defined and iam_prefix != '' %}{{ iam_prefix }}-{{ project_name }}-{{ tier }}-ecs-task-execution-role{% else %}{{ project_name }}-{{ tier }}-task-execution-role{% endif %}"
+        task_role: "{% if iam_prefix is defined and iam_prefix != '' %}{{ iam_prefix }}-{{ project_name }}-{{ tier }}-ecs-task-role{% else %}{{ project_name }}-{{ tier }}-task-role{% endif %}"
+        project_name: "{{ project_name }}"
+        platform: aws
+        region: us-east-1
+        service_name: "{{ project_name }}-{{ tier }}-filevalidation"
+        container_name: "filevalidation"
+        auth_enabled: "true"
+        image_version: "{{ lookup('env','FILEVALIDATION_VERSION') }}"
+        tier: "{{ lookup('env','TIER') }}"
+        ecs_cluster_name: "{{ project_name }}-{{ tier }}-ecs"
+        mongo_db_host: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_host', nested=true, region='us-east-1' ) }}"
+        mongo_db_port: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_port', nested=true, region='us-east-1' ) }}"
+        mongo_db_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_password', nested=true, region='us-east-1' ) }}"
+        mongo_db_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_user', nested=true, region='us-east-1' ) }}"
+        database_name: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.database_name', nested=true, region='us-east-1' ) }}"
+#        cookie_secret: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.cookie_secret', nested=true, region='us-east-1' ) }}"
+        email_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.email_user', nested=true, region='us-east-1' ) }}"
+        email_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.email_password', nested=true, region='us-east-1' ) }}"
+        email_url: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.email_url', nested=true, region='us-east-1' ) }}"
+        submission_bucket: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.submission_bucket', nested=true, region='us-east-1' ) }}"
+        newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
+        sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
+        sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_file_validator', nested=true, region='us-east-1' ) }}"
+        container_memory: 1024
+        container_cpu: 512
+        ecr_repo: "{{ecr_central_account_id}}.dkr.ecr.{{ region }}.amazonaws.com"
+        container_image_url: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}"
+        container_env:
+          - name: SESSION_SECRET
+            value: "abcd256asghaaamnkloofghj"
+          - name: DATE
+            value: "{{ ansible_date_time.date }}"
+          - name: PROJECT
+            value: "{{ project_name }}"
+          ## Versions
+          - name: VERSION
+            value: "{{ image_version }}"
+          - name: TIER
+            value: "{{ tier }}"
+          ## Database
+          - name: MONGO_DB_HOST
+            value: "{{ mongo_db_host }}"
+          - name: MONGO_DB_PORT
+            value: "{{ mongo_db_port }}"
+          - name: MONGO_DB_PASSWORD
+            value: "{{ mongo_db_password }}"
+          - name: MONGO_DB_USER
+            value: "{{ mongo_db_user }}"
+          - name: DATABASE_NAME
+            value: "{{ database_name }}"
+          - name: LOADER_QUEUE
+            value: "{{ project_name }}-{{ tier }}-loader-queue.fifo"
+          - name: FILE_QUEUE
+            value: "{{ project_name }}-{{ tier }}-file-queue.fifo"
+          - name: METADATA_QUEUE
+            value: "{{ project_name }}-{{ tier }}-metadata-queue.fifo"
+          - name: EXPORTER_QUEUE
+            value: "{{ project_name }}-{{ tier }}-export-queue.fifo"
+          - name: NEW_RELIC_LICENSE_KEY
+            value: "{{ newrelic_license_key }}"
+          - name: NEW_RELIC_APP_NAME
+            value: "{{ project_name }}-{{ platform }}-{{ tier }}-{{ container_name }}"
+          - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
+            value: "true"
+          - name: NEW_RELIC_HOST
+            value: "gov-collector.newrelic.com"
+          - name: NEW_RELIC_LOG_FILE_NAME
+            value: "STDOUT"
+          - name: NEW_RELIC_LABELS
+            value: "Project:{{ project_name }};Environment:{{ tier }}"
+          ## Java
+          - name: JAVA_OPTS
+            value: "-javaagent:/usr/local/tomcat/newrelic/newrelic.jar"
+          - name: ROLE_ARN
+            value: "arn:aws:iam::{{ caller_info.account }}:role/power-user-crdc-hub-{{ tier}}-ecs-task-execution-role"
