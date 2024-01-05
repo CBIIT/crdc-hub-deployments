@@ -7,7 +7,7 @@ resource "aws_cloudwatch_log_group" "extra_task_log_group" {
 #task definition
 resource "aws_ecs_task_definition" "extra_task_definition" {
   for_each                 = var.extratask
-  family                   = "${var.resource_prefix}-${each.value.name}"
+  family                   = "${var.project}-${var.tier}-${each.value.name}"
   network_mode             = var.ecs_network_mode
   requires_compatibilities = ["FARGATE"]
   cpu                      = each.value.cpu
@@ -41,7 +41,7 @@ resource "aws_ecs_task_definition" "extra_task_definition" {
 #ecs service
 resource "aws_ecs_service" "ecs_service_extra" {
   for_each                 = var.extratask
-  name                               = "${var.resource_prefix}-${each.value.name}"
+  name                     = "${var.project}-${var.tier}-${each.value.name}"
   cluster                  = module.ecs.ecs_cluster_arn
   task_definition                    = aws_ecs_task_definition.extra_task_definition[each.key].arn
   desired_count                      = each.value.number_container_replicas
@@ -49,6 +49,8 @@ resource "aws_ecs_service" "ecs_service_extra" {
   scheduling_strategy                = var.ecs_scheduling_strategy_extra
   enable_ecs_managed_tags            = true
   enable_execute_command             = true
+  deployment_minimum_healthy_percent = 0
+  deployment_maximum_percent         = 200
 
   deployment_circuit_breaker {
     enable   = true
@@ -66,8 +68,8 @@ resource "aws_ecs_service" "ecs_service_extra" {
 # adding the metrics to scale in/out
 resource "aws_appautoscaling_target" "extratask_autoscaling_target" {
   for_each                 = var.extratask
-  max_capacity       = var.scheduled_max_capacity
-  min_capacity       = var.scheduled_min_capacity
+  max_capacity       = each.value.scheduled_max_capacity
+  min_capacity       = each.value.scheduled_min_capacity
   resource_id        = "service/${module.ecs.ecs_cluster_arn}/${aws_ecs_service.ecs_service_extra[each.key].name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
@@ -76,7 +78,7 @@ resource "aws_appautoscaling_target" "extratask_autoscaling_target" {
 # adding autoscaling policy
 resource "aws_appautoscaling_policy" "sqs_scaling_policy" {
   for_each                 = var.policy
-  name         = "${var.resource_prefix}-${each.value.name}"
+  name         = "${var.project}-${var.tier}-${each.value.name}"
   scaling_target_id = aws_appautoscaling_target.extratask_autoscaling_target[each.key].id
   policy_type            = "TargetTrackingScaling"
   target_tracking_scaling_policy_configuration {
