@@ -1,4 +1,4 @@
-- name: deploy filevalidation service
+- name: deploy metadatavalidation service
   hosts: all
   connection: local
   gather_facts: yes
@@ -26,7 +26,7 @@
       aws_caller_info:
       register: caller_info
     #deploy backend
-    - name: deploy stage for filevalidation service
+    - name: deploy stage for metadatavalidation microservice
       include_role:
         name: bento.common.ecs
         apply:
@@ -40,10 +40,10 @@
         project_name: "{{ project_name }}"
         platform: aws
         region: us-east-1
-        service_name: "{{ project_name }}-{{ tier }}-filevalidation"
-        container_name: "filevalidation"
+        service_name: "{{ project_name }}-{{ tier }}-metadatavalidation"
+        container_name: "metadatavalidation"
         auth_enabled: "true"
-        image_version: "{{ lookup('env','FILEVALIDATION_VERSION') }}"
+        image_version: "{{ lookup('env','METADATAVALIDATION_VERSION') }}"
         tier: "{{ lookup('env','TIER') }}"
         ecs_cluster_name: "{{ project_name }}-{{ tier }}-ecs"
         mongo_db_host: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_host', nested=true, region='us-east-1' ) }}"
@@ -54,8 +54,8 @@
 #        cookie_secret: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.cookie_secret', nested=true, region='us-east-1' ) }}"
         newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
         sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
-        sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_file_validator', nested=true, region='us-east-1' ) }}"
-        container_port: 8087 
+        sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_metadata_validation', nested=true, region='us-east-1' ) }}"
+        container_port: 8089 
         container_memory: 1024
         container_cpu: 512
         ecr_repo: "{{ecr_central_account_id}}.dkr.ecr.{{ region }}.amazonaws.com"
