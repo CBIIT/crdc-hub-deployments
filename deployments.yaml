@@ -18,9 +18,9 @@ services:
     image: master.4
     buildNumber: '4'
   essentialvalidation:
-    version: master.3
-    image: master.3
-    buildNumber: '3'
+    version: master.4
+    image: master.4
+    buildNumber: '4'
   metadatavalidation:
     version: master.3
     image: master.3
