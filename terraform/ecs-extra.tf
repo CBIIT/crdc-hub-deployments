@@ -66,36 +66,36 @@ resource "aws_ecs_service" "ecs_service_extra" {
 }
 
 # adding the metrics to scale in/out
-resource "aws_appautoscaling_target" "extratask_autoscaling_target" {
-  for_each                 = var.extratask
-  max_capacity       = each.value.scheduled_max_capacity
-  min_capacity       = each.value.scheduled_min_capacity
-  resource_id        = "service/${module.ecs.ecs_cluster_arn}/${aws_ecs_service.ecs_service_extra[each.key].name}"
-  scalable_dimension = "ecs:service:DesiredCount"
-  service_namespace  = "ecs"
-  role_arn      = var.role_arn_autoscaling
-}
+#resource "aws_appautoscaling_target" "extratask_autoscaling_target" {
+#  for_each                 = var.extratask
+#  max_capacity       = each.value.scheduled_max_capacity
+#  min_capacity       = each.value.scheduled_min_capacity
+#  resource_id        = "service/${module.ecs.ecs_cluster_arn}/${aws_ecs_service.ecs_service_extra[each.key].name}"
+#  scalable_dimension = "ecs:service:DesiredCount"
+#  service_namespace  = "ecs"
+#  role_arn      = var.role_arn_autoscaling
+#}
 
 # adding autoscaling policy
-resource "aws_appautoscaling_policy" "sqs_scaling_policy" {
-  for_each                 = var.policy
-  name         = "${var.project}-${var.tier}-${each.value.name}"
-  #scaling_target_id = aws_appautoscaling_target.extratask_autoscaling_target[each.key].id
-  resource_id        = aws_appautoscaling_target.extratask_autoscaling_target[each.key].id
-  scalable_dimension = aws_appautoscaling_target.extratask_autoscaling_target[each.key].scalable_dimension
-  service_namespace  = aws_appautoscaling_target.extratask_autoscaling_target[each.key].service_namespace
-  policy_type            = "TargetTrackingScaling"
-  target_tracking_scaling_policy_configuration {
-    customized_metric_specification {
-      dimensions {  
-        name = "QueueName"
-        value = "${var.project}-${var.tier}-${each.value.name}.fifo"
-      }
-      metric_name = "ApproximateNumberOfMessagesVisible"
-      namespace = "AWS/SQS"
-      statistic = "Minimum"
-      unit  = "Count"
-    }
-    target_value = 0.95
-  }
-}
+#resource "aws_appautoscaling_policy" "sqs_scaling_policy" {
+#  for_each                 = var.policy
+#  name         = "${var.project}-${var.tier}-${each.value.name}"
+#  #scaling_target_id = aws_appautoscaling_target.extratask_autoscaling_target[each.key].id
+#  resource_id        = aws_appautoscaling_target.extratask_autoscaling_target[each.key].id
+#  scalable_dimension = aws_appautoscaling_target.extratask_autoscaling_target[each.key].scalable_dimension
+#  service_namespace  = aws_appautoscaling_target.extratask_autoscaling_target[each.key].service_namespace
+#  policy_type            = "TargetTrackingScaling"
+#  target_tracking_scaling_policy_configuration {
+#    customized_metric_specification {
+#      dimensions {  
+#        name = "QueueName"
+#        value = "${var.project}-${var.tier}-${each.value.name}.fifo"
+#      }
+#      metric_name = "ApproximateNumberOfMessagesVisible"
+#      namespace = "AWS/SQS"
+#      statistic = "Minimum"
+#      unit  = "Count"
+#    }
+#    target_value = 0.95
+#  }
+#}
