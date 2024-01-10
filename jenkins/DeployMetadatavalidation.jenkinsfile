@@ -66,6 +66,8 @@ pipeline {
                     // set repo URL
                     env.REGISTRY_URL = "${ECR_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com"
                     env.DATE = sh(script: 'date +%Y-%m-%d.%H%M', returnStdout: true).trim()
+                    env.NRIA_LICENSE_KEY = sh(script: "aws secretsmanager get-secret-value --region $REGION --secret-id monitoring/newrelic --query SecretString --output text | jq -r '.api_key'").trim()
+                    env.NEW_RELIC_LICENSE_KEY = sh(script: "aws secretsmanager get-secret-value --region $REGION --secret-id monitoring/newrelic --query SecretString --output text | jq -r '.api_key'").trim()
                 }
             }
         }
@@ -109,9 +111,9 @@ pipeline {
                     sh label: 'Deploy-Service', script: '''#!/bin/bash
 
                     # Register environment variables (note that exports are only available for the lifetime of this shell)
-                    SECRETS=$(aws secretsmanager get-secret-value --region $REGION --secret-id bento/$PROJECT/$ENV --query SecretString --output text)
-                    SECRETS2=$(aws secretsmanager get-secret-value --region $REGION --secret-id monitoring/newrelic.api_key --query SecretString --output text)
-                    AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+#                    SECRETS=$(aws secretsmanager get-secret-value --region $REGION --secret-id bento/$PROJECT/$ENV --query SecretString --output text)
+#                    SECRETS2=$(aws secretsmanager get-secret-value --region $REGION --secret-id monitoring/newrelic.api_key --query SecretString --output text)
+#                    AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
 
                     export TIER="$ENV"
                     export VERSION="$IMAGE_TAG"
