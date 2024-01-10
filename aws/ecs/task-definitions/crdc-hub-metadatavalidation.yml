@@ -1,0 +1,97 @@
+﻿family: "$SERVICE"
+networkMode: awsvpc
+cpu: "$TASK_CPU"
+memory: "$TASK_MEMORY"
+executionRoleArn: "$EXECUTION_ROLE_ARN"
+taskRoleArn: "$TASK_ROLE_ARN"
+requiresCompatibilities:
+- FARGATE
+containerDefinitions:
+- name: sumologic-firelens
+  image: public.ecr.aws/aws-observability/aws-for-fluent-bit:stable
+  essential: true
+  firelensConfiguration:
+    type: fluentbit
+    options:
+      enable-ecs-log-metadata: "true"
+- name: newrelic-infra
+  image: newrelic/nri-ecs:1.9.2
+  essential: true
+  environment:
+  - name: "FARGATE"
+    value: "true"
+  - name: "NRIA_IS_FORWARD_ONLY"
+    value: "$NRIA_IS_FORWARD_ONLY"
+  - name: "NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"
+    value: "$NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"
+  - name: "NRIA_LICENSE_KEY"
+    value: "$NRIA_LICENSE_KEY"
+  - name: "NRIA_PASSTHROUGH_ENVIRONMENT"
+    value: "$NRIA_PASSTHROUGH_ENVIRONMENT"
+  - name: "NEW_RELIC_HOST"
+    value: "$NEW_RELIC_HOST"
+  - name: "NRIA_CUSTOM_ATTRIBUTES"
+    value: "$NRIA_CUSTOM_ATTRIBUTES"
+  - name: "NEW_RELIC_APP_NAME"
+    value: "$NEW_RELIC_APP_NAME"
+  - name: "NRIA_OVERRIDE_HOST_ROOT"
+    value: "$NRIA_OVERRIDE_HOST_ROOT"
+- name: metadatavalidation
+  image: $METADATA_VALIDATION_IMAGE
+  essential: true
+  environment:
+  - name: "ROLE_ARN"
+    value: "$ROLE_ARN"
+  - name: "PROJECT"
+    value: "$PROJECT"
+  - name: "DATABASE_NAME"
+    value: "$DATABASE_NAME"
+  - name: "TIER"
+    value: "$TIER"
+  - name: "MONGO_DB_PASSWORD"
+    value: "$MONGO_DB_PASSWORD"
+  - name: "MONGO_DB_HOST"
+    value: "$MONGO_DB_HOST"
+  - name: "LOADER_QUEUE"
+    value: "$LOADER_QUEUE"
+  - name: "NEW_RELIC_LOG_FILE_NAME"
+    value: "$NEW_RELIC_LOG_FILE_NAME"
+  - name: "MONGO_DB_PORT"
+    value: "$MONGO_DB_PORT"
+  - name: "JAVA_OPTS"
+    value: "$JAVA_OPTS"
+  - name: "DATE"
+    value: "$DATE"
+  - name: "NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"
+    value: "$NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"
+  - name: "METADATA_QUEUE"
+    value: "$METADATA_QUEUE"
+  - name: "FILE_QUEUE"
+    value: "$FILE_QUEUE"
+  - name: "SESSION_SECRET"
+    value: "$SESSION_SECRET"
+  - name: "VERSION"
+    value: "$VERSION"
+  - name: "NEW_RELIC_HOST"
+    value: "$NEW_RELIC_HOST"
+  - name: "NEW_RELIC_LABELS"
+    value: "$NEW_RELIC_LABELS"
+  - name: "NEW_RELIC_APP_NAME"
+    value: "$NEW_RELIC_APP_NAME"
+  - name: "MONGO_DB_USER"
+    value: "$MONGO_DB_USER"
+  - name: "NEW_RELIC_LICENSE_KEY"
+    value: "$NEW_RELIC_LICENSE_KEY"
+  - name: "EXPORTER_QUEUE"
+    value: "$EXPORTER_QUEUE"
+  logConfiguration:
+    logDriver: awsfirelens
+    options:
+      Format: json_lines
+      Name: http
+      Host: "$SUMO_LOGIC_HOST"
+      Port: "$SUMO_LOGIC_PORT"
+      URI: "$SUMO_LOGIC_URI"
+      Retry_Limit: "2"
+      tls: "on"
+      tls.verify: "off"

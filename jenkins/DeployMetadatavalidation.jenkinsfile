@@ -9,17 +9,15 @@ pipeline {
     }
 
     parameters {
-        string(
-            defaultValue: '',
-            description: 'The image tag to deploy',
-            name: 'ImageTag')
+        string(defaultValue: '',
+                description: 'The image tag to deploy',
+                name: 'ImageTag')
 
-        extendedChoice(
-            name: 'Environment',
-            defaultValue: 'dev',
-            description: 'Choose the environment to build',
-            type: 'PT_SINGLE_SELECT',
-            value: 'dev,dev2,qa,qa2,stage,prod')
+        extendedChoice(name: 'Environment',
+                defaultValue: 'dev',
+                description: 'Choose the environment to build',
+                type: 'PT_SINGLE_SELECT',
+                value: 'dev,dev2,qa,qa2,stage,prod')
     }
 
     options {
@@ -28,160 +26,177 @@ pipeline {
     }
 
     environment {
-        PROJECT      = 'crdc-hub'
-        APP          = 'metadatavalidation'
+        PROJECT = 'crdc-hub'
+        APP = 'metadatavalidation'
         SLACK_SECRET = 'crdcdh_slack_url'
-        REGION         = 'us-east-1'
-        ECR_REPO     = "${env.PROJECT}-${env.APP}"
-        IMAGE_TAG    = "${params.ImageTag}"
-        ENV          = "${params.Environment}"
-        CLUSTER      = "${env.PROJECT}-${env.ENV}-ecs"
-        SERVICE      = "${env.PROJECT}-${env.ENV}-${env.APP}"
+        REGION = 'us-east-1'
+        ECR_REPO = "${env.PROJECT}-${env.APP}"
+        IMAGE_TAG = "${params.ImageTag}"
+        ENV = "${params.Environment}"
+        CLUSTER = "${env.PROJECT}-${env.ENV}-ecs"
+        SERVICE = "${env.PROJECT}-${env.ENV}-${env.APP}"
     }
 
     stages {
         stage('checkout') {
             steps {
                 checkout([$class: 'GitSCM',
-            branches: [[name: '*/main']],
-            doGenerateSubmoduleConfigurations: false,
-            extensions: [[$class: 'RelativeTargetDirectory',
-            relativeTargetDir: 'playbooks']],
-            submoduleCfg: [],
-            userRemoteConfigs:
-            [[url: 'https://github.com/CBIIT/crdc-hub-deployments']]])
+                          branches: [[name: '*/main']],
+                          doGenerateSubmoduleConfigurations: false,
+                          extensions: [[$class: 'RelativeTargetDirectory',
+                                        relativeTargetDir: 'playbooks']],
+                          submoduleCfg: [],
+                          userRemoteConfigs: [[url: 'https://github.com/CBIIT/crdc-hub-deployments']]])
 
                 checkout([$class: 'GitSCM',
-            branches: [[name: "${params.Environment}"]],
-            doGenerateSubmoduleConfigurations: false,
-            extensions: [[$class: 'RelativeTargetDirectory',
-            relativeTargetDir: "${env.PROJECT}-deployments"]],
-            submoduleCfg: [],
-            userRemoteConfigs:
-            [[url: 'https://github.com/CBIIT/crdc-hub-deployments']]])
+                          branches: [[name: "${params.Environment}"]],
+                          doGenerateSubmoduleConfigurations: false,
+                          extensions: [[$class: 'RelativeTargetDirectory',
+                                        relativeTargetDir: "${env.PROJECT}-deployments"]],
+                          submoduleCfg: [],
+                          userRemoteConfigs: [[url: 'https://github.com/CBIIT/crdc-hub-deployments']]])
             }
         }
 
         stage('Set Environment Variables') {
-                steps {
-                        script {
+            steps {
+                script {
                     // set central ECR account number
                     env.ECR_ACCOUNT = sh(label: 'Get ECR account', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id ecr --query SecretString --output text | jq -r '.central_account_id'").trim()
                     // set repo URL
                     env.REGISTRY_URL = "${ECR_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com"
                     env.DATE = sh(script: 'date +%Y-%m-%d.%H%M', returnStdout: true).trim()
-                        }
                 }
+            }
         }
 
         stage('Add Production Tag') {
-                when {
+            when {
                 expression {
                     ENV == 'prod'
                 }
-                }
+            }
 
-                steps {
-                        script {
-                            sh label: 'Docker-Tag', script: '''#!/bin/bash
+            steps {
+                script {
+                    sh label: 'Docker-Tag', script: '''#!/bin/bash
 
-                                # Tag image as production if deploying to prod tier
-                                echo "Tagging Image as Production: $ECR_REPO:$IMAGE_TAG-$DATE"
-                                aws_account=$(aws sts get-caller-identity --query "Account" --output text)
-                                repo_url="$REGISTRY_URL/$ECR_REPO"
+                        # Tag image as production if deploying to prod tier
+                        echo "Tagging Image as Production: $ECR_REPO:$IMAGE_TAG-$DATE"
+                        aws_account=$(aws sts get-caller-identity --query "Account" --output text)
+                        repo_url="$REGISTRY_URL/$ECR_REPO"
 
-                                #DATE
-                                DATE="$DATE"
-                                # login and get manifest
-                                docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $repo_url
+                        #DATE
+                        DATE="$DATE"
+                        # login and get manifest
+                        docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $repo_url
 
-                                docker pull $repo_url:$IMAGE_TAG
-                                docker tag $repo_url:$IMAGE_TAG $repo_url:prod-$IMAGE_TAG-$DATE
-                                docker push $repo_url:prod-$IMAGE_TAG-$DATE
-                                '''
+                        docker pull $repo_url:$IMAGE_TAG
+                        docker tag $repo_url:$IMAGE_TAG $repo_url:prod-$IMAGE_TAG-$DATE
+                        docker push $repo_url:prod-$IMAGE_TAG-$DATE
+                        '''
 
                     IMAGE_TAG = "prod-$IMAGE_TAG"
 
                     echo "updated image tag: $IMAGE_TAG-$DATE"
-                        }
                 }
+            }
         }
 
         stage('Deploy Service') {
             steps {
                 script {
                     sh label: 'Deploy-Service', script: '''#!/bin/bash
-                    # todo: register environment variables
 
-                    # update task definition
-                    envsubst < crdc-hub-essentialvalidation.yml | aws ecs register-task-definition --cli-input-yaml file:///dev/stdin
+                    # Register environment variables (note that exports are only available for the lifetime of this shell)
+                    SECRETS=$(aws secretsmanager get-secret-value --secret-id bento/$PROJECT/$ENV --query SecretString --output text)
+                    AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
 
-                    # update service
+                    export TIER="$ENV"
+                    export VERSION="$IMAGE_TAG"
+
+                    export TASK_CPU=512
+                    export TASK_MEMORY=2048
+
+                    export ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-execution-role"
+                    export EXECUTION_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-execution-role"
+                    export TASK_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-role"
+                    export SESSION_SECRET="abcd256asghaaamnkloofghj"
+
+                    export NRIA_IS_FORWARD_ONLY=true
+                    export NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
+                    export NRIA_LICENSE_KEY="$(echo $SECRETS | jq -r '.new_relic_license_key')"
+                    export NRIA_PASSTHROUGH_ENVIRONMENT="ECS_CONTAINER_METADATA_URI,ECS_CONTAINER_METADATA_URI_V4,FARGATE"
+                    export NEW_RELIC_HOST=gov-collector.newrelic.com
+                    export NRIA_CUSTOM_ATTRIBUTES='{"nrDeployMethod":"downloadPage"}'
+                    export NEW_RELIC_APP_NAME=$SERVICE
+                    export NRIA_OVERRIDE_HOST_ROOT=
+
+                    export SUMO_LOGIC_HOST=$(echo $SECRETS | jq -r '.sumo_collector_endpoint')
+                    export SUMO_LOGIC_PORT="443"
+                    export SUMO_LOGIC_COLLECTOR_TOKEN=$(echo $SECRETS | jq -r '.sumo_collector_token_metadata_validation')
+                    export SUMO_LOGIC_URI="/receiver/v1/http/$SUMO_LOGIC_COLLECTOR_TOKEN"
+
+                    export EXPORTER_QUEUE="$PROJECT-$ENV-export-queue.fifo"
+                    export FILE_QUEUE="$PROJECT-$ENV-file-queue.fifo"
+                    export LOADER_QUEUE="$PROJECT-$ENV-loader-queue.fifo"
+                    export METADATA_QUEUE="$PROJECT-$ENV-metadata-queue.fifo"
+
+                    export DATABASE_NAME="$(echo $SECRETS | jq -r '.database_name')"
+                    export MONGO_DB_HOST="$(echo $SECRETS | jq -r '.mongo_db_host')"
+                    export MONGO_DB_PORT="$(echo $SECRETS | jq -r '.mongo_db_port')"
+                    export MONGO_DB_USER="$(echo $SECRETS | jq -r '.mongo_db_user')"
+                    export MONGO_DB_PASSWORD="$(echo $SECRETS | jq -r '.mongo_db_password')"
+
+                    export DATE="$(date -I)"
+                    export JAVA_OPTS="-javaagent:/usr/local/tomcat/newrelic/newrelic.jar"
+
+                    export PLATFORM="aws"
+                    export NEW_RELIC_APP_NAME="$PROJECT-$PLATFORM-$ENV-$APP"
+                    export NEW_RELIC_DISTRIBUTED_TRACING_ENABLED="true"
+                    export NEW_RELIC_HOST="gov-collector.newrelic.com"
+                    export NEW_RELIC_LABELS="Project:$PROJECT;Environment:$ENV"
+                    export NEW_RELIC_LICENSE_KEY="$(echo $SECRETS | jq -r '.new_relic_license_key')"
+                    export NEW_RELIC_LOG_FILE_NAME="STDOUT"
+
+                    # Update and register task definition
+                    envsubst < aws/ecs/task-definitions/$PROJECT-$APP.yml | aws ecs register-task-definition --cli-input-yaml file:///dev/stdin
+
+                    # Update service
                     aws ecs update-service \
-                        --cluster $ECS_CLUSTER \
-                        --service $ECS_SERVICE \
-                        --task-definition $ECS_TASK_DEFINITION_FAMILY \
+                        --cluster $CLUSTER \
+                        --service $SERVICE \
+                        --task-definition $SERVICE \
                         --desired-count 1 \
-                        --force-new-deployment;
+                        --force-new-deployment
                     '''
                 }
             }
         }
-
-            // agent {
-            //     docker {
-            //         image 'cbiitssrepo/cicd-ansible-8.0:latest'
-            //         args '--net=host -u root -v /var/run/docker.sock:/var/run/docker.sock'
-            //         reuseNode true
-            //     }
-            // }
-
-            // environment {
-            //     METADATAVALIDATION_VERSION = "${params.ImageTag}"
-            // }
-
-    // steps {
-    //     wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
-    //         ansiblePlaybook(
-    //         playbook: "${WORKSPACE}/playbooks/ansible/playbooks/deploy-metadatavalidation-service.yml",
-    //         inventory: "${WORKSPACE}/playbooks/ansible/playbooks/hosts",
-    //         extraVars: [
-    //             tier: "${params.Environment}",
-    //             project_name: "${PROJECT}",
-    //             iam_prefix: 'power-user',
-    //             subdomain: 'hub',
-    //             domain_name: 'datacommons.cancer.gov',
-    //             auth_enabled: false
-    //             ],
-    //         colorized: true)
-    //     }
-    // }
     }
 
-        stage('Verify Deployment') {
-            steps {
-                script {
-                    sh label: 'Verify-Deploy', script: '''#!/bin/bash
+    stage('Verify Deployment') {
+        steps {
+            script {
+                sh label: 'Verify-Deploy', script: '''#!/bin/bash
 
                 # wait until the service is stable
                 aws ecs wait services-stable --cluster $CLUSTER --region $REGION --service $SERVICE
 
                 '''
-                }
             }
-        }
-}
-
-    post {
-        always {
-            notify(
-            secretPath: 'notification/slack',
-            secretName: "${env.SLACK_SECRET}"
-        )
-        }
-
-        cleanup {
-            cleanWs()
         }
     }
 }
+
+post {
+    always {
+        notify(secretPath: 'notification/slack',
+                secretName: "${env.SLACK_SECRET}")
+    }
+
+    cleanup {
+        cleanWs()
+    }
+}
+
