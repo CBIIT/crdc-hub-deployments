@@ -111,59 +111,59 @@ pipeline {
                     sh label: 'Deploy-Service', script: '''#!/bin/bash
 
                     # Register environment variables (note that exports are only available for the lifetime of this shell)
-#                    SECRETS=$(aws secretsmanager get-secret-value --region $REGION --secret-id bento/$PROJECT/$ENV --query SecretString --output text)
-#                    SECRETS2=$(aws secretsmanager get-secret-value --region $REGION --secret-id monitoring/newrelic.api_key --query SecretString --output text)
-#                    AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+                    SECRETS=$(aws secretsmanager get-secret-value --region $REGION --secret-id bento/$PROJECT/$ENV --query SecretString --output text)
+                    SECRETS2=$(aws secretsmanager get-secret-value --region $REGION --secret-id monitoring/newrelic.api_key --query SecretString --output text)
+                    AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
 
-#                    export TIER="$ENV"
-#                    export VERSION="$IMAGE_TAG"
+                    export TIER="$ENV"
+                    export VERSION="$IMAGE_TAG"
 
-#                    export TASK_CPU=512
-#                    export TASK_MEMORY=2048
+                    export TASK_CPU=512
+                    export TASK_MEMORY=2048
 
-#                    export METADATA_VALIDATION_IMAGE="$REGISTRY_URL/$ECR_REPO:$IMAGE_TAG"
+                    export METADATA_VALIDATION_IMAGE="$REGISTRY_URL/$ECR_REPO:$IMAGE_TAG"
 
-#                    export ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-execution-role"
-#                    export EXECUTION_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-execution-role"
-#                    export TASK_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-role"
-#                    export SESSION_SECRET="abcd256asghaaamnkloofghj"
+                    export ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-execution-role"
+                    export EXECUTION_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-execution-role"
+                    export TASK_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-role"
+                    export SESSION_SECRET="abcd256asghaaamnkloofghj"
 
-#                    export NRIA_IS_FORWARD_ONLY=true
-#                    export NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
-#                    export NRIA_LICENSE_KEY="$(echo $SECRETS2 | jq -r '.api_key')"
-#                    export NRIA_PASSTHROUGH_ENVIRONMENT="ECS_CONTAINER_METADATA_URI,ECS_CONTAINER_METADATA_URI_V4,FARGATE"
+                    export NRIA_IS_FORWARD_ONLY=true
+                    export NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
+                    export NRIA_LICENSE_KEY="$(echo $SECRETS2 | jq -r '.api_key')"
+                    export NRIA_PASSTHROUGH_ENVIRONMENT="ECS_CONTAINER_METADATA_URI,ECS_CONTAINER_METADATA_URI_V4,FARGATE"
+                    export NEW_RELIC_HOST="gov-collector.newrelic.com"
+                    export NRIA_CUSTOM_ATTRIBUTES='{"nrDeployMethod":"downloadPage"}'
+                    export NEW_RELIC_APP_NAME=$SERVICE
+                    export NRIA_OVERRIDE_HOST_ROOT=
+
+                    export SUMO_LOGIC_HOST=$(echo $SECRETS | jq -r '.sumo_collector_endpoint')
+                    export SUMO_LOGIC_PORT="443"
+                    export SUMO_LOGIC_COLLECTOR_TOKEN=$(echo $SECRETS | jq -r '.sumo_collector_token_metadata_validation')
+                    export SUMO_LOGIC_URI="/receiver/v1/http/$SUMO_LOGIC_COLLECTOR_TOKEN"
+
+                    export EXPORTER_QUEUE="$PROJECT-$ENV-export-queue.fifo"
+                    export FILE_QUEUE="$PROJECT-$ENV-file-queue.fifo"
+                    export LOADER_QUEUE="$PROJECT-$ENV-loader-queue.fifo"
+                    export METADATA_QUEUE="$PROJECT-$ENV-metadata-queue.fifo"
+
+                    export DATABASE_NAME="$(echo $SECRETS | jq -r '.database_name')"
+                    export MONGO_DB_HOST="$(echo $SECRETS | jq -r '.mongo_db_host')"
+                    export MONGO_DB_PORT="$(echo $SECRETS | jq -r '.mongo_db_port')"
+                    export MONGO_DB_USER="$(echo $SECRETS | jq -r '.mongo_db_user')"
+                    export MONGO_DB_PASSWORD="$(echo $SECRETS | jq -r '.mongo_db_password')"
+
+                    export DATE="$(date -I)"
+                    export JAVA_OPTS="-javaagent:/usr/local/tomcat/newrelic/newrelic.jar"
+
+                    export PLATFORM="aws"
+#                    export NEW_RELIC_APP_NAME="$PROJECT-$PLATFORM-$ENV-$APP"
+#                    export NEW_RELIC_DISTRIBUTED_TRACING_ENABLED="true"
 #                    export NEW_RELIC_HOST="gov-collector.newrelic.com"
-#                    export NRIA_CUSTOM_ATTRIBUTES='{"nrDeployMethod":"downloadPage"}'
-#                    export NEW_RELIC_APP_NAME=$SERVICE
-#                    export NRIA_OVERRIDE_HOST_ROOT=
-
-#                    export SUMO_LOGIC_HOST=$(echo $SECRETS | jq -r '.sumo_collector_endpoint')
-#                    export SUMO_LOGIC_PORT="443"
-#                    export SUMO_LOGIC_COLLECTOR_TOKEN=$(echo $SECRETS | jq -r '.sumo_collector_token_metadata_validation')
-#                    export SUMO_LOGIC_URI="/receiver/v1/http/$SUMO_LOGIC_COLLECTOR_TOKEN"
-
-#                    export EXPORTER_QUEUE="$PROJECT-$ENV-export-queue.fifo"
-#                    export FILE_QUEUE="$PROJECT-$ENV-file-queue.fifo"
-#                    export LOADER_QUEUE="$PROJECT-$ENV-loader-queue.fifo"
-#                    export METADATA_QUEUE="$PROJECT-$ENV-metadata-queue.fifo"
-
-#                    export DATABASE_NAME="$(echo $SECRETS | jq -r '.database_name')"
-#                    export MONGO_DB_HOST="$(echo $SECRETS | jq -r '.mongo_db_host')"
-#                    export MONGO_DB_PORT="$(echo $SECRETS | jq -r '.mongo_db_port')"
-#                    export MONGO_DB_USER="$(echo $SECRETS | jq -r '.mongo_db_user')"
-#                    export MONGO_DB_PASSWORD="$(echo $SECRETS | jq -r '.mongo_db_password')"
-
-#                    export DATE="$(date -I)"
-#                    export JAVA_OPTS="-javaagent:/usr/local/tomcat/newrelic/newrelic.jar"
-#
-#                    export PLATFORM="aws"
-##                    export NEW_RELIC_APP_NAME="$PROJECT-$PLATFORM-$ENV-$APP"
-##                    export NEW_RELIC_DISTRIBUTED_TRACING_ENABLED="true"
-##                    export NEW_RELIC_HOST="gov-collector.newrelic.com"
-#                    export NEW_RELIC_LABELS="Project:$PROJECT;Environment:$ENV"
-#                    export NEW_RELIC_LICENSE_KEY="$(echo $SECRETS2 | jq -r '.api_key')"
-#                    export NEW_RELIC_NO_CONFIG_FILE = true
-#                    export NEW_RELIC_LOG_FILE_NAME="STDOUT"
+                    export NEW_RELIC_LABELS="Project:$PROJECT;Environment:$ENV"
+                    export NEW_RELIC_LICENSE_KEY="$(echo $SECRETS2 | jq -r '.api_key')"
+                    export NEW_RELIC_NO_CONFIG_FILE = true
+                    export NEW_RELIC_LOG_FILE_NAME="STDOUT"
 
                     # Update and register task definition
                     envsubst < aws/ecs/task-definitions/$PROJECT-$APP.yml | aws ecs register-task-definition --cli-input-yaml file:///dev/stdin
@@ -181,19 +181,19 @@ pipeline {
         }
       }
 
-//    stage('Verify Deployment') {
- //       steps {
-  //          script {
-   //             sh label: 'Verify-Deploy', script: '''#!/bin/bash
+    stage('Verify Deployment') {
+        steps {
+            script {
+                sh label: 'Verify-Deploy', script: '''#!/bin/bash
 
-     //           # wait until the service is stable
-    //            aws ecs wait services-stable --cluster $CLUSTER --region $REGION --service $SERVICE
-//
+                # wait until the service is stable
+                aws ecs wait services-stable --cluster $CLUSTER --region $REGION --service $SERVICE
+
                 '''
- //           }
-  //      }
-   // }
-//}
+            }
+        }
+    }
+}
 
 post {
     always {
