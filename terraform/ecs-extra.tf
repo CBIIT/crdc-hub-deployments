@@ -74,6 +74,7 @@ resource "aws_appautoscaling_target" "extratask_autoscaling_target" {
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
   role_arn      = var.role_arn_autoscaling
+  depends_on = [aws_ecs_service.ecs_service_extra]
 }
 
 # adding autoscaling policy
