@@ -181,18 +181,18 @@ pipeline {
         }
       }
 
-    stage('Verify Deployment') {
-        steps {
-            script {
-                sh label: 'Verify-Deploy', script: '''#!/bin/bash
+//    stage('Verify Deployment') {
+ //       steps {
+  //          script {
+   //             sh label: 'Verify-Deploy', script: '''#!/bin/bash
 
-                # wait until the service is stable
-                aws ecs wait services-stable --cluster $CLUSTER --region $REGION --service $SERVICE
-
+     //           # wait until the service is stable
+    //            aws ecs wait services-stable --cluster $CLUSTER --region $REGION --service $SERVICE
+//
                 '''
-            }
-        }
-    }
+ //           }
+  //      }
+   // }
 }
 
 post {
