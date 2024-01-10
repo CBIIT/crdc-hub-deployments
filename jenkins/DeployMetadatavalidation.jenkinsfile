@@ -118,6 +118,8 @@ pipeline {
                     export TASK_CPU=512
                     export TASK_MEMORY=2048
 
+                    export METADATA_VALIDATION_IMAGE="$REGISTRY_URL/$ECR_REPO:$IMAGE_TAG"
+
                     export ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-execution-role"
                     export EXECUTION_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-execution-role"
                     export TASK_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-role"
