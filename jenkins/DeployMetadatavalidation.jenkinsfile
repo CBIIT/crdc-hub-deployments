@@ -106,7 +106,8 @@ pipeline {
         stage('Deploy Service') {
             steps {
                 script {
-                    sh label: 'Deploy-Service', script: '''
+                    sh label: 'Deploy-Service', script: '''#!/bin/bash
+                    set -e
 
                     # Register environment variables (note that exports are only available for the lifetime of this shell)
                     SECRETS=$(aws secretsmanager get-secret-value --secret-id bento/$PROJECT/$ENV --query SecretString --output text)
@@ -171,17 +172,17 @@ pipeline {
                 }
             }
         }
-    }
+
+        stage('Verify Deployment') {
+            steps {
+                script {
+                    sh label: 'Verify-Deploy', script: '''#!/bin/bash
     
-    stage('Verify Deployment') {
-        steps {
-            script {
-                sh label: 'Verify-Deploy', script: '''#!/bin/bash
-
-                # wait until the service is stable
-                aws ecs wait services-stable --cluster $CLUSTER --region $REGION --service $SERVICE
-
-                '''
+                    # wait until the service is stable
+                    aws ecs wait services-stable --cluster $CLUSTER --region $REGION --service $SERVICE
+    
+                    '''
+                }
             }
         }
     }
