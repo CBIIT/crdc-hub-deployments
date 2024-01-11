@@ -1,4 +1,4 @@
-﻿family: "$SERVICE"
+family: "$SERVICE"
 networkMode: awsvpc
 cpu: "$TASK_CPU"
 memory: "$TASK_MEMORY"
