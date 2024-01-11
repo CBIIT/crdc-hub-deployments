@@ -107,7 +107,7 @@ pipeline {
             steps {
                 script {
                     sh label: 'Deploy-Service', script: '''#!/bin/bash
-                    set -e
+                    set -ex
 
                     # Register environment variables (note that exports are only available for the lifetime of this shell)
                     SECRETS=$(aws secretsmanager get-secret-value --secret-id bento/$PROJECT/$ENV --query SecretString --output text)
@@ -164,7 +164,7 @@ pipeline {
                     export NEW_RELIC_LOG_FILE_NAME="STDOUT"
 
                     # Update and register task definition
-                    envsubst < $WORKSPACE/aws/ecs/task-definitions/$PROJECT-$APP.yml | xargs -0 aws ecs register-task-definition --cli-input-yaml 
+                    aws ecs register-task-definition --cli-input-yaml $(envsubst < $WORKSPACE/aws/ecs/task-definitions/$PROJECT-$APP.yml) 
 
                     # Update service
                     aws ecs update-service --cluster $CLUSTER --service $SERVICE --task-definition $SERVICE --desired-count 1 --force-new-deployment
