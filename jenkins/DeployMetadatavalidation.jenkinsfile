@@ -132,7 +132,6 @@ pipeline {
                     export NRIA_LICENSE_KEY="$(echo $NEW_RELIC_SECRETS | jq -r '.api_key')"
                     export NRIA_PASSTHROUGH_ENVIRONMENT="ECS_CONTAINER_METADATA_URI,ECS_CONTAINER_METADATA_URI_V4,FARGATE"
                     export NEW_RELIC_HOST=gov-collector.newrelic.com
-                    export NRIA_CUSTOM_ATTRIBUTES='{"nrDeployMethod":"downloadPage"}\'
                     export NEW_RELIC_APP_NAME=$SERVICE
                     export NRIA_OVERRIDE_HOST_ROOT=
 

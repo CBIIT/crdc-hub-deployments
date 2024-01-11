@@ -31,7 +31,7 @@ containerDefinitions:
   - name: "NEW_RELIC_HOST"
     value: "$NEW_RELIC_HOST"
   - name: "NRIA_CUSTOM_ATTRIBUTES"
-    value: "$NRIA_CUSTOM_ATTRIBUTES"
+    value: '{"nrDeployMethod":"downloadPage"}'
   - name: "NEW_RELIC_APP_NAME"
     value: "$NEW_RELIC_APP_NAME"
   - name: "NRIA_OVERRIDE_HOST_ROOT"
