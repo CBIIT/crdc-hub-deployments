@@ -120,6 +120,8 @@
             value: "{{ project_name }}-{{ tier }}-file-queue.fifo"
           - name: METADATA_QUEUE
             value: "{{ project_name }}-{{ tier }}-metadata-queue.fifo"
+          - name: EXPORTER_QUEUE
+            value: "{{ project_name }}-{{ tier }}-export-queue.fifo"
           - name: NEW_RELIC_LICENSE_KEY
             value: "{{ newrelic_license_key }}"
           - name: NEW_RELIC_APP_NAME
