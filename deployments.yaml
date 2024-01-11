@@ -22,6 +22,6 @@ services:
     image: 1.0.0.7
     buildNumber: '7'
   metadatavalidation:
-    version: master.6
-    image: master.6
-    buildNumber: '6'
+    version: 1.0.0.7
+    image: 1.0.0.7
+    buildNumber: '7'
