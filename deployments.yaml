@@ -22,6 +22,6 @@ services:
     image: 1.0.0.9
     buildNumber: '9'
   metadatavalidation:
-    version: 1.0.0.8
-    image: 1.0.0.8
-    buildNumber: '8'
+    version: 1.0.0.9
+    image: 1.0.0.9
+    buildNumber: '9'
