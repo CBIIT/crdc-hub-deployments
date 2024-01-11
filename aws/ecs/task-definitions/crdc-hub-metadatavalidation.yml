@@ -48,7 +48,7 @@ containerDefinitions:
   - name: "TIER"
     value: "$ENV"
   - name: "DATE"
-    value: "$DATE"
+    value: "$DEPLOY_DATE"
   - name: "VERSION"
     value: "$IMAGE_TAG"
   - name: "ROLE_ARN"
@@ -103,6 +103,6 @@ containerDefinitions:
     secretOptions:
       - name: "Host"
         valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:bento/$PROJECT/$ENV:sumo_collector_endpoint::"
-      # Todo: Add this back in when we have a secret key for sumo_collector_uri
+      # Todo: Add this back in when we have a secret key for sumo_collector_uri_metadata_validation
       # - name: "URI"
       #   valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:bento/$PROJECT/$ENV:sumo_collector_uri_metadata_validation::"

@@ -107,14 +107,11 @@ pipeline {
             steps {
                 script {
                     sh label: 'Deploy-Service', script: '''#!/bin/bash
-                    set -ex
-
                     # Register environment variables (note that exports are only available for the lifetime of this shell)
                     export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
-                    export DATE="$(date -I)"
+                    export DEPLOY_DATE="$(date -I)"
 
-                    # Note that if we store the full SUMO_LOGIC_URI in secrets manager, we do not need to fetch the secret here
-                    # Eg: we can directly reference the secret in the task definition
+                    # We can eliminate the line below if we store the full sumo_collector_uri_metadata_validation in secrets manager
                     export SUMO_LOGIC_COLLECTOR_TOKEN=$(aws secretsmanager get-secret-value --secret-id bento/$PROJECT/$ENV --query SecretString --output text | jq -r '.sumo_collector_token_metadata_validation')
 
                     # Update and register task definition
@@ -123,7 +120,7 @@ pipeline {
                     aws ecs register-task-definition --cli-input-yaml file://$TASK_DEFINTION_FOLDER/$PROJECT-$APP-deploy.yml
 
                     # Update service
-                    aws ecs update-service --cluster $CLUSTER --service $SERVICE --task-definition $SERVICE --desired-count 1 --force-new-deployment
+                    aws ecs update-service --cluster $CLUSTER --service $SERVICE --task-definition $SERVICE --force-new-deployment
                     '''
                 }
             }
