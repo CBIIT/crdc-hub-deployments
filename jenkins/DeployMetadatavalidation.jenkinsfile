@@ -164,7 +164,8 @@ pipeline {
                     export NEW_RELIC_LOG_FILE_NAME="STDOUT"
 
                     # Update and register task definition
-                    aws ecs register-task-definition --cli-input-yaml '$(envsubst < $WORKSPACE/aws/ecs/task-definitions/$PROJECT-$APP.yml)'
+                    TASK_DEFINITION=$(envsubst < $WORKSPACE/aws/ecs/task-definitions/$PROJECT-$APP.yml)
+                    aws ecs register-task-definition --cli-input-yaml '$TASK_DEFINITION'
 
                     # Update service
                     aws ecs update-service --cluster $CLUSTER --service $SERVICE --task-definition $SERVICE --desired-count 1 --force-new-deployment
