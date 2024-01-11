@@ -120,10 +120,9 @@ pipeline {
                     export SUMO_LOGIC_URI="/receiver/v1/http/$SUMO_LOGIC_COLLECTOR_TOKEN"
 
                     # Update and register task definition
-                    pushd $WORKSPACE/aws/ecs/task-definitions
-                    envsubst < $PROJECT-$APP.yml > $PROJECT-$APP-deploy.yml
-                    aws ecs register-task-definition --cli-input-yaml file://$PROJECT-$APP-deploy.yml
-                    popd
+                    TASK_DEFINTION_FOLDER=$WORKSPACE/aws/ecs/task-definitions
+                    envsubst < $TASK_DEFINTION_FOLDER/$PROJECT-$APP.yml > $TASK_DEFINTION_FOLDER/$PROJECT-$APP-deploy.yml
+                    aws ecs register-task-definition --cli-input-yaml file://$TASK_DEFINTION_FOLDER/$PROJECT-$APP-deploy.yml
 
                     # Update service
                     aws ecs update-service --cluster $CLUSTER --service $SERVICE --task-definition $SERVICE --desired-count 1 --force-new-deployment
