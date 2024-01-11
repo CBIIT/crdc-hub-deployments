@@ -70,7 +70,8 @@ resource "aws_appautoscaling_target" "extratask_autoscaling_target" {
   for_each                 = var.extratask
   max_capacity       = each.value.scheduled_max_capacity
   min_capacity       = each.value.scheduled_min_capacity
-  resource_id        = "service/${module.ecs.ecs_cluster_arn}/${aws_ecs_service.ecs_service_extra[each.key].name}"
+  #resource_id        = "service/${module.ecs.ecs_cluster_arn}/${aws_ecs_service.ecs_service_extra[each.key].name}"
+  resource_id        = "service/${module.ecs.ecs_cluster_name}/${aws_ecs_service.ecs_service_extra[each.key].name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
   role_arn      = var.role_arn_autoscaling
@@ -82,7 +83,7 @@ resource "aws_appautoscaling_policy" "sqs_scaling_policy" {
   for_each                 = var.policy
   name         = "${var.project}-${var.tier}-${each.value.name}"
   #scaling_target_id = aws_appautoscaling_target.extratask_autoscaling_target[each.key].id
-  resource_id        = aws_appautoscaling_target.extratask_autoscaling_target[each.key].id
+  resource_id        = aws_appautoscaling_target.extratask_autoscaling_target[each.key].resource_id
   scalable_dimension = aws_appautoscaling_target.extratask_autoscaling_target[each.key].scalable_dimension
   service_namespace  = aws_appautoscaling_target.extratask_autoscaling_target[each.key].service_namespace
   policy_type            = "TargetTrackingScaling"
