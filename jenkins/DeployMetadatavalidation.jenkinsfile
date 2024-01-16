@@ -115,8 +115,17 @@ pipeline {
                     export SUMO_LOGIC_COLLECTOR_TOKEN=$(aws secretsmanager get-secret-value --secret-id bento/$PROJECT/$ENV --query SecretString --output text | jq -r '.sumo_collector_token_metadata_validation')
 
 #test the if statement
-                    if [ tier == "dev" ]; then DEV_TIER="indev" elif [ tier == "qa" ]; then DEV_TIER="inqa" elif [ tier == "dev2" ]; then DEV_TIER="indev2" elif [ tier == "stage" ]; then DEV_TIER="instage" else export DEV_TIER="prod fi" 
-                    export DEV_TIER
+                    if [ tier == "dev" ]; then
+                    export DEV_TIER="indev"
+                    elif [ tier == "qa" ]; then
+                    export DEV_TIER="inqa"
+                    elif [ tier == "dev2" ]; then
+                    export DEV_TIER="indev2"
+                    elif [ tier == "stage" ]; then
+                    export DEV_TIER="instage"
+                    else export DEV_TIER="prod"
+                    fi 
+
                     # Update and register task definition
                     TASK_DEFINTION_FOLDER=$WORKSPACE/aws/ecs/task-definitions
                     envsubst < $TASK_DEFINTION_FOLDER/$PROJECT-$APP.yml > $TASK_DEFINTION_FOLDER/$PROJECT-$APP-deploy.yml
