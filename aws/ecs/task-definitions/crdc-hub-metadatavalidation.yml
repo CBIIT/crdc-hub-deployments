@@ -64,6 +64,8 @@ containerDefinitions:
     value: "$PROJECT-$ENV-loader-queue.fifo"
   - name: "METADATA_QUEUE"
     value: "$PROJECT-$ENV-metadata-queue.fifo"
+  - name: "DEV_TIER"
+    value: "$DEV_TIER"
 
   - name: "JAVA_OPTS"
     value: "-javaagent:/usr/local/tomcat/newrelic/newrelic.jar"
