@@ -125,7 +125,14 @@ pipeline {
                     export DEV_TIER="instage"
                     else export DEV_TIER="prod"
                     fi 
-
+     
+                    if [ "$ENV" == "dev" ] or [ "$ENV" == "dev2" ]; then
+                    export SCHEDULE_JOB="0 * * * * *"
+                    elif [ "$ENV" == "qa" ]; then
+                    export SCHEDULE_JOB="0 */5 * * * *"
+                    else export SCHEDULE_JOB="0 0 0 * * *"
+                    fi
+                    
                     # Update and register task definition
                     TASK_DEFINTION_FOLDER=$WORKSPACE/aws/ecs/task-definitions
                     envsubst < $TASK_DEFINTION_FOLDER/$PROJECT-$APP.yml > $TASK_DEFINTION_FOLDER/$PROJECT-$APP-deploy.yml
