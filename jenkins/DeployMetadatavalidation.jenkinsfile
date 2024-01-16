@@ -126,7 +126,7 @@ pipeline {
                     else export DEV_TIER="prod"
                     fi 
      
-                    if [ "$ENV" == "dev" or "dev2" ]; then
+                    if [ "$ENV" == "dev" ] || [ "$ENV" == "dev2" ]; then
                     export SCHEDULE_JOB="0 * * * * *"
                     elif [ "$ENV" == "qa" ]; then
                     export SCHEDULE_JOB="0 */5 * * * *"
