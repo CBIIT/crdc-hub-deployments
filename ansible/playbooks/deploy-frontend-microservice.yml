@@ -106,8 +106,6 @@
             value: "{{nih_authorize_url}}"
           - name: REACT_APP_NIH_REDIRECT_URL
             value: "{{nih_redirect_url}}"
-          - name: REACT_APP_NIH_REDIRECT_URL
-            value: "{{nih_redirect_url}}"
           - name: REACT_APP_UPLOADER_CLI
             value: "{{cli_zip_file}}"
           - name: DEV_TIER
