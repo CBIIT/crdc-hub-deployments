@@ -56,7 +56,7 @@
         sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
         sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_metadata_validation', nested=true, region='us-east-1' ) }}"
         container_port: 8089 
-        container_memory: 1024
+        container_memory: 2048
         container_cpu: 512
         ecr_repo: "{{ecr_central_account_id}}.dkr.ecr.{{ region }}.amazonaws.com"
         container_image_url: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}"
