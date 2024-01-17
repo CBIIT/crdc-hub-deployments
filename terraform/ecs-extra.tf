@@ -2,6 +2,7 @@
 resource "aws_cloudwatch_log_group" "extra_task_log_group" {
   for_each   =  var.extratask
   name = "/${var.project}/${var.tier}/${each.value.name}"
+  retention_in_days = 120
 }
 
 #task definition
@@ -70,7 +71,7 @@ resource "aws_ecs_service" "ecs_service_extra" {
 #  for_each                 = var.extratask
 #  max_capacity       = each.value.scheduled_max_capacity
 #  min_capacity       = each.value.scheduled_min_capacity
-#  resource_id        = "service/${module.ecs.ecs_cluster_arn}/${aws_ecs_service.ecs_service_extra[each.key].name}"
+#  resource_id        = "service/${module.ecs.ecs_cluster_name}/${aws_ecs_service.ecs_service_extra[each.key].name}"
 #  scalable_dimension = "ecs:service:DesiredCount"
 #  service_namespace  = "ecs"
 #  role_arn      = var.role_arn_autoscaling
