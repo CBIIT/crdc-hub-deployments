@@ -25,3 +25,7 @@ services:
     version: 1.0.0.12
     image: 1.0.0.12
     buildNumber: '12'
+  exportvalidation:
+    version: 1.0.0.22
+    image: 1.0.0.22
+    buildNumber: '22'
