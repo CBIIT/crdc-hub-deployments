@@ -26,6 +26,6 @@ services:
     image: 1.0.0.24
     buildNumber: '24'
   exportvalidation:
-    version: 1.0.0.22
-    image: 1.0.0.22
-    buildNumber: '22'
+    version: 1.0.0.24
+    image: 1.0.0.24
+    buildNumber: '24'
