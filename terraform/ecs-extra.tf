@@ -79,7 +79,7 @@ data "aws_iam_policy_document" "protection_ecs_task" {
       "ecs:UpdateTaskProtection",
       "ecs:GetTaskProtection"
     ]
-    resources = ["arn:aws:ecs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:task/[aws_ecs_cluster.ecs_cluster.name]/*"]
+    resources = ["arn:aws:ecs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:task/${module.ecs.ecs_cluster_name}/*"]
   }
 }
 
