@@ -41,7 +41,7 @@ pipeline {
         stage('checkout') {
             steps {
                 checkout([$class: 'GitSCM',
-                          branches: [[name: '*/deployment-without-ansible']],
+                          branches: [[name: '*/main']],
                           doGenerateSubmoduleConfigurations: false,
                           extensions: [[$class: 'RelativeTargetDirectory',
                                         relativeTargetDir: 'playbooks']],
