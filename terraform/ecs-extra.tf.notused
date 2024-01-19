@@ -11,4 +11,5 @@ module "ecs-extra" {
   ecs_scheduling_strategy_extra  = var.ecs_scheduling_strategy_extra
   extratask                 = var.extratask
   policy                    = var.policy
+  execution_role_arn       = module.ecs.ecs_task_execution_role_arn
 }
