@@ -13,8 +13,8 @@ containerDefinitions:
   logConfiguration:
     logDriver: awslogs 
     options:
-      awslogs-group: "/ecs/{{ project_name }}/{{ tier }}/logs"
-      awslogs-region: "{{ region }}"
+      awslogs-group: "/ecs/$PROJECT/$ENV/logs"
+      awslogs-region: "$REGION"
       awslogs-create-group: "true"
       awslogs-stream-prefix: "$SERVICE" 
 
@@ -109,7 +109,7 @@ containerDefinitions:
 #      #   valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:bento/$PROJECT/$ENV:sumo_collector_uri_metadata_validation::"
     logDriver: awslogs
     options:
-      awslogs-group: "/ecs/{{ project_name }}/{{ tier }}/logs"
-      awslogs-region: "{{ region }}"
+      awslogs-group: "/ecs/$PROJECT/$ENV/logs"
+      awslogs-region: "$REGION"
       awslogs-create-group: "true"
       awslogs-stream-prefix: "$SERVICE"
