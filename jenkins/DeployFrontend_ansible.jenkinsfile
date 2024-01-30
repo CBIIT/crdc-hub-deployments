@@ -136,11 +136,13 @@ pipeline {
 	    environment {
             FE_VERSION = "${params.ImageTag}"
             BE_VERSION = getVersion(service: "backend",deploymentFile: "${PROJECT}-deployments/deployments.yaml")
+			UPLOAD_CLI_VERSION = getServiceProperty(service: "frontend",pro)
         }
 
  		steps {
 
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+				sh "echo Testing get properties $UPLOAD_CLI_VERSION"
                 ansiblePlaybook(
 					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/deploy-frontend-microservice.yml", 
             		inventory: "${WORKSPACE}/playbooks/ansible/playbooks/hosts",
