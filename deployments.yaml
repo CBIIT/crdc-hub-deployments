@@ -9,6 +9,7 @@ services:
     version: mvp-2.1.0.231
     image: mvp-2.1.0.231
     buildNumber: '231'
+    uploadCliVersion: 'testing-version'
   authn:
     version: 1.0.0.90
     image: 1.0.0.90
