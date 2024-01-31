@@ -62,7 +62,7 @@
         container_memory: "512"
         container_cpu: "256"
         container_image_url: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}"
-        backend_google_analytics_id: "UA-154442677-1"
+#        backend_google_analytics_id: "UA-154442677-1"
         container_env:
           # API URLs
           - name: REACT_APP_BACKEND_API
@@ -91,8 +91,8 @@
           - name: NEW_RELIC_LABELS
             value: "Project:{{ project_name }};Environment:{{ tier }}"
           # Analytics
-          - name: REACT_APP_GA_TRACKING_ID
-            value: "{{ backend_google_analytics_id }}"
+#          - name: REACT_APP_GA_TRACKING_ID
+#            value: "{{ backend_google_analytics_id }}"
           # NIH Login Config
           - name: NIH_CLIENT_ID
             value: "{{nih_client_id}}"
