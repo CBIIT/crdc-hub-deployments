@@ -1,5 +1,5 @@
-// @Library('datacommons-jenkins-shared-library@v1.2') _
-@Library('datacommons-jenkins-shared-library@upload') _
+@Library('datacommons-jenkins-shared-library@v1.2') _
+// @Library('datacommons-jenkins-shared-library@upload') _
 
 pipeline {
 	agent {
@@ -137,7 +137,7 @@ pipeline {
 	    environment {
             FE_VERSION = "${params.ImageTag}"
             BE_VERSION = getVersion(service: "backend",deploymentFile: "${PROJECT}-deployments/deployments.yaml")
-			UPLOAD_CLI_VERSION = getServiceProperty(service: "frontend", property: "uploadCliVersion", deploymentFile: "${PROJECT}-deployments/deployments.yaml")
+			//UPLOAD_CLI_VERSION = getServiceProperty(service: "frontend", property: "uploadCliVersion", deploymentFile: "${PROJECT}-deployments/deployments.yaml")
         }
 
  		steps {
