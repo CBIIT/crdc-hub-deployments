@@ -18,9 +18,9 @@ services:
     image: 1.0.0.33
     buildNumber: '33'
   essentialvalidation:
-    version: 1.0.0.32
-    image: 1.0.0.32
-    buildNumber: '32'
+    version: 1.0.0.33
+    image: 1.0.0.33
+    buildNumber: '33'
   metadatavalidation:
     version: 1.0.0.32
     image: 1.0.0.32
