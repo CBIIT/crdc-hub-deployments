@@ -141,7 +141,7 @@ pipeline {
         }
 
  		steps {
-			sh "echo proverty value is UPLOAD_CLI_VERSION"
+			sh "echo proverty value is $UPLOAD_CLI_VERSION"
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                 ansiblePlaybook(
 					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/deploy-frontend-microservice.yml", 
