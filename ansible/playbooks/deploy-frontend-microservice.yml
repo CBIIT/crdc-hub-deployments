@@ -38,9 +38,10 @@
         container_name: "frontend"
         frontend_version: "{{ lookup('env','FE_VERSION') }}"
         backend_version: "{{ lookup('env','BE_VERSION') }}"
+        upload_cli_version: "{{ lookup('env','UPLOAD_CLI_VERSION') }}" 
         image_version: "{{ frontend_version }}"
         tier: "{{ tier }}"
-        cli_zip_file: "https://github.com/CBIIT/crdc-datahub-cli-uploader/releases/download/1.0.0-alpha-2/crdc-datahub-cli-uploader.zip"
+        cli_zip_file: "https://github.com/CBIIT/crdc-datahub-cli-uploader/releases/download/{{upload_cli_version}}/crdc-datahub-cli-uploader.zip"
         ## roles
         execution_role: "{% if iam_prefix is defined and iam_prefix != '' %}{{ iam_prefix }}-{{ project_name }}-{{ tier }}-ecs-task-execution-role{% else %}{{ project_name }}-{{ tier }}-task-execution-role{% endif %}"
         task_role: "{% if iam_prefix is defined and iam_prefix != '' %}{{ iam_prefix }}-{{ project_name }}-{{ tier }}-ecs-task-role{% else %}{{ project_name }}-{{ tier }}-task-role{% endif %}"
