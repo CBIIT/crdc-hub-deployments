@@ -137,7 +137,7 @@ pipeline {
 	    environment {
             FE_VERSION = "${params.ImageTag}"
             BE_VERSION = getVersion(service: "backend",deploymentFile: "${PROJECT}-deployments/deployments.yaml")
-			UPLOAD_CLI_VERSION = getServiceProperty(service: "frontend", item: "uploadCliVersion", deploymentFile: "${PROJECT}-deployments/deployments.yaml")
+			UPLOAD_CLI_VERSION = getServiceProperty(service: "frontend", property: "uploadCliVersion", deploymentFile: "${PROJECT}-deployments/deployments.yaml")
         }
 
  		steps {
