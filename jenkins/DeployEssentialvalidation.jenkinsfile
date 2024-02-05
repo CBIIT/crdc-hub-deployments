@@ -27,7 +27,7 @@ pipeline {
 
     environment {
         PROJECT = 'crdc-hub'
-        APP = 'metadatavalidation'
+        APP = 'essentialvalidation'
         SLACK_SECRET = 'crdcdh_slack_url'
         REGION = 'us-east-1'
         ECR_REPO = "${env.PROJECT}-${env.APP}"
@@ -111,8 +111,8 @@ pipeline {
                     export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
                     export DEPLOY_DATE="$(date -I)"
 
-                    # We can eliminate the line below if we store the full sumo_collector_uri_metadata_validation in secrets manager
-                    export SUMO_LOGIC_COLLECTOR_TOKEN=$(aws secretsmanager get-secret-value --secret-id bento/$PROJECT/$ENV --query SecretString --output text | jq -r '.sumo_collector_token_metadata_validation')
+                    # We can eliminate the line below if we store the full sumo_collector_uri_essential_validation in secrets manager
+                    export SUMO_LOGIC_COLLECTOR_TOKEN=$(aws secretsmanager get-secret-value --secret-id bento/$PROJECT/$ENV --query SecretString --output text | jq -r '.sumo_collector_token_essential_validation')
 
 #test the if statement
                     #if [ "$ENV" == "dev" ]; then
