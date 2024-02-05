@@ -10,7 +10,7 @@ services:
     image: mvp-2.1.0.239
     buildNumber: '239'
     additionalProperties:
-      uploadCliVersion: 1.0.0 Alpha-3
+      uploadCliVersion: 1.0.0-alpha-3
   authn:
     version: 1.0.0.90
     image: 1.0.0.90
