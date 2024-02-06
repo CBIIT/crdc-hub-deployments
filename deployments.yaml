@@ -9,6 +9,8 @@ services:
     version: mvp-2.1.0.240
     image: mvp-2.1.0.240
     buildNumber: '240'
+    additionalProperties:
+      uploadCliVersion: 1.0.0 Alpha-3
   authn:
     version: 1.0.0.90
     image: 1.0.0.90
