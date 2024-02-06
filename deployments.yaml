@@ -22,9 +22,9 @@ services:
     image: 1.0.0.35
     buildNumber: '35'
   metadatavalidation:
-    version: 1.0.0.34
-    image: 1.0.0.34
-    buildNumber: '34'
+    version: 1.0.0.35
+    image: 1.0.0.35
+    buildNumber: '35'
   exportvalidation:
     version: 1.0.0.34
     image: 1.0.0.34
