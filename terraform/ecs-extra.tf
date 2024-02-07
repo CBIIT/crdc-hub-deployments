@@ -66,6 +66,37 @@ resource "aws_ecs_service" "ecs_service_extra" {
   
 }
 
+# adding the update and get status of the protection task policy to the ecs exec role
+
+data "aws_iam_role" "protection_ecs_task_role" {
+  name = local.task_role_name
+  depends_on = [module.ecs]
+}
+
+data "aws_iam_policy_document" "protection_ecs_task" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecs:UpdateTaskProtection",
+      "ecs:GetTaskProtection"
+    ]
+    resources = ["arn:aws:ecs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:task/${module.ecs.ecs_cluster_name}/*"]
+  }
+}
+
+#use the document in the policy
+resource "aws_iam_policy" "protection_ecs_task_policy" {
+  name    = "power-user-${var.tier}-protection-ecs-task-policy"
+  policy = data.aws_iam_policy_document.protection_ecs_task.json
+}
+
+ttach the iam protection policy to the ecs task role
+resource "aws_iam_policy_attachment" "attach_protection_ecs_task" {
+  name = "protection-ecs-task-policy-attach"
+  roles = [data.aws_iam_role.protection_ecs_task_role.name]
+  policy_arn = aws_iam_policy.protection_ecs_task_policy.arn
+}
+
 # adding the metrics to scale in/out
 #resource "aws_appautoscaling_target" "extratask_autoscaling_target" {
 #  for_each                 = var.extratask
