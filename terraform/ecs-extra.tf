@@ -90,7 +90,7 @@ resource "aws_iam_policy" "protection_ecs_task_policy" {
   policy = data.aws_iam_policy_document.protection_ecs_task.json
 }
 
-ttach the iam protection policy to the ecs task role
+#attach the iam protection policy to the ecs task role
 resource "aws_iam_policy_attachment" "attach_protection_ecs_task" {
   name = "protection-ecs-task-policy-attach"
   roles = [data.aws_iam_role.protection_ecs_task_role.name]
