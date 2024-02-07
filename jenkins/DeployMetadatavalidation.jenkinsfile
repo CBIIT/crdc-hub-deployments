@@ -139,7 +139,7 @@ pipeline {
                     aws ecs register-task-definition --cli-input-yaml file://$TASK_DEFINTION_FOLDER/$PROJECT-$APP-deploy.yml
 
                     # Update service
-                    aws ecs update-service --cluster $CLUSTER --service $SERVICE --task-definition $SERVICE --desired-count 2 --deployment-configuration "maximumPercent=600,minimumHealthyPercent=50,deploymentCircuitBreaker={enable=true,rollback=false}" --force-new-deployment
+                    aws ecs update-service --cluster $CLUSTER --service $SERVICE --task-definition $SERVICE --desired-count 1 --deployment-configuration "maximumPercent=200,minimumHealthyPercent=50,deploymentCircuitBreaker={enable=true,rollback=false}" --force-new-deployment
                     '''
                 }
             }
