@@ -6,26 +6,28 @@ services:
     image: 2.1.0.312
     buildNumber: '312'
   frontend:
-    version: mvp-2.1.0.245
-    image: mvp-2.1.0.245
-    buildNumber: '245'
+    version: mvp-2.1.0.250
+    image: mvp-2.1.0.250
+    buildNumber: '250'
+    additionalProperties:
+      uploadCliVersion: 1.1.0-alpha-1
   authn:
     version: 1.0.0.90
     image: 1.0.0.90
     buildNumber: '90'
   filevalidation:
-    version: 1.0.0.36
-    image: 1.0.0.36
-    buildNumber: '36'
+    version: 1.0.0.43
+    image: 1.0.0.43
+    buildNumber: '43'
   essentialvalidation:
-    version: 1.0.0.36
-    image: 1.0.0.36
-    buildNumber: '36'
+    version: 1.0.0.43
+    image: 1.0.0.43
+    buildNumber: '43'
   metadatavalidation:
-    version: 1.0.0.36
-    image: 1.0.0.36
-    buildNumber: '36'
+    version: 1.0.0.43
+    image: 1.0.0.43
+    buildNumber: '43'
   exportvalidation:
-    version: 1.0.0.36
-    image: 1.0.0.36
-    buildNumber: '36'
+    version: 1.0.0.43
+    image: 1.0.0.43
+    buildNumber: '43'
