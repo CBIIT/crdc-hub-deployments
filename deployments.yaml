@@ -6,9 +6,9 @@ services:
     image: 2.1.0.312
     buildNumber: '312'
   frontend:
-    version: mvp-2.1.0.249
-    image: mvp-2.1.0.249
-    buildNumber: '249'
+    version: mvp-2.1.0.250
+    image: mvp-2.1.0.250
+    buildNumber: '250'
     additionalProperties:
       uploadCliVersion: 1.1.0-alpha-1
   authn:
