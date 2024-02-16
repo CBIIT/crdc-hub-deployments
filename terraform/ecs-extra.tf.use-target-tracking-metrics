@@ -112,84 +112,27 @@ resource "aws_appautoscaling_target" "extratask_autoscaling_target" {
   depends_on = [aws_ecs_service.ecs_service_extra]
 }
 
-# adding autoscaling policy for scale-out using step scaling policy
-resource "aws_appautoscaling_policy" "sqs_scaling_out_policy" {
+# adding autoscaling policy
+resource "aws_appautoscaling_policy" "sqs_scaling_policy" {
   for_each                 = var.policy
-  name         = "${var.project}-${var.tier}-${each.value.name}-scale-out"
+  name         = "${var.project}-${var.tier}-${each.value.name}"
   #scaling_target_id = aws_appautoscaling_target.extratask_autoscaling_target[each.key].id
   resource_id        = aws_appautoscaling_target.extratask_autoscaling_target[each.key].resource_id
   scalable_dimension = aws_appautoscaling_target.extratask_autoscaling_target[each.key].scalable_dimension
   service_namespace  = aws_appautoscaling_target.extratask_autoscaling_target[each.key].service_namespace
-  policy_type            = "StepScaling"
-  step_scaling_policy_configuration {
-    adjustment_type         = "ChangeInCapacity"
-    cooldown =  10 # in sec
-    metric_aggregation_type = "Minimum"
-    step_adjustment {
-      metric_interval_lower_bound = 0
-      metric_interval_upper_bound = 10
-      scaling_adjustment         = 2
+  policy_type            = "TargetTrackingScaling"
+  target_tracking_scaling_policy_configuration {
+    customized_metric_specification {
+      dimensions {  
+        name = "QueueName"
+        value = "${var.project}-${var.tier}-${each.value.name}.fifo"
+      }
+      metric_name = "ApproximateNumberOfMessagesVisible"
+      namespace = "AWS/SQS"
+      statistic = "Minimum"
+      unit  = "Count"
     }
-
-    step_adjustment {
-      metric_interval_lower_bound = 10
-      scaling_adjustment         = 10
-    }
-  }
-}
-
-#adding cloudwatch alarm for scale-out
-resource "aws_cloudwatch_metric_alarm" "alarm_sqs_scaling_out" {
-  for_each                 = var.policy
-  alarm_name = "${var.project}-${var.tier}-${each.value.name}-out-alarm"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = 2
-  metric_name = "ApproximateNumberOfMessagesVisible"
-  namespace = "AWS/SQS"
-  period = 10
-  statistic = "Minimum"
-  threshold = 1
-#  action_enabled = true
-  alarm_actions = [aws_appautoscaling_policy.sqs_scaling_out_policy[each.key].arn]
-  dimensions = {
-    QueueName = "${var.project}-${var.tier}-${each.value.name}.fifo"
-  }
-}
-
-#adding autoscaling policy for scale-in
-resource "aws_appautoscaling_policy" "sqs_scaling_in_policy" {
-  for_each                 = var.policy
-  name         = "${var.project}-${var.tier}-${each.value.name}-scale-in"
-  #scaling_target_id = aws_appautoscaling_target.extratask_autoscaling_target[each.key].id
-  resource_id        = aws_appautoscaling_target.extratask_autoscaling_target[each.key].resource_id
-  scalable_dimension = aws_appautoscaling_target.extratask_autoscaling_target[each.key].scalable_dimension
-  service_namespace  = aws_appautoscaling_target.extratask_autoscaling_target[each.key].service_namespace
-  policy_type            = "StepScaling"
-  step_scaling_policy_configuration {
-    adjustment_type         = "ChangeInCapacity"
-    cooldown =  10 # in sec
-    metric_aggregation_type = "Maximum"
-    step_adjustment {
-      metric_interval_lower_bound = 0
-      scaling_adjustment         = -1
-    }
-  }
-}
-
-#adding cloudwatch alarm for scale-in
-resource "aws_cloudwatch_metric_alarm" "alarm_sqs_scaling_in" {
-  for_each                 = var.policy
-  alarm_name = "${var.project}-${var.tier}-${each.value.name}-in-alarm"
-  comparison_operator = "LessThanThreshold"
-  evaluation_periods  = 3
-  metric_name = "ApproximateNumberOfMessagesVisible"
-  namespace = "AWS/SQS"
-  period = 10
-  statistic = "Maximum"
-  threshold = 0
-#  action_enabled = true
-  alarm_actions = [aws_appautoscaling_policy.sqs_scaling_in_policy[each.key].arn]
-  dimensions = {
-    QueueName = "${var.project}-${var.tier}-${each.value.name}.fifo"
+    target_value = 0.95
+    scale_in_cooldown = 5
   }
 }
