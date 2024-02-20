@@ -2,18 +2,18 @@ Notes: Jenkins pipeline
 project: crdc-dh
 services:
   backend:
-    version: 1.0.0.124
-    image: 1.0.0.124
-    buildNumber: '124'
+    version: 2.0.0.301
+    image: 2.0.0.301
+    buildNumber: '301'
   frontend:
-    version: v1.0.1.180
-    image: v1.0.1.180
-    buildNumber: '180'
+    version: mvp-2.213
+    image: mvp-2.213
+    buildNumber: '213'
   authn:
-    version: 1.0.0.90
-    image: 1.0.0.90
-    buildNumber: '90'
+    version: 2.0.0.99
+    image: 2.0.0.99
+    buildNumber: '99'
   authz:
-    version: 1.0.0.42
-    image: 1.0.0.42
-    buildNumber: '42'
+    version: 2.0.0.69
+    image: 2.0.0.69
+    buildNumber: '69'
