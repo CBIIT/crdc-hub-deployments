@@ -2,9 +2,9 @@ Notes: Jenkins pipeline
 project: crdc-dh
 services:
   backend:
-    version: 2.1.0.325
-    image: 2.1.0.325
-    buildNumber: '325'
+    version: 2.1.0.326
+    image: 2.1.0.326
+    buildNumber: '326'
   frontend:
     version: mvp-2.1.0.258
     image: mvp-2.1.0.258
