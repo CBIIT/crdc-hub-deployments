@@ -96,9 +96,6 @@ resource "aws_iam_policy_attachment" "attach_protection_ecs_task" {
   policy_arn = aws_iam_policy.protection_ecs_task_policy.arn
 }
 
-
-
-
 # adding the metrics to scale in/out
 resource "aws_appautoscaling_target" "extratask_autoscaling_target" {
   for_each                 = var.extratask
@@ -123,17 +120,17 @@ resource "aws_appautoscaling_policy" "sqs_scaling_out_policy" {
   policy_type            = "StepScaling"
   step_scaling_policy_configuration {
     adjustment_type         = "ChangeInCapacity"
-    cooldown =  10 # in sec
+    cooldown = 10  # in sec
     metric_aggregation_type = "Minimum"
     step_adjustment {
-      metric_interval_lower_bound = 0
-      metric_interval_upper_bound = 10
-      scaling_adjustment         = 2
+      metric_interval_lower_bound = each.value.lower1 
+      metric_interval_upper_bound = each.value.upper1
+      scaling_adjustment         = each.value.scale1
     }
 
     step_adjustment {
-      metric_interval_lower_bound = 10
-      scaling_adjustment         = 10
+      metric_interval_lower_bound = each.value.lower2
+      scaling_adjustment         = each.value.scale2
     }
   }
 }
@@ -167,7 +164,7 @@ resource "aws_appautoscaling_policy" "sqs_scaling_in_policy" {
   policy_type            = "StepScaling"
   step_scaling_policy_configuration {
     adjustment_type         = "ChangeInCapacity"
-    cooldown =  10 # in sec
+    cooldown = 10 # in sec
     metric_aggregation_type = "Maximum"
     step_adjustment {
       metric_interval_upper_bound = 0
@@ -180,7 +177,7 @@ resource "aws_appautoscaling_policy" "sqs_scaling_in_policy" {
 resource "aws_cloudwatch_metric_alarm" "alarm_sqs_scaling_in" {
   for_each                 = var.policy
   alarm_name = "${var.project}-${var.tier}-${each.value.name}-in-alarm"
-  comparison_operator = "LessThanThreshold"
+  comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods  = 3
   metric_name = "ApproximateNumberOfMessagesVisible"
   namespace = "AWS/SQS"

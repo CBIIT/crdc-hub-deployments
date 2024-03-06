@@ -422,5 +422,10 @@ variable "extratask" {
 variable "policy" {
   type = map(object({
     name      = string
+    lower1    = number
+    upper1    = number
+    scale1    = number
+    lower2    = number
+    scale2    = number
   }))
 }
