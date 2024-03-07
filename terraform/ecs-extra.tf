@@ -2,6 +2,7 @@
 resource "aws_cloudwatch_log_group" "extra_task_log_group" {
   for_each   =  var.extratask
   name = "/${var.project}/${var.tier}/${each.value.name}"
+  retention_in_days = 120
 }
 
 #task definition
