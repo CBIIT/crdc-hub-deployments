@@ -12,9 +12,9 @@ services:
     additionalProperties:
       uploadCliVersion: 1.1.0-alpha-1
   authn:
-    version: 2.1.0.103
-    image: 2.1.0.103
-    buildNumber: '103'
+    version: 2.1.0.105
+    image: 2.1.0.105
+    buildNumber: '105'
   filevalidation:
     version: 1.0.0.66
     image: 1.0.0.66
