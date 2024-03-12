@@ -6,9 +6,9 @@ services:
     image: 2.1.0.331
     buildNumber: '331'
   frontend:
-    version: mvp-2.1.0.269
-    image: mvp-2.1.0.269
-    buildNumber: '269'
+    version: mvp-2.1.0.270
+    image: mvp-2.1.0.270
+    buildNumber: '270'
     additionalProperties:
       uploadCliVersion: 1.1.0-alpha-1
   authn:
@@ -16,18 +16,18 @@ services:
     image: 2.1.0.105
     buildNumber: '105'
   filevalidation:
-    version: 1.0.0.67
-    image: 1.0.0.67
-    buildNumber: '67'
+    version: 1.0.0.69
+    image: 1.0.0.69
+    buildNumber: '69'
   essentialvalidation:
-    version: 1.0.0.67
-    image: 1.0.0.67
-    buildNumber: '67'
+    version: 1.0.0.69
+    image: 1.0.0.69
+    buildNumber: '69'
   metadatavalidation:
-    version: 1.0.0.67
-    image: 1.0.0.67
-    buildNumber: '67'
+    version: 1.0.0.69
+    image: 1.0.0.69
+    buildNumber: '69'
   exportvalidation:
-    version: 1.0.0.67
-    image: 1.0.0.67
-    buildNumber: '67'
+    version: 1.0.0.69
+    image: 1.0.0.69
+    buildNumber: '69'
