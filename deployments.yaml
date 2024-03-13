@@ -24,9 +24,9 @@ services:
     image: 1.0.0.71
     buildNumber: '71'
   metadatavalidation:
-    version: 1.0.0.70
-    image: 1.0.0.70
-    buildNumber: '70'
+    version: 1.0.0.71
+    image: 1.0.0.71
+    buildNumber: '71'
   exportvalidation:
     version: 1.0.0.70
     image: 1.0.0.70
