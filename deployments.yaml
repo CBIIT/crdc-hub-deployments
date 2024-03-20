@@ -28,6 +28,6 @@ services:
     image: 1.0.0.80
     buildNumber: '80'
   exportvalidation:
-    version: 1.0.0.79
-    image: 1.0.0.79
-    buildNumber: '79'
+    version: 1.0.0.80
+    image: 1.0.0.80
+    buildNumber: '80'
