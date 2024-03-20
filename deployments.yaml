@@ -20,9 +20,9 @@ services:
     image: 1.0.0.81
     buildNumber: '81'
   essentialvalidation:
-    version: 1.0.0.80
-    image: 1.0.0.80
-    buildNumber: '80'
+    version: 1.0.0.81
+    image: 1.0.0.81
+    buildNumber: '81'
   metadatavalidation:
     version: 1.0.0.80
     image: 1.0.0.80
