@@ -9,7 +9,8 @@ services:
     version: 3.0.0.279
     image: 3.0.0.279
     buildNumber: '279'
-    additionalProperties: null
+    additionalProperties:
+      uploadCliVersion: 1.1.0-alpha-2
   authn:
     version: 2.1.0.107
     image: 2.1.0.107
