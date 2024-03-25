@@ -11,9 +11,9 @@ services:
     buildNumber: '279'
     additionalProperties: null
   authn:
-    version: 2.0.0.99
-    image: 2.0.0.99
-    buildNumber: '99'
+    version: 2.1.0.107
+    image: 2.1.0.107
+    buildNumber: '107'
   authz:
     version: 2.0.0.69
     image: 2.0.0.69
