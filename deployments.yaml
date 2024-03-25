@@ -6,9 +6,10 @@ services:
     image: 2.0.0.301
     buildNumber: '301'
   frontend:
-    version: mvp-2.213
-    image: mvp-2.213
-    buildNumber: '213'
+    version: 3.0.0.279
+    image: 3.0.0.279
+    buildNumber: '279'
+    additionalProperties: null
   authn:
     version: 2.0.0.99
     image: 2.0.0.99
