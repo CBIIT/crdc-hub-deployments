@@ -31,3 +31,7 @@ services:
     version: 1.0.0.83
     image: 1.0.0.83
     buildNumber: '83'
+  exportvalidation:
+    version: 1.0.0.83
+    image: 1.0.0.83
+    buildNumber: '83'
