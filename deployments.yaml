@@ -24,9 +24,9 @@ services:
     image: 2.0.0.87
     buildNumber: '87'
   essentialvalidation:
-    version: 1.0.0.83
-    image: 1.0.0.83
-    buildNumber: '83'
+    version: 2.0.0.87
+    image: 2.0.0.87
+    buildNumber: '87'
   metadatavalidation:
     version: 1.0.0.83
     image: 1.0.0.83
