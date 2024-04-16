@@ -13,6 +13,7 @@ resource "aws_sqs_queue" "sqs_queues" {
   "maxReceiveCount": 5
 }
 EOF
+  tags = var.sqs_tags
 }
 
 resource "aws_sqs_queue" "dead_letter_queue" {

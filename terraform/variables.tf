@@ -369,6 +369,10 @@ variable "sqs_queues" {
   }))
 }
 
+variable "sqs_tags" {
+  type = map(string)
+}
+
 #extra ecs for validation
 variable "aws_region" {
   type    = string
@@ -428,4 +432,8 @@ variable "policy" {
     lower2    = number
     scale2    = number
   }))
+}
+
+variable "ecs_extra_tags" {
+  type = map(string)
 }

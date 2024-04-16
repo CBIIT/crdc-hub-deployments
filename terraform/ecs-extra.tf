@@ -37,6 +37,7 @@ resource "aws_ecs_task_definition" "extra_task_definition" {
     }
   ])
 
+  tags = var.ecs_extra_tags
 }
 
 #ecs service
@@ -63,7 +64,7 @@ resource "aws_ecs_service" "ecs_service_extra" {
     subnets          = var.subnet_ids
     assign_public_ip = false
   }
-  
+  tags = var.ecs_extra_tags  
 }
 
 # adding the update and get status of the protection task policy to the ecs exec role 
