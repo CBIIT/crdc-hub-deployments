@@ -6,9 +6,9 @@ services:
     image: 3.0.0.370
     buildNumber: '370'
   frontend:
-    version: 3.0.0.295
-    image: 3.0.0.295
-    buildNumber: '295'
+    version: 3.0.0.299
+    image: 3.0.0.299
+    buildNumber: '299'
     additionalProperties:
       uploadCliVersion: 1.1.0-alpha-2
   authn:
