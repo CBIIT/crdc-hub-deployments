@@ -10,15 +10,11 @@ services:
     image: 3.0.0.303
     buildNumber: '303'
     additionalProperties:
-      uploadCliVersion: 1.1.0-alpha-2
+      uploadCliVersion: 1.1.0-alpha-4
   authn:
     version: 2.1.0.108
     image: 2.1.0.108
     buildNumber: '108'
-  authz:
-    version: 2.0.0.69
-    image: 2.0.0.69
-    buildNumber: '69'
   filevalidation:
     version: 2.0.0.106
     image: 2.0.0.106
