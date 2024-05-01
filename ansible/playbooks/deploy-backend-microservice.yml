@@ -101,7 +101,7 @@
             value: "{% if tier == 'prod' or tier == 'stage' %}0 0 0 * * *{% elif tier == 'dev2' or tier == 'qa2' %}0 */5 * * * *{% else %}0 * * * * *{% endif %}"
           ## Application related
           - name: INACTIVE_USER_DAYS
-            value: "60"
+            value: "365"
           - name: REMIND_APPLICATION_DAYS
             value: "30"
           - name: INACTIVE_APPLICATION_DAYS
