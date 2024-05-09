@@ -20,9 +20,9 @@ services:
     image: 1.0.0.119
     buildNumber: '119'
   essentialvalidation:
-    version: 1.0.0.109
-    image: 1.0.0.109
-    buildNumber: '109'
+    version: 1.0.0.119
+    image: 1.0.0.119
+    buildNumber: '119'
   metadatavalidation:
     version: 1.0.0.111
     image: 1.0.0.111
