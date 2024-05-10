@@ -16,9 +16,9 @@ services:
     image: 2.1.0.108
     buildNumber: '108'
   filevalidation:
-    version: 2.0.0.117
-    image: 2.0.0.117
-    buildNumber: '117'
+    version: 2.0.0.121
+    image: 2.0.0.121
+    buildNumber: '121'
   essentialvalidation:
     version: 2.0.0.117
     image: 2.0.0.117
