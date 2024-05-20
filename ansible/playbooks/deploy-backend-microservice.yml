@@ -28,7 +28,7 @@
     #deploy backend
     - name: deploy stage for backend microservice
       include_role:
-        name: bento.common.ecs_cloudwatch
+        name: bento.common.ecs
         apply:
           environment:
             AWS_RETRY_MODE: "standard"
