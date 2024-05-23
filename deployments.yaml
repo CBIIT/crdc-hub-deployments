@@ -24,9 +24,9 @@ services:
     image: 1.0.0.135
     buildNumber: '135'
   metadatavalidation:
-    version: 1.0.0.129
-    image: 1.0.0.129
-    buildNumber: '129'
+    version: 1.0.0.135
+    image: 1.0.0.135
+    buildNumber: '135'
   exportvalidation:
     version: 1.0.0.129
     image: 1.0.0.129
