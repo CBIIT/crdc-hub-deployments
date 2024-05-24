@@ -122,7 +122,7 @@ resource "aws_appautoscaling_policy" "sqs_scaling_out_policy" {
   policy_type            = "StepScaling"
   step_scaling_policy_configuration {
     adjustment_type         = "ChangeInCapacity"
-    cooldown = 10  # in sec
+    cooldown = 300  # in sec
     metric_aggregation_type = "Minimum"
     step_adjustment {
       metric_interval_lower_bound = each.value.lower1 
