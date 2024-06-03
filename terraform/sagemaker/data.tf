@@ -28,7 +28,10 @@ data "aws_iam_policy_document" "sagemaker_execution_role_policy_doc" {
       "s3:ListBucket",
       "sagemaker:*",
       "cloudwatch:*",
-      "logs:*"
+      "logs:*",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchGetImage",
+      "ecr:GetAuthorizationToken"
     ]
 
     resources = ["arn:aws:s3:::*"]
