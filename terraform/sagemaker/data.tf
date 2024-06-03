@@ -24,13 +24,14 @@ data "aws_iam_policy_document" "sagemaker_execution_role_policy_doc" {
     actions = [
       "s3:GetObject",
       "s3:PutObject",
+      "s3:DeleteObject",
       "s3:ListBucket",
       "sagemaker:*",
       "cloudwatch:*",
       "logs:*"
     ]
 
-    resources = ["*"]
+    resources = ["arn:aws:s3:::*"]
   }
 }
 

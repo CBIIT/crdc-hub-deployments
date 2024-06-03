@@ -14,3 +14,9 @@ resource "aws_iam_role_policy_attachment" "sagemaker_instance_execution_role_att
   role       = aws_iam_role.sagemaker_instance_notebook_role.name
   policy_arn = aws_iam_policy.sagemaker_instance_execution_role_policy.arn
 }
+
+# attach AWS default policy to the role
+resource "aws_iam_role_policy_attachment" "sagemaker_instance_full_access" {
+  role       = aws_iam_role.sagemaker_instance_notebook_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess"
+}
