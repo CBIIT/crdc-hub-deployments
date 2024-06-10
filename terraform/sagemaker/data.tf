@@ -51,6 +51,8 @@ data "aws_iam_policy_document" "sagemaker_permission_admin_role_policy_doc" {
       "arn:aws:sagemaker:*:*:app/*",
       "arn:aws:sagemaker:*:*:flow-definition/*"
     ]
+  }
+  statement {
     effect  = "Allow"
     actions = [
       "iam:GetRole",
