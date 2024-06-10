@@ -38,3 +38,24 @@ data "aws_iam_policy_document" "sagemaker_execution_role_policy_doc" {
   }
 }
 
+data "aws_iam_policy_document" "sagemaker_permission_admin_role_policy_doc" {
+  statement {
+    effect  = "Allow"
+    actions = [
+      "sagemaker:*"
+    ]
+
+    resources = [
+      "arn:aws:sagemaker:*:*:domain/*",
+      "arn:aws:sagemaker:*:*:user-profile/*",
+      "arn:aws:sagemaker:*:*:app/*",
+      "arn:aws:sagemaker:*:*:flow-definition/*"
+    ]
+    effect  = "Allow"
+    actions = [
+      "iam:GetRole",
+      "servicecatalog:*"
+    ]
+    resources = ["*"]
+  }
+}
