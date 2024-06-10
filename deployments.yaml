@@ -20,9 +20,9 @@ services:
     image: 2.0.0.141
     buildNumber: '141'
   essentialvalidation:
-    version: 2.0.0.121
-    image: 2.0.0.121
-    buildNumber: '121'
+    version: 2.0.0.141
+    image: 2.0.0.141
+    buildNumber: '141'
   metadatavalidation:
     version: 2.0.0.139
     image: 2.0.0.139
