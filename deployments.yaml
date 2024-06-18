@@ -16,18 +16,18 @@ services:
     image: 2.1.0.108
     buildNumber: '108'
   filevalidation:
-    version: 2.0.0.141
-    image: 2.0.0.141
-    buildNumber: '141'
+    version: 2.0.0.146
+    image: 2.0.0.146
+    buildNumber: '146'
   essentialvalidation:
-    version: 2.0.0.141
-    image: 2.0.0.141
-    buildNumber: '141'
+    version: 2.0.0.146
+    image: 2.0.0.146
+    buildNumber: '146'
   metadatavalidation:
-    version: 2.0.0.145
-    image: 2.0.0.145
-    buildNumber: '145'
+    version: 2.0.0.146
+    image: 2.0.0.146
+    buildNumber: '146'
   exportvalidation:
-    version: 2.0.0.141
-    image: 2.0.0.141
-    buildNumber: '141'
+    version: 2.0.0.146
+    image: 2.0.0.146
+    buildNumber: '146'
