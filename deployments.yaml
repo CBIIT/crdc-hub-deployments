@@ -24,9 +24,9 @@ services:
     image: 2.0.0.141
     buildNumber: '141'
   metadatavalidation:
-    version: 2.0.0.141
-    image: 2.0.0.141
-    buildNumber: '141'
+    version: 2.0.0.145
+    image: 2.0.0.145
+    buildNumber: '145'
   exportvalidation:
     version: 2.0.0.141
     image: 2.0.0.141
