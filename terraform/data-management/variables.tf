@@ -26,6 +26,13 @@ variable "s3_tags" {
   type = map(string)
 }
 
+variable "source-account" {
+  type = string
+}
+
+variable "datasync-destination-bucket-name" {
+  type = string
+}
 #variable "target_account_cloudone" {
 #  description = "to add check conditions on whether the resources are brought up in cloudone or not"
 #  type        = bool
