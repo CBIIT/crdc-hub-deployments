@@ -10,7 +10,7 @@ data "aws_iam_policy_document" "s3_data_sync_policy" {
     sid  = "DataSyncCreateS3LocationAndTaskAccess"
     effect = "Allow"
     principals {
-      identifier = ["arn:aws:iam::${var.source-account}:role/datasync-iam-role"]
+      identifiers = ["arn:aws:iam::${var.source-account}:role/datasync-iam-role"]
       type = "AWS"
     }
     actions   = [
