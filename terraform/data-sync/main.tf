@@ -1,39 +1,35 @@
-resource "aws_s3_bucket" "s3_data_management" {
-  bucket        = var.bucket_name
-#  force_destroy = var.s3_force_destroy
-  tags = var.s3_tags
+# create log group
+resource "aws_cloudwatch_log_group" "datasync_log_group" {
+  name = "/aws/datasync/${terraform.workspace}-datasync-log"
 }
 
+# Create DataSync location for source S3 bucket
+resource "aws_datasync_location_s3" "source" {
+  s3_bucket_arn = local.source_bucket_arn
+  subdirectory  = "/"
 
-resource "aws_s3_bucket_public_access_block" "s3_access" {
-  bucket                  = aws_s3_bucket.s3_data_management.id
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
+  s3_config {
+    bucket_access_role_arn = aws_iam_role.datasync-iam-role.arn
+  }
 }
 
-#create s3 bucket policy required for datasync task
-resource "aws_s3_bucket_policy" "s3_data_sync_policy" {
-  bucket = aws_s3_bucket.s3_data_management.id
-  policy = data.aws_iam_policy_document.s3_data_sync_policy.json
+# create DataSync location for destination
+resource "aws_datasync_location_s3" "destination" {
+  s3_bucket_arn = local.destination_bucket_arn
+  subdirectory  = "/"
+  s3_config {
+    bucket_access_role_arn = aws_iam_role.datasync-iam-role.arn
+  }
 }
 
-#resource "aws_s3_bucket_server_side_encryption_configuration" "s3_data_management" {
-#  bucket = aws_s3_bucket.s3_data_management.id
+# Create DataSync task
+resource "aws_datasync_task" "s3_to_s3" {
+  name     = "datasync-task"
+  source_location_arn      = aws_datasync_location_s3.source.arn
+  destination_location_arn = aws_datasync_location_s3.destination.arn
+  cloudwatch_log_group_arn = "arn:aws:logs:${data.aws_caller_identity.current.account_id}:log-group:aws_cloudwatch_log_group.datasync_log_group.name"
 
-#  rule {
-#    apply_server_side_encryption_by_default {
-#      sse_algorithm = "AES256"
-#    }
-#  }
-#}
-
-
-#resource "aws_s3_bucket_versioning" "s3_data_management" {
-#  bucket = aws_s3_bucket.s3_data_management.id
-#
-#  versioning_configuration {
-#    status = var.s3_versioning_status
-#  }
-#}
+  options {
+    verify_mode = "POINT_IN_TIME_CONSISTENT"
+  }
+}

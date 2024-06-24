@@ -1,4 +1,37 @@
 # global variables
+variable "datasync-destination-bucket-name" {
+  description = "destination bucket  name"
+  type = string
+}
+variable "datasync-source-bucket-name" {
+  description = "source bucket name"
+  type = string
+}
+
+variable "target_account_cloudone"{
+  description = "to add check conditions on whether the resources are brought up in cloudone or not"
+  type        = bool
+  default     = true
+}
+
+variable "resource_prefix" {
+  description = "the prefix to add when creating resources"
+  type        = string
+}
+
+variable "use_custom_trust_policy" {
+  type = bool
+  description = "use custom role trust policy"
+  default = false
+}
+
+variable "custom_trust_policy" {
+  type = string
+  description = "custom role trust policy"
+  default = null
+}
+
+
 #variable "project" {
 #  description = "name of the project"
 #  type        = string

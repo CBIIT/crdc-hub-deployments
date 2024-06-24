@@ -5,7 +5,7 @@ data "aws_region" "current" {}
 
 #policy for datasync task
 
-data "aws_iam_policy_document" "data_sync_policy" {
+data "aws_iam_policy_document" "datasync-policy" {
   statement {
     sid  = "AllowDataSync"
     effect = "Allow"
@@ -43,7 +43,7 @@ data "aws_iam_policy_document" "data_sync_policy" {
 }
 
 # policy for datasync access
-data "aws_iam_policy_document" "data_sync_s3_access" {
+data "aws_iam_policy_document" "datasync-s3-access" {
   statement {
     effect = "Allow"
     sid = "AllowListBucket"
