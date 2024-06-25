@@ -6,8 +6,7 @@ resource "aws_cloudwatch_log_group" "datasync_log_group" {
 # Create DataSync location for source S3 bucket
 resource "aws_datasync_location_s3" "source" {
   s3_bucket_arn = local.source_bucket_arn
-  subdirectory  = "/"
-
+#  subdirectory  = "/"
   s3_config {
     bucket_access_role_arn = aws_iam_role.datasync-iam-role.arn
   }
@@ -16,7 +15,7 @@ resource "aws_datasync_location_s3" "source" {
 # create DataSync location for destination
 resource "aws_datasync_location_s3" "destination" {
   s3_bucket_arn = local.destination_bucket_arn
-  subdirectory  = "/"
+#  subdirectory  = "/"
   s3_config {
     bucket_access_role_arn = aws_iam_role.datasync-iam-role.arn
   }
@@ -32,4 +31,5 @@ resource "aws_datasync_task" "s3_to_s3" {
   options {
     verify_mode = "POINT_IN_TIME_CONSISTENT"
   }
+  tags  = var.datasync_tags
 }

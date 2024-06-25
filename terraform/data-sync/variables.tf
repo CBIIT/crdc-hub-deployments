@@ -40,10 +40,9 @@ variable "custom_trust_policy" {
 #variable "tier" {
 #  type = string
 #}
-#variable "tags" {
-#  description = "tags to associate with this instance"
-#  type        = map(string)
-#}
+variable "datasync_tags" {
+  type        = map(string)
+}
 
 variable "region" {
   description = "aws region to use for this resource"
@@ -66,11 +65,6 @@ variable "source-account" {
 variable "datasync-destination-bucket-name" {
   type = string
 }
-#variable "target_account_cloudone" {
-#  description = "to add check conditions on whether the resources are brought up in cloudone or not"
-#  type        = bool
-#  default     = true
-#}
 
 #variable "iam_prefix" {
 #  type        = string
@@ -84,51 +78,11 @@ variable "datasync-destination-bucket-name" {
 #  type        = bool
 #}
 
-# Cloudfront
-#variable "alarms" {
-#  description = "alarms to be configured"
-#  type        = map(map(string))
-#}
-
-#variable "cloudfront_distribution_bucket_name" {
-#  description = "specify the name of s3 bucket for cloudfront"
-#  type        = string
-#}
-
-#variable "cloudfront_log_path_prefix_key" {
-#  description = "path prefix to where cloudfront send logs to s3 bucket"
-#  type        = string
-#  default     = "cloudfront/logs"
-#}
-
-#variable "cloudfront_origin_acess_identity_description" {
-#  description = "description for OAI"
-#  type        = string
-#  default     = "cloudfront origin access identify for s3"
-#}
-
-#variable "cloudfront_slack_channel_name" {
-#  type        = string
-#  description = "cloudfront slack name"
-#}
-
-#variable "create_cloudfront" {
-#  description = "create cloudfront or not"
-#  type        = bool
-#  default     = false
-#}
-
 #variable "create_files_bucket" {
 #  description = "indicate if you want to create files bucket or use existing one"
 #  type        = bool
 #  default     = false
 #}
-
-#variable "slack_secret_name" {
-#  type        = string
-#  description = "name of cloudfront slack secret"
-#}
-
 
 
 # Instance Profile
@@ -138,11 +92,6 @@ variable "datasync-destination-bucket-name" {
 #  description = "set to create instance profile"
 #}
 
-#variable "create_cloudwatch_log_policy" {
-#  description = "Due cloudwatch log policy limits, this should be option, we can use an existing policy"
-#  default     = false
-#  type        = bool
-#}
 
 # S3
 #variable "aws_account_id" {
@@ -177,13 +126,3 @@ variable "datasync-destination-bucket-name" {
 #    name  = string
 #    versioning  = string
 ##    eventbridge = bool
-#  }))
-#}
-# Secrets
-#variable "secret_values" {
-#  type = map(object({
-#    secretKey   = string
-#    secretValue = map(string)
-#    description = string
-#  }))
-#}
