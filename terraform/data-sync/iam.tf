@@ -14,7 +14,7 @@ resource "aws_iam_policy" "datasync-policy" {
 
 #attach policies to the datasync iam role
 resource "aws_iam_role_policy_attachment" "datasync" {
-  name       = "power-user-${terraform.workspace}-datasync-attachment"
+#  name       = "power-user-${terraform.workspace}-datasync-attachment"
   role = aws_iam_role.datasync-iam-role.name
   policy_arn = aws_iam_policy.datasync-policy.arn
 }
@@ -35,7 +35,7 @@ resource "aws_iam_policy" "datasync-s3-policy" {
 
 #attach policies to the 2nd role to access s3 in the destination acct
 resource "aws_iam_role_policy_attachment" "s3-access" {
-  name       = "power-user-${terraform.workspace}-s3-access-attachment"
+#  name       = "power-user-${terraform.workspace}-s3-access-attachment"
   role = aws_iam_role.datasync-s3-access-role.name
   policy_arn = aws_iam_policy.datasync-s3-policy.arn
 }
