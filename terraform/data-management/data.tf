@@ -10,8 +10,9 @@ data "aws_iam_policy_document" "s3_data_sync_policy" {
     sid  = "DataSyncCreateS3LocationAndTaskAccess"
     effect = "Allow"
     principals {
-      identifiers = ["arn:aws:iam::${var.source-account}:role/datasync-iam-role"]
       type = "AWS"
+    #  identifiers = ["arn:aws:iam::${var.source-account}:role/datasync-iam-role"]
+      identifiers   = [local.trusted_role_arn]
     }
     actions   = [
       "s3:GetBucketLocation",
