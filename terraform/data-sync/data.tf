@@ -25,6 +25,9 @@ data "aws_iam_policy_document" "datasync-policy" {
       "iam:AttachRolePolicy",
       "iam:ListRoles",
       "s3:GetBucketLocation",
+      "s3:ListBucket",
+      "s3:ListObjectsV2",
+      "s3:GetObject",
       "s3:ListAllMyBuckets"
     ]
     resources = ["*"]
@@ -50,6 +53,7 @@ data "aws_iam_policy_document" "datasync-s3-access" {
     actions = [
       "s3:GetBucketLocation",
       "s3:ListBucket",
+      "s3:ListObjectsV2",
       "s3:ListBucketMultipartUploads"
     ]
     resources = [
@@ -66,6 +70,8 @@ data "aws_iam_policy_document" "datasync-s3-access" {
       "s3:ListMultipartUploadParts",
       "s3:PutObject",
       "s3:GetObjectTagging",
+      "s3:ListObjectsV2",
+      "s3:ListBucket",
       "s3:PutObjectTagging"
     ]
     resources = [

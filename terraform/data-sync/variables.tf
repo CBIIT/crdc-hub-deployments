@@ -50,11 +50,12 @@ variable "region" {
   default     = "us-east-1"
 }
 
-variable "bucket_name" {
-  type        = string
-}
 
 variable "s3_tags" {
+  type = map(string)
+}
+
+variable "datasync_tags" {
   type = map(string)
 }
 
@@ -62,9 +63,6 @@ variable "source-account" {
   type = string
 }
 
-variable "datasync-destination-bucket-name" {
-  type = string
-}
 
 #variable "iam_prefix" {
 #  type        = string
