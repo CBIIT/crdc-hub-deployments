@@ -17,7 +17,6 @@ data "aws_iam_policy_document" "s3_data_sync_policy" {
     actions   = [
       "s3:GetBucketLocation",
       "s3:ListBucket",
-      "s3:ListObjectsV2",
       "s3:ListBucketMultipartUploads",
       "s3:AbortMultipartUpload",
       "s3:DeleteObject",

@@ -1,6 +1,6 @@
 locals {
   level                           = terraform.workspace == "stage" || terraform.workspace == "prod" ? "prod" : "nonprod"
-  trusted_role_arn = "arn:aws:iam::${var.source-account}:role/datasync-s3-access-role"
+  trusted_role_arn = "arn:aws:iam::${var.source-account}:role/power-user-${terraform.workspace}-datasync-s3-access-role"
 #  integration_server_profile_name = "${var.iam_prefix}-integration-server-profile"
 #  permissions_boundary            = terraform.workspace == "dev" || terraform.workspace == "qa" ? "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/PermissionBoundary_PowerUser" : null
 #  resource_prefix = "${var.project}-${var.tier}"
