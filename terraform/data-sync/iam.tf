@@ -22,8 +22,7 @@ resource "aws_iam_role_policy_attachment" "datasync" {
 # create the 2nd role to access s3 in the destination acct
 resource "aws_iam_role" "datasync-s3-access-role" {
 #  assume_role_policy = data.aws_iam_policy_document.assume-role-policy.json
-  assume_role_policy   = var.use_custom_trust_policy ? var.custom_trust_policy: data.aws_iam_policy_document.assume_role_policy.j
-son
+  assume_role_policy   = var.use_custom_trust_policy ? var.custom_trust_policy: data.aws_iam_policy_document.assume_role_policy.json
   name = "power-user-${terraform.workspace}-datasync-s3-access-role"
   permissions_boundary = var.target_account_cloudone ? local.permission_boundary_arn : null
 }

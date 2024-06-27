@@ -55,10 +55,6 @@ variable "s3_tags" {
   type = map(string)
 }
 
-variable "datasync_tags" {
-  type = map(string)
-}
-
 variable "source-account" {
   type = string
 }
