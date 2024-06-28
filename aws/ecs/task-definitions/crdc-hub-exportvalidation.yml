@@ -56,6 +56,8 @@ containerDefinitions:
   - name: "SESSION_SECRET"
     value: "abcd256asghaaamnkloofghj"
 
+  - name: "DM_BUCKET_NAME"
+    value: "$DM_BUCKET_NAME"
   - name: "EXPORTER_QUEUE"
     value: "$PROJECT-$ENV-export-queue.fifo"
   - name: "FILE_QUEUE"
