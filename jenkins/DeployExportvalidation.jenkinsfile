@@ -132,7 +132,19 @@ pipeline {
                     #export SCHEDULE_JOB="0 */5 * * * *"
                     #else export SCHEDULE_JOB="0 0 0 * * *"
                     #fi
-                    
+#added the new variable per Ming's request - https://tracker.nci.nih.gov/browse/CRDCDH-1292
+                    if [ "$ENV" == "dev" ]; then
+                    export DM_BUCKET_NAME="nci-crdc-data-bucket-dev"
+                    elif [ "$ENV" == "qa" ]; then
+                    export DM_BUCKET_NAME="nci-crdc-data-bucket-qa"
+                    elif [ "$ENV" == "dev2" ]; then
+                    export DM_BUCKET_NAME="nci-crdc-data-bucket-dev2"
+                    elif [ "$ENV" == "qa2" ]; then
+                    export DM_BUCKET_NAME="nci-crdc-data-bucket-qa2" 
+                    elif [ "$ENV" == "stage" ]; then
+                    export DM_BUCKET_NAME="nci-crdc-data-bucket-stage"
+                    else export DM_BUCKET_NAME="nci-crdc-data-bucket-prod"
+                    fi
                     # Update and register task definition
                     TASK_DEFINTION_FOLDER=$WORKSPACE/aws/ecs/task-definitions
                     envsubst < $TASK_DEFINTION_FOLDER/$PROJECT-$APP.yml > $TASK_DEFINTION_FOLDER/$PROJECT-$APP-deploy.yml
