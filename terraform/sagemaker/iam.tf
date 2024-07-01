@@ -39,6 +39,13 @@ resource "aws_iam_role_policy_attachment" "sagemaker_bed_rock_full_access" {
   role       = aws_iam_role.sagemaker_instance_notebook_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonBedrockFullAccess"
 }
+
+# attach sagemaker canvas forecast role
+resource "aws_iam_role_policy_attachment" "sagemaker_forecast_access" {
+  role       = aws_iam_role.sagemaker_instance_notebook_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonSageMakerCanvasForecastAccess"
+}
+
 # create canvas bedrock role
 resource "aws_iam_role" "sagemaker_canvas_bedrock_role" {
   name                 = local.sagemaker_canvas_bedrock_role_name

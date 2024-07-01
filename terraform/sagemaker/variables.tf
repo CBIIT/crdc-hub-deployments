@@ -4,10 +4,10 @@ variable "target_account_cloudone"{
   default     = true
 }
 
-#variable "resource_prefix" {
-#  description = "the prefix to add when creating resources"
-#  type        = string
-#}
+variable "resource_prefix" {
+  description = "the prefix to add when creating resources"
+  type        = string
+}
 
 variable "iam_prefix" {
   description = "The string prefix for IAM roles and policies to conform to NCI power-user compliance"
