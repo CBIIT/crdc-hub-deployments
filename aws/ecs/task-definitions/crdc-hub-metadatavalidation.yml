@@ -92,7 +92,7 @@ containerDefinitions:
     valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:bento/$PROJECT/$ENV:mongo_db_password::"
   - name: "NEW_RELIC_LICENSE_KEY"
     valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:monitoring/newrelic:api_key::"
-#  logConfiguration:
+  logConfiguration:
 #    logDriver: awsfirelens
 #    options:
 #      Format: json_lines
