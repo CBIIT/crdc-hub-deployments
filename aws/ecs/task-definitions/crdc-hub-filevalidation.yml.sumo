@@ -39,7 +39,7 @@ containerDefinitions:
   - name: "NRIA_LICENSE_KEY"
     valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:monitoring/newrelic:api_key::"
 
-- name: metadatavalidation
+- name: filevalidation
   image: "$REGISTRY_URL/$ECR_REPO:$IMAGE_TAG"
   essential: true
   environment:
