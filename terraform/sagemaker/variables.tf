@@ -41,7 +41,13 @@ variable security_group_ids {
 }
 
 variable "sagemaker_notebook" {
-  description = "VPC Id to to launch the ALB"
   type        = string
 }
+variable "network_access_type" {
+  type = string
+}
 
+
+variable "profile_name" {
+  type = string
+}
