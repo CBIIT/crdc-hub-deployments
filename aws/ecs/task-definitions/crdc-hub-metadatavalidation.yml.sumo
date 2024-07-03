@@ -39,7 +39,7 @@ containerDefinitions:
   - name: "NRIA_LICENSE_KEY"
     valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:monitoring/newrelic:api_key::"
 
-- name: exportvalidation
+- name: metadatavalidation
   image: "$REGISTRY_URL/$ECR_REPO:$IMAGE_TAG"
   essential: true
   environment:
@@ -56,8 +56,6 @@ containerDefinitions:
   - name: "SESSION_SECRET"
     value: "abcd256asghaaamnkloofghj"
 
-  - name: "DM_BUCKET_NAME"
-    value: "$DM_BUCKET_NAME"
   - name: "EXPORTER_QUEUE"
     value: "$PROJECT-$ENV-export-queue.fifo"
   - name: "FILE_QUEUE"
