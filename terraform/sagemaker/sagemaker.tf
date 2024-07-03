@@ -24,7 +24,7 @@ resource "aws_sagemaker_domain" "sagemaker_studio_domain" {
     execution_role = aws_iam_role.sagemaker_studio_role.arn
   }
   #canvas app settings
-  time_series_forecasting_settings {
-    status = "DISABLED"
-  }
+#  time_series_forecasting_settings {
+#    status = "DISABLED"
+#  }
 }
