@@ -19,6 +19,10 @@ resource "aws_sagemaker_domain" "sagemaker_studio_domain" {
   }
   vpc_id = var.vpc_id
   subnet_ids = var.subnet_id
+
+  default_space_settings {
+    execution_role = aws_iam_role.sagemaker_studio_role.arn
+  }
   #canvas app settings
   time_series_forecasting_settings {
     status = "DISABLED"
