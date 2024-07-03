@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "s3_sagemaker" {
-  bucket        = "tracy-test-sagemaker"
+  bucket        = "nci-crdc-datahub-ml-${terraform.workspace}"
 #  force_destroy = var.s3_force_destroy
 #  tags = var.s3_tags
 }
@@ -24,13 +24,13 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "s3_sagemaker" {
 }
 
 
-resource "aws_s3_bucket_versioning" "s3_sagemaker" {
-  bucket = aws_s3_bucket.s3_sagemaker.id
+#resource "aws_s3_bucket_versioning" "s3_sagemaker" {
+#  bucket = aws_s3_bucket.s3_sagemaker.id
 
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
+#  versioning_configuration {
+#    status = "Enabled"
+#  }
+#}
 
 
 

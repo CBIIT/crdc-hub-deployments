@@ -39,3 +39,9 @@ variable "subnet_id" {
 variable security_group_ids {
   type    = list(string)
 }
+
+variable "sagemaker_notebook" {
+  description = "VPC Id to to launch the ALB"
+  type        = string
+}
+
