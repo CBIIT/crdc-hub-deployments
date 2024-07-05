@@ -55,7 +55,8 @@ resource "aws_sagemaker_user_profile" "sagemaker_user_profile" {
   domain_id         = aws_sagemaker_domain.sagemaker_studio_domain.id
   user_profile_name = each.value.profile_name
   user_settings {
-    execution_role  = aws_iam_role.sagemaker_studio_role[each.key].arn
+    #execution_role  = aws_iam_role.sagemaker_studio_role[each.key].arn
+    execution_role  = aws_iam_role.sagemaker_studio_role.arn
     canvas_app_settings {
       time_series_forecasting_settings {
         status = "DISABLED"
