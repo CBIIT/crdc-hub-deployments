@@ -48,6 +48,12 @@ variable "network_access_type" {
 }
 
 
-variable "profile_name" {
-  type = string
+#variable "profile_name" {
+#  type = string
+#}
+
+variable "users" {
+  type = map(object({
+    profile_name = string
+  }))
 }
