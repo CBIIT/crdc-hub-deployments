@@ -40,13 +40,15 @@ resource "aws_iam_role_policy_attachment" "s3-access" {
   policy_arn = aws_iam_policy.datasync-s3-policy.arn
 }
 
-# attach datasync & s3 access to the task and execute role
-resource "aws_iam_role_policy_attachment" "datasync-task-access" {
+# attach datasync & s3 access policy to the task and execute role (multiple roles)
+resource "aws_iam_policy_attachment" "datasync-task-access" {
+  name = "datasync-policy-attach"
   roles = [data.aws_iam_role.datasync_task_role.name,data.aws_iam_role.datasync_task_execution_role.name]
   policy_arn = aws_iam_policy.datasync-policy.arn
 }
 
-resource "aws_iam_role_policy_attachment" "s3-task-access" {
+resource "aws_iam_policy_attachment" "s3-task-access" {
+  name = "datasync-s3-policy-attach"
   roles = [data.aws_iam_role.datasync_task_role.name,data.aws_iam_role.datasync_task_execution_role.name]
   policy_arn = aws_iam_policy.datasync-s3-policy.arn
 }
