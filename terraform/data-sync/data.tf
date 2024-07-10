@@ -91,3 +91,12 @@ data "aws_iam_policy_document" "assume_role_policy" {
     }
   }
 }
+
+# name of execute ECS role
+data "aws_iam_role" "datasync_task_role" {
+  name = local.datasync_task_role_name
+}
+
+data "aws_iam_role" "datasync_task_execution_role" {
+  name = local.datasync_task_execution_role_name
+}

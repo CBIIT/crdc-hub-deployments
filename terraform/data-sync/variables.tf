@@ -32,10 +32,10 @@ variable "custom_trust_policy" {
 }
 
 
-#variable "project" {
-#  description = "name of the project"
-#  type        = string
-#}
+variable "project" {
+  description = "name of the project"
+  type        = string
+}
 
 #variable "tier" {
 #  type = string
