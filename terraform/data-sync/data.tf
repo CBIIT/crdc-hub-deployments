@@ -57,7 +57,8 @@ data "aws_iam_policy_document" "datasync-s3-access" {
       "s3:ListBucketMultipartUploads"
     ]
     resources = [
-      "arn:aws:s3:::${var.datasync-destination-bucket-name}"
+      #"arn:aws:s3:::${var.datasync-destination-bucket-name}"
+      for datasync-destination-bucket-name in var.datasync-destination-bucket-names : "arn:aws:s3:::${datasync-destination-bucket-name}"
     ]
   }
   statement {
@@ -75,7 +76,8 @@ data "aws_iam_policy_document" "datasync-s3-access" {
       "s3:PutObjectTagging"
     ]
     resources = [
-      "arn:aws:s3:::${var.datasync-destination-bucket-name}/*"
+      #"arn:aws:s3:::${var.datasync-destination-bucket-name}/*"
+      for datasync-destination-bucket-name in var.datasync-destination-bucket-names : "arn:aws:s3:::${datasync-destination-bucket-name}/*"
     ]
   }
 }

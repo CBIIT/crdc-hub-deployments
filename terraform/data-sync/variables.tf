@@ -1,7 +1,7 @@
 # global variables
-variable "datasync-destination-bucket-name" {
+variable "datasync-destination-bucket-names" {
   description = "destination bucket  name"
-  type = string
+  type = list(string)
 }
 variable "datasync-source-bucket-name" {
   description = "source bucket name"
