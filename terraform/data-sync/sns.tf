@@ -27,4 +27,11 @@ resource "aws_cloudwatch_event_rule" "datasync_status_rule" {
 resource "aws_cloudwatch_event_target" "datasync_status_target" {
   rule      = aws_cloudwatch_event_rule.datasync_status_rule.name
   arn       = aws_sns_topic.datasync_status_topic.arn
+# add custom email message
+  input_transformer {
+    input_paths = {
+      state  = "$.detail.state"
+    }
+    input_template = "\"Sync task is in state <state>\""
+  }
 }
