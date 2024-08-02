@@ -3,10 +3,10 @@ variable "datasync-destination-bucket-names" {
   description = "destination bucket  name"
   type = list(string)
 }
-variable "datasync-source-bucket-name" {
-  description = "source bucket name"
-  type = string
-}
+#variable "datasync-source-bucket-name" {
+#  description = "source bucket name"
+#  type = string
+#}
 
 variable "target_account_cloudone"{
   description = "to add check conditions on whether the resources are brought up in cloudone or not"
