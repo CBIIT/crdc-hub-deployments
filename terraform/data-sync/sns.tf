@@ -1,6 +1,6 @@
 #create sns topic
 resource "aws_sns_topic" "datasync_status_topic" {
-  name = "datasync_status_topic"
+  name = var.datasync_status_topic
 }
 
 # create subscription
@@ -12,7 +12,7 @@ resource "aws_sns_topic_subscription" "datasync_status_subscription" {
 
 # create evenbridge rule
 resource "aws_cloudwatch_event_rule" "datasync_status_rule" {
-  name        = "datasync_status_rule"
+  name        = var.datasync_status_rule
   description = "Rule to monitor DataSync task execution status changes"
   event_pattern = jsonencode({
     "source": ["aws.datasync"],
