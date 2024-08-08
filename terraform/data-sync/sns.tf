@@ -10,6 +10,25 @@ resource "aws_sns_topic_subscription" "datasync_status_subscription" {
   endpoint  = "tracy.truong@nih.gov"
 }
 
+#make sure policy permissiona are correct in the sns topic
+resource "aws_sns_topic_policy" "sns_topic_policy" {
+  arn = aws_sns_topic.datasync_status_topic.arn
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "events.amazonaws.com"
+        },
+        Action   = "sns:Publish",
+        Resource = aws_sns_topic.datasync_status_topic.arn
+      }
+    ]
+  })
+}
+
 # create evenbridge rule
 resource "aws_cloudwatch_event_rule" "datasync_status_rule" {
   name        = var.datasync_status_rule
@@ -27,6 +46,7 @@ resource "aws_cloudwatch_event_rule" "datasync_status_rule" {
 resource "aws_cloudwatch_event_target" "datasync_status_target" {
   rule      = aws_cloudwatch_event_rule.datasync_status_rule.name
   arn       = aws_sns_topic.datasync_status_topic.arn
+  role_arn = aws_iam_role.eventbridge-role.arn
 # add custom email message
   input_transformer {
     input_paths = {

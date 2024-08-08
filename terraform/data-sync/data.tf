@@ -28,6 +28,10 @@ data "aws_iam_policy_document" "datasync-policy" {
       "s3:ListBucket",
       "s3:ListObjectsV2",
       "s3:GetObject",
+      "s3:PutObjectTagging",
+      "s3:GetObjectTagging",
+      "s3:GetObjectVersion",
+      "s3:GetObjectVersionTagging",
       "s3:ListAllMyBuckets"
     ]
     resources = ["*"]
@@ -101,4 +105,23 @@ data "aws_iam_role" "datasync_task_role" {
 
 data "aws_iam_role" "datasync_task_execution_role" {
   name = local.datasync_task_execution_role_name
+}
+
+# policy for eventbridge to SNS
+data "aws_iam_policy_document" "assume_role_sns_policy" {
+  statement {
+  actions = ["sts:AssumeRole"]
+  principals {
+      type        = "Service"
+      identifiers = ["events.amazonaws.com"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "eventbridge_to_sns_policy" {
+  statement {
+    effect = "Allow"
+    actions = ["sns:Publish"]
+    resources = [aws_sns_topic.datasync_status_topic.arn]
+  }
 }
