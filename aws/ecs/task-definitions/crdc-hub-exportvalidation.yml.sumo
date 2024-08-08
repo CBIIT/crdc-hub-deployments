@@ -55,7 +55,11 @@ containerDefinitions:
     value: "arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-execution-role"
   - name: "SESSION_SECRET"
     value: "abcd256asghaaamnkloofghj"
+  - name: "DATASYNC_ROLE_ARN"
+    value: "arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$ENV-datasync-iam-role"
 
+  - name: "DM_BUCKET_NAME"
+    value: "$DM_BUCKET_NAME"
   - name: "EXPORTER_QUEUE"
     value: "$PROJECT-$ENV-export-queue.fifo"
   - name: "FILE_QUEUE"
