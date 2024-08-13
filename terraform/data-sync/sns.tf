@@ -50,12 +50,12 @@ resource "aws_cloudwatch_event_target" "datasync_status_target" {
   arn       = aws_sns_topic.datasync_status_topic.arn
 #  role_arn = aws_iam_role.eventbridge-role.arn
 # add custom email message
-  input_transformer {
-    input_paths = {
-      time  =  "$.time"
-      executionArn = "$.detail.executionArn"
-      state  = "$.detail.State"
-    }
-    input_template = "\"The DataSync task <executionArn> ended at <time> in the state <state>\""
-  }
+#  input_transformer {
+#    input_paths = {
+#      time  =  "$.time"
+#      executionArn = "$.detail.executionArn"
+#      state  = "$.detail.State"
+#    }
+#    input_template = "\"The DataSync task <executionArn> ended at <time> in the state <state>\""
+#  }
 }
