@@ -13,6 +13,10 @@ variable "datasync_status_topic" {
   type = string
 }
 
+variable "emails" {
+  type = list(string)
+}
+
 variable "datasync_status_rule" {
   type = string
 }

@@ -5,9 +5,11 @@ resource "aws_sns_topic" "datasync_status_topic" {
 
 # create subscription
 resource "aws_sns_topic_subscription" "datasync_status_subscription" {
+  for_each = toset(var.emails)
   topic_arn = aws_sns_topic.datasync_status_topic.arn
   protocol  = "email"
-  endpoint  = "tracy.truong@nih.gov"
+  endpoint  = each.value
+#  endpoint  = "tracy.truong@nih.gov"
 }
 
 #make sure policy permissiona are correct in the sns topic
@@ -50,8 +52,10 @@ resource "aws_cloudwatch_event_target" "datasync_status_target" {
 # add custom email message
   input_transformer {
     input_paths = {
+      time  =  "$.time"
+      executionArn = "$.detail.executionArn"
       state  = "$.detail.State"
     }
-    input_template = "\"Sync task is in state <state>\""
+    input_template = "\"The DataSync task <executionArn> ended at <time> in the state <state>\""
   }
 }
