@@ -20,6 +20,8 @@ data "aws_iam_policy_document" "datasync-policy" {
       "datasync:CancelTaskExecution",
       "datasync:ListTasks",
       "datasync:StartTaskExecution",
+      "datasync:DeleteTask",
+      "datasync:DeleteLocation",
       "iam:CreateRole",
       "iam:CreatePolicy",
       "iam:AttachRolePolicy",
