@@ -8,18 +8,6 @@ variable "datasync-destination-bucket-names" {
 #  type = string
 #}
 
-#var for sns
-variable "datasync_status_topic" {
-  type = string
-}
-
-variable "emails" {
-  type = list(string)
-}
-
-variable "datasync_status_rule" {
-  type = string
-}
 
 variable "target_account_cloudone"{
   description = "to add check conditions on whether the resources are brought up in cloudone or not"
