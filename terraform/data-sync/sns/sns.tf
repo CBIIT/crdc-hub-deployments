@@ -1,3 +1,8 @@
+#get account info
+data "aws_caller_identity" "current" {}
+
+data "aws_region" "current" {}
+
 #create sns topic
 resource "aws_sns_topic" "datasync_status_topic" {
   name = var.datasync_status_topic
