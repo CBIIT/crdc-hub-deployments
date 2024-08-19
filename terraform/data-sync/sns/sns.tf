@@ -1,7 +1,7 @@
 #get account info
-data "aws_caller_identity" "current" {}
+#data "aws_caller_identity" "current" {}
 
-data "aws_region" "current" {}
+#data "aws_region" "current" {}
 
 #create sns topic
 resource "aws_sns_topic" "datasync_status_topic" {
@@ -86,23 +86,23 @@ resource "aws_cloudwatch_event_target" "datasync_status_target" {
 }
 
 # policy for eventbridge to SNS
-data "aws_iam_policy_document" "assume_role_sns_policy" {
-  statement {
-  actions = ["sts:AssumeRole"]
-  principals {
-      type        = "Service"
-      identifiers = ["events.amazonaws.com"]
-    }
-  }
-}
+#data "aws_iam_policy_document" "assume_role_sns_policy" {
+#  statement {
+#  actions = ["sts:AssumeRole"]
+#  principals {
+#      type        = "Service"
+#      identifiers = ["events.amazonaws.com"]
+#    }
+#  }
+#}
 
-data "aws_iam_policy_document" "eventbridge_to_sns_policy" {
-  statement {
-    effect = "Allow"
-    actions = ["sns:Publish"]
-    resources = [aws_sns_topic.datasync_status_topic.arn]
-  }
-}
+#data "aws_iam_policy_document" "eventbridge_to_sns_policy" {
+#  statement {
+#    effect = "Allow"
+#    actions = ["sns:Publish"]
+#    resources = [aws_sns_topic.datasync_status_topic.arn]
+#  }
+#}
 
 # create an IAM role for eventbridge
 resource "aws_iam_role" "eventbridge-role" {
