@@ -24,9 +24,9 @@ services:
     image: 2.0.0.182
     buildNumber: '182'
   metadatavalidation:
-    version: 2.0.0.180
-    image: 2.0.0.180
-    buildNumber: '180'
+    version: 2.0.0.182
+    image: 2.0.0.182
+    buildNumber: '182'
   exportvalidation:
     version: 2.0.0.180
     image: 2.0.0.180
