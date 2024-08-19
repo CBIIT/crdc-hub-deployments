@@ -22,3 +22,21 @@ variable "region" {
   type        = string
   default     = "us-east-1"
 }
+
+variable "target_account_cloudone"{
+  description = "to add check conditions on whether the resources are brought up in cloudone or not"
+  type        = bool
+  default     = true
+}
+
+variable "use_custom_trust_policy" {
+  type = bool
+  description = "use custom role trust policy"
+  default = false
+}
+
+variable "custom_trust_policy" {
+  type = string
+  description = "custom role trust policy"
+  default = null
+}
