@@ -1,8 +1,3 @@
-#get account info
-#data "aws_caller_identity" "current" {}
-
-#data "aws_region" "current" {}
-
 #create sns topic
 resource "aws_sns_topic" "datasync_status_topic" {
   name = var.datasync_status_topic
@@ -85,41 +80,49 @@ resource "aws_cloudwatch_event_target" "datasync_status_target" {
   }
 }
 
-# policy for eventbridge to SNS
-#data "aws_iam_policy_document" "assume_role_sns_policy" {
-#  statement {
-#  actions = ["sts:AssumeRole"]
-#  principals {
-#      type        = "Service"
-#      identifiers = ["events.amazonaws.com"]
-#    }
-#  }
-#}
+# create another rule to use lambda function
 
-#data "aws_iam_policy_document" "eventbridge_to_sns_policy" {
-#  statement {
-#    effect = "Allow"
-#    actions = ["sns:Publish"]
-#    resources = [aws_sns_topic.datasync_status_topic.arn]
-#  }
-#}
-
-# create an IAM role for eventbridge
-resource "aws_iam_role" "eventbridge-role" {
-  assume_role_policy   = var.use_custom_trust_policy ? var.custom_trust_policy: data.aws_iam_policy_document.assume_role_sns_policy.json
-  name = "power-user-eventbridge-iam-role"
-  permissions_boundary = var.target_account_cloudone ? local.permission_boundary_arn : null
+resource "aws_cloudwatch_event_rule" "lambda_datasync_status_rule" {
+  name        = var.lambda_datasync_status_rule
+  description = "Rule to monitor DataSync task execution status changes used by lambda function"
+  event_pattern = jsonencode({
+    "source": ["aws.datasync"],
+    "detail-type": ["DataSync Task Execution State Change"],
+    "detail": {
+      "State": ["SUCCESS", "ERROR"]
+    }
+  })
 }
 
-#create iam policy for the eventbridge iam-role
-resource "aws_iam_policy" "eventbridge-policy" {
-  name = "power-user-eventbridge-policy"
-  policy = data.aws_iam_policy_document.eventbridge_to_sns_policy.json
+# create the lambda function which publishes updates about DataSync task execution status
+resource "aws_lambda_function" "datasync_task_notifications_lambda" {
+  function_name    = "DataSyncTaskNotificationsLambda"
+  role             = aws_iam_role.lambda-role.arn
+  handler          = "index.lambda_handler"
+  runtime          = "python3.9"
+  memory_size      = 256
+  timeout          = 900
+  filename         = "lambda_function_payload.zip"
+
+  environment {
+    variables = {
+      SNS_TOPIC_ARN = aws_sns_topic.datasync_status_topic.arn
+    }
+  }
 }
 
-#attach policies to the datasync iam role
-resource "aws_iam_role_policy_attachment" "eventbridge_attach" {
-#  name       = "power-user-${terraform.workspace}-datasync-attachment"
-  role = aws_iam_role.eventbridge-role.name
-  policy_arn = aws_iam_policy.eventbridge-policy.arn
+# create event target and add lambda function as a target
+resource "aws_cloudwatch_event_target" "lambda_datasync_status_target" {
+  rule   =  aws_cloudwatch_event_rule.lambda_datasync_status_rule.name
+  arn    = aws_lambda_function.datasync_task_notifications_lambda.arn
+}
+
+
+# Grant Permission for the Event Rule to Invoke the Lambda Function
+resource "aws_lambda_permission" "allow_eventbridge_to_invoke_lambda" {
+  statement_id  = "AllowCloudWatchEvents"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.datasync_task_notifications_lambda.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.lambda_datasync_status_rule.arn
 }
