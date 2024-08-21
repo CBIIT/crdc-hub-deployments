@@ -11,6 +11,9 @@ variable "datasync_status_rule" {
   type = string
 }
 
+variable "lambda_datasync_status_rule" {
+  type = string
+}
 #variable "project" {
 #  description = "name of the project"
 #  type        = string
