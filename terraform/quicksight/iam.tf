@@ -9,7 +9,7 @@ resource "aws_iam_role" "quicksight-iam-role" {
 #create iam policy for the quicksight iam-role
 resource "aws_iam_policy" "quicksight-policy" {
   name = "power-user-quicksight-policy"
-  policy = data.aws_iam_policy_document.quicksight_pass_role_policy.json
+  policy = data.aws_iam_policy_document.quicksight_role_policy.json
 } 
 
 #attach policies to the quicksight iam role
@@ -18,6 +18,7 @@ resource "aws_iam_role_policy_attachment" "quicksight_attach" {
   role = aws_iam_role.quicksight-iam-role.name
   policy_arn = aws_iam_policy.quicksight-policy.arn
 }
+
 
 #attach the AmazonAthenaFullAccess policy
 resource "aws_iam_role_policy_attachment" "quicksight_athena_full_attach" {
@@ -67,5 +68,4 @@ resource "aws_iam_role_policy_attachment" "quicksight_s3_mgmt_attach" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/QuickSightAccessForS3StorageManagementAnalyticsReadOnly"
 }
 
-#attach AWSQuickSightLambdaPolicy
 
