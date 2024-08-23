@@ -17,7 +17,14 @@ data "aws_iam_policy_document" "quicksight_assume_role_policy" {
   }
 }
 
-data "aws_iam_policy_document" "quicksight_pass_role_policy" {
+data "aws_iam_policy_document" "quicksight_role_policy" {
+  statement {
+    effect = "Allow"
+    actions = ["lambda:InvokeFunction"]
+    resources = [
+      for lambda-function-name in var.lambda-funtions : "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:${lambda-function-name}"
+    ]
+  }  
   statement {
     effect = "Allow"
     actions = ["iam:PassRole"]

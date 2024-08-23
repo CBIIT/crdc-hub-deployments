@@ -66,3 +66,6 @@ resource "aws_iam_role_policy_attachment" "quicksight_s3_mgmt_attach" {
   role = aws_iam_role.quicksight-iam-role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/QuickSightAccessForS3StorageManagementAnalyticsReadOnly"
 }
+
+#attach AWSQuickSightLambdaPolicy
+
