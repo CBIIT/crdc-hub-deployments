@@ -17,6 +17,7 @@ data "aws_iam_policy_document" "quicksight_assume_role_policy" {
   }
 }
 
+#policy to allow the role power-user-quicksight-iam-role to invoke the lambda function (to use athena data source connects to mongodb)- fixed by adding the policy below to the role
 data "aws_iam_policy_document" "quicksight_role_policy" {
   statement {
     effect = "Allow"
@@ -35,4 +36,26 @@ data "aws_iam_policy_document" "quicksight_role_policy" {
       variable = "iam:PassedToService"
     }
   }
+}
+
+#policy to allow BE service to generate embedded URLs for QuickSight dashboards
+data "aws_iam_policy_document" "quicksight_embed_policy" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "quicksight:GenerateEmbedUrlForAnonymousUser",
+      "quicksight:GenerateEmbedUrlForRegisteredUser"
+    ]
+    resources = ["*"]
+  }
+}
+
+
+# added name of execute ECS roles
+data "aws_iam_role" "quicksight_task_role" {
+  name = local.datasync_task_role_name
+}
+
+data "aws_iam_role" "quicksight_task_execution_role" {
+  name = local.datasync_task_execution_role_name
 }
