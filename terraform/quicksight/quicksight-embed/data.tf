@@ -10,7 +10,7 @@ data "aws_iam_policy_document" "quicksight_embed_policy" {
     effect = "Allow"
     actions = [
       "quicksight:GenerateEmbedUrlForAnonymousUser",
-      "quicksight:GenerateEmbedUrlForRegisteredUser"
+      "quicksight:GenerateEmbedUrlForRegisteredUser",
       "quicksight:GetDashboardEmbedUrl"
     ]
     resources = ["*"]
