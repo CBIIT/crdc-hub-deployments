@@ -28,6 +28,6 @@ services:
     image: 2.0.0.197
     buildNumber: '197'
   exportvalidation:
-    version: 2.0.0.182
-    image: 2.0.0.182
-    buildNumber: '182'
+    version: 2.0.0.197
+    image: 2.0.0.197
+    buildNumber: '197'
