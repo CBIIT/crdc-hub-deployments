@@ -27,7 +27,7 @@ pipeline {
 
     environment {
         PROJECT = 'crdc-hub'
-        APP = 'exportvalidation'
+        APP = 'frontend'
         SLACK_SECRET = 'crdcdh_slack_url'
         REGION = 'us-east-1'
         ECR_REPO = "${env.PROJECT}-${env.APP}"
@@ -35,6 +35,8 @@ pipeline {
         ENV = "${params.Environment}"
         CLUSTER = "${env.PROJECT}-${env.ENV}-ecs"
         SERVICE = "${env.PROJECT}-${env.ENV}-${env.APP}"
+        SUBDOMAIN = 'hub'
+        DOMAIN_NAME = 'datacommons.cancer.gov'
     }
 
     stages {
@@ -104,16 +106,26 @@ pipeline {
         }
 
         stage('Deploy Service') {
+            environment {
+    #          FE_VERSION = "${params.ImageTag}"
+              FE_VERSION = getVesion(service: "frontend",deploymentFile: "${PROJECT}-deployments/deployments.yaml")
+              BE_VERSION = getVesion(service: "backend",deploymentFile: "${PROJECT}-deployments/deployments.yaml")
+              UPLOAD_CLI_VERSION = getServiceProperty(service: "frontend", property: "uploadCliVersion", deploymentFile: "${PROJECT}-deployments/deployments.yaml")
+            }
             steps {
                 script {
                     sh label: 'Deploy-Service', script: '''#!/bin/bash
                     # Register environment variables (note that exports are only available for the lifetime of this shell)
                     export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
                     export DEPLOY_DATE="$(date -I)"
+                    #export BE_VERSION=$BE_VERSION
+                    #export UPLOAD_CLI_VERSION=$(getServiceProperty(service: "frontend", property: "uploadCliVersion", deploymentFile: "${PROJECT}-deployments/deployments.yaml")) 
 
                     # We can eliminate the line below if we store the full sumo_collector_uri_metadata_validation in secrets manager
-                    export SUMO_LOGIC_COLLECTOR_TOKEN=$(aws secretsmanager get-secret-value --secret-id bento/$PROJECT/$ENV --query SecretString --output text | jq -r '.sumo_collector_token_export_validation')
+                    export SUMO_LOGIC_COLLECTOR_TOKEN=$(aws secretsmanager get-secret-value --secret-id bento/$PROJECT/$ENV --query SecretString --output text | jq -r '.sumo_collector_token_frontend')
 
+                    export PROJECT_NAME="${PROJECT}"
+                    
 #test the if statement
                     #if [ "$ENV" == "dev" ]; then
                     #export DEV_TIER="indev"
@@ -132,19 +144,33 @@ pipeline {
                     #export SCHEDULE_JOB="0 */5 * * * *"
                     #else export SCHEDULE_JOB="0 0 0 * * *"
                     #fi
-#added the new variable per Ming's request - https://tracker.nci.nih.gov/browse/CRDCDH-1292
+# var REACT_APP_BACKEND_API
                     if [ "$ENV" == "dev" ]; then
-                    export DM_BUCKET_NAME="nci-crdc-data-bucket-dev"
+                    export REACT_APP_BACKEND_API="https://hub-dev.datacommons.cancer.gov/api/graphql"
                     elif [ "$ENV" == "qa" ]; then
-                    export DM_BUCKET_NAME="nci-crdc-data-bucket-qa"
+                    export REACT_APP_BACKEND_API="https://hub-qa.datacommons.cancer.gov/api/graphql"
                     elif [ "$ENV" == "dev2" ]; then
-                    export DM_BUCKET_NAME="nci-crdc-data-bucket-dev2"
+                    export REACT_APP_BACKEND_API="https://hub-dev2.datacommons.cancer.gov/api/graphql"
                     elif [ "$ENV" == "qa2" ]; then
-                    export DM_BUCKET_NAME="nci-crdc-data-bucket-qa2" 
+                    export REACT_APP_BACKEND_API="https://hub-qa2.datacommons.cancer.gov/api/graphql"
                     elif [ "$ENV" == "stage" ]; then
-                    export DM_BUCKET_NAME="nci-crdc-data-bucket-stage"
-                    else export DM_BUCKET_NAME="nci-crdc-data-bucket-prod"
+                    export REACT_APP_BACKEND_API="https://hub-stage.datacommons.cancer.gov/api/graphql"
+                    else export REACT_APP_BACKEND_API="https://hub.datacommons.cancer.gov/api/graphql"
                     fi
+# var REACT_APP_FILE_SERVICE_API
+                    if [ "$ENV" == "dev" ]; then
+                    export ="https://hub-dev.datacommons.cancer.gov/api/graphql"
+                    elif [ "$ENV" == "qa" ]; then
+                    export REACT_APP_BACKEND_API="https://hub-qa.datacommons.cancer.gov/api/graphql"
+                    elif [ "$ENV" == "dev2" ]; then
+                    export REACT_APP_BACKEND_API="https://hub-dev2.datacommons.cancer.gov/api/graphql"
+                    elif [ "$ENV" == "qa2" ]; then
+                    export REACT_APP_BACKEND_API="https://hub-qa2.datacommons.cancer.gov/api/graphql"
+                    elif [ "$ENV" == "stage" ]; then
+                    export REACT_APP_BACKEND_API="https://hub-stage.datacommons.cancer.gov/api/graphql"
+                    else export REACT_APP_BACKEND_API="https://hub.datacommons.cancer.gov/api/graphql"
+                    fi
+
                     # Update and register task definition
                     TASK_DEFINTION_FOLDER=$WORKSPACE/aws/ecs/task-definitions
                     envsubst < $TASK_DEFINTION_FOLDER/$PROJECT-$APP.yml > $TASK_DEFINTION_FOLDER/$PROJECT-$APP-deploy.yml
