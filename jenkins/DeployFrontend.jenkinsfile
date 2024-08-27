@@ -107,7 +107,6 @@ pipeline {
 
         stage('Deploy Service') {
             environment {
-    #          FE_VERSION = "${params.ImageTag}"
               FE_VERSION = getVesion(service: "frontend",deploymentFile: "${PROJECT}-deployments/deployments.yaml")
               BE_VERSION = getVesion(service: "backend",deploymentFile: "${PROJECT}-deployments/deployments.yaml")
               UPLOAD_CLI_VERSION = getServiceProperty(service: "frontend", property: "uploadCliVersion", deploymentFile: "${PROJECT}-deployments/deployments.yaml")
