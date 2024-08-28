@@ -41,18 +41,21 @@ data "aws_iam_policy_document" "lambda_to_datasync_policy" {
       "logs:CreateLogStream",
       "logs:PutLogEvents",
       "logs:DescribeLogStreams",
-      "logs:GetLogEvents"
-    ]
-    resources = ["*"]
-  }
-  statement {
-    effect = "Allow"
-    actions = [
+      "logs:GetLogEvents",
       "datasync:DescribeTask",
       "datasync:DescribeTaskExecution"
     ]
     resources = ["*"]
   }
+#  statement {
+#    effect = "Allow"
+#    actions = [
+#      "datasync:DescribeTask",
+#      "datasync:DescribeTaskExecution"
+#    ]
+#    resources = ["*"]
+#    resources = ["arn:aws:datasync:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:task/*"]
+#  }
   statement {
     effect = "Allow"
     actions = [
