@@ -10,7 +10,7 @@ services:
     image: 3.1.0.380
     buildNumber: '380'
     additionalProperties:
-      uploadCliVersion: 1.1.0-alpha-8
+      uploadCliVersion: 1.2.0-alpha-4
   authn:
     version: 2.1.0.105
     image: 2.1.0.105
