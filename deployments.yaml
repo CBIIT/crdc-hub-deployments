@@ -24,9 +24,9 @@ services:
     image: 2.0.0.199
     buildNumber: '199'
   metadatavalidation:
-    version: 2.0.0.197
-    image: 2.0.0.197
-    buildNumber: '197'
+    version: 2.0.0.199
+    image: 2.0.0.199
+    buildNumber: '199'
   exportvalidation:
     version: 2.0.0.197
     image: 2.0.0.197
