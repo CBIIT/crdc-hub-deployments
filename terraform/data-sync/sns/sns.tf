@@ -44,41 +44,41 @@ resource "aws_cloudwatch_event_rule" "datasync_status_rule" {
   })
 }
 
-# add an eventbridge target
-resource "aws_cloudwatch_event_target" "datasync_status_target" {
-  rule      = aws_cloudwatch_event_rule.datasync_status_rule.name
-  arn       = aws_sns_topic.datasync_status_topic.arn
-#  role_arn = aws_iam_role.eventbridge-role.arn
-# add custom email message
-  input_transformer {
-    input_paths = {
-      version = "$.version"
-      id = "$.id"
-      detail-type = "$.detail-type"
-      source = "$.source"
-      account = "$.account"
-      time  =  "$.time"
-      region = "$.region"
-      resource = "$.resources[0]"
-      state  = "$.detail.State"
-    }
-#    input_template = "\"The DataSync task <executionArn> ended at <time> in the state <state>\""
-    input_template = <<EOF
-      {
-        "version": <version>,
-        "id": <id>,
-        "detail-type": <detail-type>,
-        "source": <source>,
-        "account": <account>,
-        "time": <time>,
-        "region": <region>,
-        "resources": <resource>,
-        "details": <state>
-      }
-      EOF  
+# this is to use the AWS default template - add an eventbridge target - we are not using this template at the moment
+#resource "aws_cloudwatch_event_target" "datasync_status_target" {
+#  rule      = aws_cloudwatch_event_rule.datasync_status_rule.name
+#  arn       = aws_sns_topic.datasync_status_topic.arn
+##  role_arn = aws_iam_role.eventbridge-role.arn
+## add custom email message
+#  input_transformer {
+#    input_paths = {
+#      version = "$.version"
+#      id = "$.id"
+#      detail-type = "$.detail-type"
+#      source = "$.source"
+#      account = "$.account"
+#      time  =  "$.time"
+#      region = "$.region"
+#      resource = "$.resources[0]"
+#      state  = "$.detail.State"
+#    }
+##    input_template = "\"The DataSync task <executionArn> ended at <time> in the state <state>\""
+#    input_template = <<EOF
+#      {
+#        "version": <version>,
+#        "id": <id>,
+#        "detail-type": <detail-type>,
+#        "source": <source>,
+#        "account": <account>,
+#        "time": <time>,
+#        "region": <region>,
+#        "resources": <resource>,
+#        "details": <state>
+#      }
+#      EOF  
 
-  }
-}
+#  }
+#}
 
 # create another rule to use lambda function
 
