@@ -31,18 +31,18 @@ resource "aws_sns_topic_policy" "sns_topic_policy" {
   })
 }
 
-# create evenbridge rule
-resource "aws_cloudwatch_event_rule" "datasync_status_rule" {
-  name        = var.datasync_status_rule
-  description = "Rule to monitor DataSync task execution status changes"
-  event_pattern = jsonencode({
-    "source": ["aws.datasync"],
-    "detail-type": ["DataSync Task Execution State Change"],
-    "detail": {
-      "State": ["SUCCESS", "ERROR"]
-    }
-  })
-}
+#this is to use the AWS default templat -  create evenbridge rule - dont use this rule
+#resource "aws_cloudwatch_event_rule" "datasync_status_rule" {
+#  name        = var.datasync_status_rule
+#  description = "Rule to monitor DataSync task execution status changes"
+#  event_pattern = jsonencode({
+#    "source": ["aws.datasync"],
+#    "detail-type": ["DataSync Task Execution State Change"],
+#    "detail": {
+#      "State": ["SUCCESS", "ERROR"]
+#    }
+#  })
+#}
 
 # this is to use the AWS default template - add an eventbridge target - we are not using this template at the moment
 #resource "aws_cloudwatch_event_target" "datasync_status_target" {
