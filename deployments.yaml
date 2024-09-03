@@ -20,9 +20,9 @@ services:
     image: 3.1.0.203
     buildNumber: '203'
   essentialvalidation:
-    version: 3.1.0.198
-    image: 3.1.0.198
-    buildNumber: '198'
+    version: 3.1.0.203
+    image: 3.1.0.203
+    buildNumber: '203'
   metadatavalidation:
     version: 3.1.0.198
     image: 3.1.0.198
