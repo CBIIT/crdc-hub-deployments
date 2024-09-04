@@ -6,9 +6,9 @@ services:
     image: 3.0.0.550
     buildNumber: '550'
   frontend:
-    version: 3.0.0.383
-    image: 3.0.0.383
-    buildNumber: '383'
+    version: 3.0.0.395
+    image: 3.0.0.395
+    buildNumber: '395'
     additionalProperties:
       uploadCliVersion: 1.2.0-alpha-4
   authn:
@@ -16,18 +16,18 @@ services:
     image: 2.1.1.116
     buildNumber: '116'
   filevalidation:
-    version: 2.0.0.197
-    image: 2.0.0.197
-    buildNumber: '197'
+    version: 2.0.0.204
+    image: 2.0.0.204
+    buildNumber: '204'
   essentialvalidation:
-    version: 2.0.0.197
-    image: 2.0.0.197
-    buildNumber: '197'
+    version: 2.0.0.204
+    image: 2.0.0.204
+    buildNumber: '204'
   metadatavalidation:
-    version: 2.0.0.197
-    image: 2.0.0.197
-    buildNumber: '197'
+    version: 2.0.0.204
+    image: 2.0.0.204
+    buildNumber: '204'
   exportvalidation:
-    version: 2.0.0.197
-    image: 2.0.0.197
-    buildNumber: '197'
+    version: 2.0.0.204
+    image: 2.0.0.204
+    buildNumber: '204'
