@@ -74,8 +74,13 @@ resource "aws_iam_policy" "sagemaker_canvas_bedrock_role_policy" {
   policy = data.aws_iam_policy_document.sagemaker_execution_role_policy_doc.json
 }
 # attach AWS default policy to the canvas bedrock role
-#resource "aws_iam_role_policy_attachment" "sagemaker_canvas_bedrock_access" {
-#  role       = aws_iam_role.sagemaker_canvas_bedrock_role.name
-#  policy_arn = "arn:aws:iam::aws:policy/AmazonSageMakerCanvasBedrockAccess"
-#}
+resource "aws_iam_role_policy_attachment" "sagemaker_canvas_bedrock_access" {
+  role       = aws_iam_role.sagemaker_canvas_bedrock_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSageMakerCanvasBedrockAccess"
+}
 
+#attach AWS bedrock full access to the canvas bedrock role
+resource "aws_iam_role_policy_attachment" "sagemaker_canvas_bed_rock_full_access" {
+  role       = aws_iam_role.sagemaker_canvas_bedrock_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonBedrockFullAccess"
+}

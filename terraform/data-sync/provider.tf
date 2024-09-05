@@ -9,12 +9,12 @@ provider "aws" {
     tags = {
       EnvironmentTier = terraform.workspace
       CreatedBy       = "Tracy Truong"
-      ResourceName    = "NCI-crdc-data-management-${terraform.workspace}"
+      ResourceName    = "NCI-crdc-dh-${terraform.workspace}"
       ManagedBy       = "terraform"
-      Project         = "crdc data management"
+      Project         = "crdc datahub "
       Backup          = local.level
       PatchGroup      = local.level
-      ApplicationName = "CRDC Data Management"
+      ApplicationName = "CRDC DataHub"
     }
   }
 }

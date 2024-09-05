@@ -1,6 +1,7 @@
 # create log group
 resource "aws_cloudwatch_log_group" "datasync_log_group" {
   name = "/aws/datasync/${terraform.workspace}-datasync-log"
+  retention_in_days = 150
 }
 
 # Create DataSync location for source S3 bucket
