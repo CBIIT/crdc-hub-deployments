@@ -53,8 +53,6 @@ def utc_to_local(utc_dt, local_tz):
     
 
 def lambda_handler(event, context):
-    print(event)
-    
     task_execution_arn = event['resources'][0]
     task_arn = re.sub(r'/execution/.*$', '', task_execution_arn)
     locations = get_locations(datasync_client)
@@ -82,12 +80,11 @@ def lambda_handler(event, context):
     
     # Convert StartTime from UTC to local time
     start_time_local = utc_to_local(start_time_utc, 'America/New_York')  # Replace with your desired timezone
-    # Convert transfer duration from seconds to minutes and seconds
-    duration_seconds = execution_status['Result']['TotalDuration'] / 1000
-    duration_minutes = duration_seconds // 60
-    remaining_seconds = duration_seconds % 60
-
     if status == 'SUCCESS':
+        # Convert transfer duration from seconds to minutes and seconds
+        transfer_duration_seconds = execution_status['Result']['TransferDuration']
+        transfer_duration_minutes = transfer_duration_seconds // 60
+        remaining_seconds = transfer_duration_seconds % 60
         subject = f"{task['Name']} Succeeded"
         message = dedent(f"""\
             The DataSync task execution with ARN {task_execution_arn} has completed successfully.\n
@@ -95,10 +92,13 @@ def lambda_handler(event, context):
             Source Location: {source_location['LocationUri']}\n
             Destination Location: {destination_location['LocationUri']}\n
             Start Time: {start_time_local}\n
-            Total Duration: {duration_seconds} seconds\n
+            Transfer Duration: {transfer_duration_minutes} minutes {remaining_seconds} seconds\n
             Files Transferred: {execution_status['FilesTransferred']}""")
     elif status == 'ERROR':
-
+        # Convert transfer duration from seconds to minutes and seconds
+        transfer_duration_seconds = execution_status['Result']['TransferDuration']
+        transfer_duration_minutes = transfer_duration_seconds // 60
+        remaining_seconds = transfer_duration_seconds % 60
         subject = f"{task['Name']} Failed"
         message = dedent(f"""\
             The DataSync task execution with ARN {task_execution_arn} has failed.\n
@@ -106,7 +106,7 @@ def lambda_handler(event, context):
             Source Location: {source_location['LocationUri']}\n
             Destination Location: {destination_location['LocationUri']}\n
             Start Time: {start_time_local}\n
-            Total Duration: {duration_seconds} seconds\n
+            Transfer Duration: {transfer_duration_minutes} minutes {remaining_seconds} seconds\n
             Files Transferred: {execution_status['FilesTransferred']}
             
             Error Code: {execution_status["Result"]["ErrorCode"]}
