@@ -10,24 +10,24 @@ services:
     image: 3.0.0.395
     buildNumber: '395'
     additionalProperties:
-      uploadCliVersion: 1.2.0-alpha-4
+      uploadCliVersion: 1.2.0-alpha-5
   authn:
     version: 2.1.1.116
     image: 2.1.1.116
     buildNumber: '116'
   filevalidation:
-    version: 2.0.0.207
-    image: 2.0.0.207
-    buildNumber: '207'
+    version: 2.0.0.210
+    image: 2.0.0.210
+    buildNumber: '210'
   essentialvalidation:
-    version: 2.0.0.207
-    image: 2.0.0.207
-    buildNumber: '207'
+    version: 2.0.0.210
+    image: 2.0.0.210
+    buildNumber: '210'
   metadatavalidation:
-    version: 2.0.0.207
-    image: 2.0.0.207
-    buildNumber: '207'
+    version: 2.0.0.210
+    image: 2.0.0.210
+    buildNumber: '210'
   exportvalidation:
-    version: 2.0.0.207
-    image: 2.0.0.207
-    buildNumber: '207'
+    version: 2.0.0.210
+    image: 2.0.0.210
+    buildNumber: '210'
