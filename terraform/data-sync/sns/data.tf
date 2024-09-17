@@ -52,6 +52,7 @@ data "aws_iam_policy_document" "lambda_to_datasync_policy" {
       "datasync:DescribeTask",
       "datasync:DescribeTaskExecution",
       "datasync:ListLocations",
+      "datasync:List*",
       "datasync:DescribeLocation*"
     ]
 #    resources = ["*"]
