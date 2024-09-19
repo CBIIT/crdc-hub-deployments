@@ -38,17 +38,6 @@ data "aws_iam_policy_document" "quicksight_role_policy" {
 }
 
 
-# policy for lambda func to  assume role
-data "aws_iam_policy_document" "lambda_quicksight_assume_role_policy" {
-  statement {
-    actions = ["sts:AssumeRole"]
-    principals {
-      type        = "Service"
-      identifiers = ["lambda.amazonaws.com"]
-    }
-  }
-}
-
 
 #move this to quicksight-embed - policy to allow BE service to generate embedded URLs for QuickSight dashboards
 #data "aws_iam_policy_document" "quicksight_embed_policy" {
