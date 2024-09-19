@@ -1,0 +1,182 @@
+Description: Creates a MongoDB Data Connector Lambda Function for Quicksight
+
+Parameters:
+  AthenaCatalogName:
+    Description: This is the name of the lambda function that will be created. This
+      name must satisfy the pattern ^[a-z0-9-_]{1,64}$
+    Type: String
+    AllowedPattern: "^[a-z0-9-_]{1,64}$"
+  SpillBucket:
+    Description: The name of the bucket where this function can spill data.
+    Type: String
+  SpillPrefix:
+    Description: The prefix within SpillBucket where this function can spill data.
+    Type: String
+    Default: athena-spill
+  LambdaTimeout:
+    Description: Maximum Lambda invocation runtime in seconds. (min 1 - 900 max)
+    Default: 900
+    Type: Number
+  LambdaMemory:
+    Description: Lambda memory in MB (min 128 - 3008 max).
+    Default: 3008
+    Type: Number
+  DisableSpillEncryption:
+    Description: If set to 'false' data spilled to S3 is encrypted with AES GCM
+    Default: 'false'
+    Type: String
+  SecurityGroupIds:
+    Description: One or more SecurityGroup IDs corresponding to the SecurityGroup
+      that should be applied to the Lambda function. (e.g. sg1,sg2,sg3)
+    Type: List<AWS::EC2::SecurityGroup::Id>
+  SubnetIds:
+    Description: One or more Subnet IDs corresponding to the Subnet that the Lambda
+      function can use to access you data source. (e.g. subnet1,subnet2)
+    Type: List<AWS::EC2::Subnet::Id>
+  SecretNameOrPrefix:
+    Description: The name or prefix of a set of names within Secrets Manager that
+      this function should have access to. (e.g. hbase-*).
+    Type: String
+  DocDBConnectionString:
+    Description: The DocDB connection details to use by default if not catalog specific
+      connection is defined and optionally using SecretsManager (e.g. ${secret_name}).
+    Type: String
+    Default: e.g. mongodb://<username>:<password>@<hostname>:<port>/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0
+  RoleName:
+    Description: "Specifies an IAM role name to create and attach to the Lambda function"
+    Default: "power-user-quicksight-mongodb-connector-lambda-role"
+    Type: String
+  PermissionsBoundaryARN:
+    Description: "(Optional) An IAM policy ARN to use as the PermissionsBoundary for
+      the created Lambda function's execution role"
+    Default: ''
+    Type: String
+Resources:
+  ConnectorConfig:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: awsserverlessrepo-changesets-plntc6bfnfj
+        S3Key: 782317370611/arn:aws:serverlessrepo:us-east-1:292517598671:applications-AthenaDocumentDBConnector-versions-2024.32.1/5a9bfada-73f4-497c-b708-2f56d7b9d1cc
+      Description: Enables Amazon Athena to communicate with DocumentDB, making your
+        DocumentDB data accessible via SQL.
+      FunctionName:
+        Ref: AthenaCatalogName
+      Handler: com.amazonaws.athena.connectors.docdb.DocDBCompositeHandler
+      MemorySize:
+        Ref: LambdaMemory
+      Role:
+        Fn::GetAtt:
+        - ConnectorConfigRole
+        - Arn
+      Runtime: java11
+      Timeout:
+        Ref: LambdaTimeout
+      VpcConfig:
+        SecurityGroupIds:
+          Ref: SecurityGroupIds
+        SubnetIds:
+          Ref: SubnetIds
+      Environment:
+        Variables:
+          disable_spill_encryption:
+            Ref: DisableSpillEncryption
+          spill_bucket:
+            Ref: SpillBucket
+          spill_prefix:
+            Ref: SpillPrefix
+          default_docdb:
+            Ref: DocDBConnectionString
+      Tags:
+      - Key: lambda:createdBy
+        Value: SAM
+  ConnectorConfigRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref RoleName
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+      Policies:
+      - PolicyName: ConnectorConfigRolePolicy0
+        PolicyDocument:
+          Statement:
+          - Action:
+            - secretsmanager:GetSecretValue
+            Effect: Allow
+            Resource:
+              Fn::Sub: arn:${AWS::Partition}:secretsmanager:*:*:secret:${SecretNameOrPrefix}
+          Version: '2012-10-17'
+      - PolicyName: ConnectorConfigRolePolicy1
+        PolicyDocument:
+          Statement:
+          - Action:
+            - glue:GetTableVersions
+            - glue:GetPartitions
+            - glue:GetTables
+            - glue:GetTableVersion
+            - glue:GetDatabases
+            - glue:GetTable
+            - glue:GetPartition
+            - glue:GetDatabase
+            - athena:GetQueryExecution
+            Effect: Allow
+            Resource: "*"
+          Version: '2012-10-17'
+      - PolicyName: ConnectorConfigRolePolicy2
+        PolicyDocument:
+          Statement:
+          - Action:
+            - s3:GetObject
+            - s3:ListBucket
+            - s3:GetBucketLocation
+            - s3:GetObjectVersion
+            - s3:PutObject
+            - s3:PutObjectAcl
+            - s3:GetLifecycleConfiguration
+            - s3:PutLifecycleConfiguration
+            - s3:DeleteObject
+            Effect: Allow
+            Resource:
+            - Fn::Sub:
+              - arn:${AWS::Partition}:s3:::${bucketName}
+              - bucketName:
+                  Ref: SpillBucket
+            - Fn::Sub:
+              - arn:${AWS::Partition}:s3:::${bucketName}/*
+              - bucketName:
+                  Ref: SpillBucket
+      - PolicyName: ConnectorConfigRolePolicy3
+        PolicyDocument:
+          Statement:
+          - Action:
+            - ec2:CreateNetworkInterface
+            - ec2:DeleteNetworkInterface
+            - ec2:DescribeNetworkInterfaces
+            - ec2:DetachNetworkInterface
+            Effect: Allow
+            Resource: "*"
+      PermissionsBoundary:
+        Fn::If:
+        - HasPermissionsBoundary
+        - Ref: PermissionsBoundaryARN
+        - Ref: AWS::NoValue
+      Tags:
+      - Key: lambda:createdBy
+        Value: SAM
+Conditions:
+  HasPermissionsBoundary:
+    Fn::Not:
+    - Fn::Equals:
+      - Ref: PermissionsBoundaryARN
+      - ''
+

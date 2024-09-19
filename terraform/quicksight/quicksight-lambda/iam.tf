@@ -1,3 +1,4 @@
+#this module is not used - we create the lambda funtion using cloudformtaion stack
 # create the role for quicksight-mongodb-connector-lambda
 resource "aws_iam_role" "quicksight-lambda-connector-iam-role" {
   assume_role_policy   = var.use_custom_trust_policy ? var.custom_trust_policy: data.aws_iam_policy_document.lambda_quicksight_assume_role_policy.json
