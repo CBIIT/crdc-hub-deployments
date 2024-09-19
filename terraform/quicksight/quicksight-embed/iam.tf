@@ -1,6 +1,6 @@
 #create iam policy to allow BE service to generate embedded URLs for Quicksight dashboard
 resource "aws_iam_policy" "quicksight-embed-policy" {
-  name = "power-user-quicksight-embed-policy"
+  name = "power-user-${terraform.workspace}-quicksight-embed-policy"
   policy = data.aws_iam_policy_document.quicksight_embed_policy.json
 }
 
