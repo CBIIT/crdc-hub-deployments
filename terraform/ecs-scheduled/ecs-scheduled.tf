@@ -36,7 +36,7 @@ resource "aws_ecs_task_definition" "scheduled_task_definition" {
         }
     }
   ])
-
+  tags = var.ecs_scheduled_tags
 }
 
 # create cloudwatch event rule for the schedule
