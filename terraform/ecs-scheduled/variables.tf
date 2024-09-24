@@ -3,6 +3,11 @@ variable "aws_region" {
   default = "us-east-1"
 }
 
+variable "region" {
+  type    = string
+  default = "us-east-1"
+}
+
 variable "project" {
   description = "name of the project"
   type        = string
