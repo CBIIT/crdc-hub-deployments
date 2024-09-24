@@ -51,7 +51,7 @@ resource "aws_cloudwatch_event_rule" "scheduled_rule" {
 # create Target the ECS Task to run on a schedule
 resource "aws_cloudwatch_event_target" "ecs_task_target" {
   rule      = aws_cloudwatch_event_rule.scheduled_rule.name
-  arn       = var.cluster.arn
+  arn       = var.cluster_arn
   role_arn  = var.task_execution_role_arn
   ecs_target {
     task_definition_arn = aws_ecs_task_definition.scheduled_task_definition[each.key].arn
