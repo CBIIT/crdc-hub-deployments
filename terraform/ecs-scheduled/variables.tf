@@ -32,7 +32,7 @@ variable "cron_schedule" {
   type        = string
 }
 
-variable "cluster.arn" {
+variable "cluster_arn" {
   type        = string
 }
  
