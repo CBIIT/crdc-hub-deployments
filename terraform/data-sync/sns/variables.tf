@@ -7,9 +7,9 @@ variable "emails" {
   type = list(string)
 }
 
-variable "datasync_status_rule" {
-  type = string
-}
+#variable "datasync_status_rule" {
+#  type = string
+#}
 
 variable "lambda_datasync_status_rule" {
   type = string

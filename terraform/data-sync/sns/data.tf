@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "eventbridge_to_sns_policy" {
   statement {
     effect = "Allow"
     actions = ["sns:Publish"]
-    resources = [aws_sns_topic.datasync_status_topic.arn]
+    resources = ["arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"]
   }
 }
 
@@ -64,7 +64,8 @@ data "aws_iam_policy_document" "lambda_to_datasync_policy" {
     actions = [
       "sns:Publish"
     ]
-    resources = [aws_sns_topic.datasync_status_topic.arn]
+#    resources = [aws_sns_topic.datasync_status_topic.arn]
+    resources = ["arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"]
   }
 }
 
