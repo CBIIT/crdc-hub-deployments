@@ -133,23 +133,23 @@ pipeline {
                     #else export SCHEDULE_JOB="0 0 0 * * *"
                     #fi
 # values for subnet ids and security group ids
-                    if [ "$ENV" == "dev" ] || [ "$ENV" == "dev2" ]; then
-                    export SUBNET_ID="subnet-409a0424,subnet-4f35f112"
-                    elif [ "$ENV" == "qa" ] || [ "$ENV" == "qa2" ]; then
-                    export SUBNET_ID="subnet-819c02e5,subnet-8832f6d5"
-                    elif [ "$ENV" == "stage" ]; then
-                    export SUBNET_ID="subnet-f334f0ae,subnet-a69608c2"
-                    else export SUBNET_ID="subnet-9d9907f9,subnet-a033f7fd"
-                    fi 
+#                    if [ "$ENV" == "dev" ] || [ "$ENV" == "dev2" ]; then
+#                    export SUBNET_ID="subnet-409a0424,subnet-4f35f112"
+#                    elif [ "$ENV" == "qa" ] || [ "$ENV" == "qa2" ]; then
+#                    export SUBNET_ID="subnet-819c02e5,subnet-8832f6d5"
+#                    elif [ "$ENV" == "stage" ]; then
+#                    export SUBNET_ID="subnet-f334f0ae,subnet-a69608c2"
+#                    else export SUBNET_ID="subnet-9d9907f9,subnet-a033f7fd"
+#                    fi 
                     
-                    if [ "$ENV" == "dev" ] || [ "$ENV" == "dev2" ]; then
-                    export SECURITY_GROUP_ID="sg-0ac843a2b447d9f0c"
-                    elif [ "$ENV" == "qa" ] || [ "$ENV" == "qa2" ]; then
-                    export SECURITY_GROUP_ID="sg-07af3e7a04b4e1013"
-                    elif [ "$ENV" == "stage" ]; then
-                    export SECURITY_GROUP_ID="sg-0473785103b7344b8"
-                    else export SECURITY_GROUP_ID="sg-0cfd6d4c10ac3eab2"
-                    fi
+#                    if [ "$ENV" == "dev" ] || [ "$ENV" == "dev2" ]; then
+#                    export SECURITY_GROUP_ID="sg-0ac843a2b447d9f0c"
+#                    elif [ "$ENV" == "qa" ] || [ "$ENV" == "qa2" ]; then
+#                    export SECURITY_GROUP_ID="sg-07af3e7a04b4e1013"
+#                    elif [ "$ENV" == "stage" ]; then
+#                    export SECURITY_GROUP_ID="sg-0473785103b7344b8"
+#                    else export SECURITY_GROUP_ID="sg-0cfd6d4c10ac3eab2"
+#                    fi
 
                     # Update and register task definition
                     TASK_DEFINTION_FOLDER=$WORKSPACE/aws/ecs/task-definitions
@@ -159,8 +159,8 @@ pipeline {
                     # Update service
 #                    aws ecs update-service --cluster $CLUSTER --service $SERVICE --task-definition $SERVICE --desired-count 1 --deployment-configuration "maximumPercent=200,minimumHealthyPercent=50,deploymentCircuitBreaker={enable=true,rollback=false}" --force-new-deployment
                     # run task
-                    aws ecs run-task --cluster $CLUSTER --task-definition $SERVICE --count 1 --launch-type FARGATE --network-configuration 'awsvpcConfiguration={subnets=[$SUBNET_ID],securityGroups=[$SECURITY_GROUP_ID]}'
-                    #aws ecs run-task --cluster $CLUSTER --task-definition $SERVICE --count 1 --launch-type FARGATE
+#                    aws ecs run-task --cluster $CLUSTER --task-definition $SERVICE --count 1 --launch-type FARGATE --network-configuration 'awsvpcConfiguration={subnets=[$SUBNET_ID],securityGroups=[$SECURITY_GROUP_ID]}'
+                    aws ecs run-task --cluster $CLUSTER --task-definition $SERVICE --count 1 --launch-type FARGATE
                     '''
                 }
             }
