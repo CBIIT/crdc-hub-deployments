@@ -159,7 +159,7 @@ pipeline {
                     # Update service
 #                    aws ecs update-service --cluster $CLUSTER --service $SERVICE --task-definition $SERVICE --desired-count 1 --deployment-configuration "maximumPercent=200,minimumHealthyPercent=50,deploymentCircuitBreaker={enable=true,rollback=false}" --force-new-deployment
                     # run task
-                    aws ecs run-task --cluster $CLUSTER --task-definition $SERVICE --count 1 --launch-type FARGATE --network-configuration "awsvpcConfiguration={subnets=[$SUBNET_ID],securityGroups=[$SECURITY_GROUP_ID]"
+                    aws ecs run-task --cluster $CLUSTER --task-definition $SERVICE --count 1 --launch-type FARGATE --network-configuration "awsvpcConfiguration={subnets=[$SUBNET_ID],securityGroups=[$SECURITY_GROUP_ID]}"
                     '''
                 }
             }
