@@ -219,7 +219,7 @@ pipeline {
     success {
 
 		script {
-			if (params.RunDeployStage) {
+			if (params.RunDeployPvPuller) {
 				echo 'Run the deployment for this sevice'
 				build job: "$JOB_PATH/$DEPLOY_JOB", parameters: [string(name: 'ImageTag', value: "$CODE_BRANCH.$BUILD_NUMBER"), extendedChoice(name: 'Environment', value: "${params.Environment}")]
 			}
