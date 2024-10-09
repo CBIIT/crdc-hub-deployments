@@ -31,8 +31,3 @@ services:
     version: 3.1.0.208
     image: 3.1.0.208
     buildNumber: '208'
-  pvpuller:
-    version: 3.1.0.6
-    image: 3.1.0.6
-    buildNumber: '6'
-    additionalProperties: null
