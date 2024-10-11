@@ -53,7 +53,8 @@ resource "aws_cloudwatch_event_target" "ecs_task_target" {
   for_each                 = var.scheduledtask
   rule      = aws_cloudwatch_event_rule.scheduled_rule.name
   arn       = var.cluster_arn
-  role_arn  = var.task_execution_role_arn
+#  role_arn  = var.task_execution_role_arn
+  role_arn = aws_iam_role.eventsbridge-ecs-task-role.arn
   ecs_target {
     #task_definition_arn = aws_ecs_task_definition.scheduled_task_definition[each.key].arn
     task_definition_arn = "arn:aws:ecs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:task-definition/${var.task_definition_name}"

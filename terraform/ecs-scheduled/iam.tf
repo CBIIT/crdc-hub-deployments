@@ -19,3 +19,37 @@ resource "aws_iam_policy_attachment" "ecs_sqs_troubleshoot_attach" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
 }
 
+# create eventsbridge role to run ecstask
+resource "aws_iam_role" "eventsbridge-ecs-task-role" {
+  assume_role_policy   = var.use_custom_trust_policy ? var.custom_trust_policy: data.aws_iam_policy_document.assume_role_policy.json
+  name = "power-user-${terraform.workspace}-eventsbridge-ecs-task-iam-role"
+  permissions_boundary = var.target_account_cloudone ? local.permission_boundary_arn : null
+}
+
+# create iam policy for the eventsbridge role
+resource "aws_iam_policy" "eventsbridge-policy" {
+  name = "power-user-${terraform.workspace}-eventsbridge-policy"
+  policy = data.aws_iam_policy_document.eventbridge_run_ecs_policy.json
+}
+
+# attach policy to the eventbridge role
+resource "aws_iam_role_policy_attachment" "eventsbridge-policy-attach" {
+  role = aws_iam_role.eventsbridge-ecs-task-role.name
+  policy_arn = aws_iam_policy.eventsbridge-policy.arn  
+}
+
+# attach extra policy to the role
+resource "aws_iam_role_policy_attachment" "cloudwatch_full_atach" {
+  role = aws_iam_role.eventsbridge-ecs-task-role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "sqs_full_attach" {
+  role = aws_iam_role.eventsbridge-ecs-task-role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_events_attach" {
+  role = aws_iam_role.eventsbridge-ecs-task-role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceEventsRole"
+}
