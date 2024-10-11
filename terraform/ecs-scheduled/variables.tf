@@ -25,9 +25,9 @@ variable "ecs_scheduled_tags" {
   type        = map(string)
 }
 
-variable "task_definition_name" {
-  type = string
-}
+#variable "task_definition_name" {
+#  type = string
+#}
 
 variable "task_execution_role_arn" {
   type        = string
