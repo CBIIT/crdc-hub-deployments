@@ -57,11 +57,13 @@ resource "aws_cloudwatch_event_target" "ecs_task_target" {
   ecs_target {
     task_definition_arn = aws_ecs_task_definition.scheduled_task_definition[each.key].arn
     task_count          = var.task_count
+    launch_type         = "FARGATE"
     network_configuration {
       subnets         = var.subnet_ids
       security_groups = var.security_group_ids
       assign_public_ip = false
     }
+    platform_version  = "LATEST"
   }
 }
 
