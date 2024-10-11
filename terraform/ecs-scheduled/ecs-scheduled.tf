@@ -66,5 +66,8 @@ resource "aws_cloudwatch_event_target" "ecs_task_target" {
     }
     platform_version  = "LATEST"
   }
+  dead_letter_config {
+    arn = aws_sqs_queue.ecs_troubleshoot_sqs_queue.arn
+  }
 }
 
