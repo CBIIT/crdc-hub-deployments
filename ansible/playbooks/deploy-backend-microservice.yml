@@ -138,5 +138,7 @@
           ## Java
           - name: JAVA_OPTS
             value: "-javaagent:/usr/local/tomcat/newrelic/newrelic.jar"
+          - name: HIDDEN_MODELS
+            value: "Hidden Model"
           - name: ROLE_ARN
             value: "arn:aws:iam::{{ caller_info.account }}:role/power-user-crdc-hub-{{ tier}}-ecs-task-execution-role"
