@@ -24,9 +24,9 @@ services:
     image: 3.1.0.223
     buildNumber: '223'
   metadatavalidation:
-    version: 3.1.0.208
-    image: 3.1.0.208
-    buildNumber: '208'
+    version: 3.1.0.223
+    image: 3.1.0.223
+    buildNumber: '223'
   exportvalidation:
     version: 3.1.0.208
     image: 3.1.0.208
