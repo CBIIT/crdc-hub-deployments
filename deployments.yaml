@@ -20,9 +20,9 @@ services:
     image: 3.1.0.227
     buildNumber: '227'
   essentialvalidation:
-    version: 3.1.0.226
-    image: 3.1.0.226
-    buildNumber: '226'
+    version: 3.1.0.227
+    image: 3.1.0.227
+    buildNumber: '227'
   metadatavalidation:
     version: 3.1.0.226
     image: 3.1.0.226
