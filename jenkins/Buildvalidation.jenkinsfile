@@ -250,6 +250,10 @@ pipeline {
                 expression { params.TrivyTestScanEssentialvalidation }
               }
 
+             environment {
+                TRIVY_OPTIONS = "--db-repository public.ecr.aws/aquasecurity/trivy-db --java-db-repository public.ecr.aws/aquasecurity/trivy-java-db --timeout 15m"
+             }
+
                 steps {
 
                         script {
@@ -261,7 +265,7 @@ pipeline {
                 aws_account=$(aws sts get-caller-identity --query "Account" --output text)
                                 repo_url2="$REGISTRY_URL/$ECR_REPO2"
 
-                docker run --rm --name trivy -u root -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy:latest image --exit-code 1 --severity HIGH,CRITICAL $repo_url2:$CODE_BRANCH.$BUILD_NUMBER
+                docker run --rm --name trivy -u root -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy:latest image $TRIVY_OPTIONS --exit-code 1 --severity HIGH,CRITICAL $repo_url2:$CODE_BRANCH.$BUILD_NUMBER
                                '''
 
                         }
@@ -275,6 +279,10 @@ pipeline {
                 expression { params.TrivyTestScanMetadatavalidation }
               }
 
+             environment {
+                TRIVY_OPTIONS = "--db-repository public.ecr.aws/aquasecurity/trivy-db --java-db-repository public.ecr.aws/aquasecurity/trivy-java-db --timeout 15m"
+             }
+
                 steps {
 
                         script {
@@ -286,7 +294,7 @@ pipeline {
                 aws_account=$(aws sts get-caller-identity --query "Account" --output text)
                                 repo_url3="$REGISTRY_URL/$ECR_REPO3"
 
-                docker run --rm --name trivy -u root -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy:latest image --exit-code 1 --severity HIGH,CRITICAL $repo_url3:$CODE_BRANCH.$BUILD_NUMBER
+                docker run --rm --name trivy -u root -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy:latest image $TRIVY_OPTIONS --exit-code 1 --severity HIGH,CRITICAL $repo_url3:$CODE_BRANCH.$BUILD_NUMBER
                                '''
 
                         }
@@ -300,6 +308,10 @@ pipeline {
                 expression { params.TrivyTestScanExportvalidation }
               }
 
+             environment {
+                TRIVY_OPTIONS = "--db-repository public.ecr.aws/aquasecurity/trivy-db --java-db-repository public.ecr.aws/aquasecurity/trivy-java-db --timeout 15m"
+             }
+
                 steps {
 
                         script {
@@ -311,7 +323,7 @@ pipeline {
                 aws_account=$(aws sts get-caller-identity --query "Account" --output text)
                                 repo_url4="$REGISTRY_URL/$ECR_REPO4"
 
-                docker run --rm --name trivy -u root -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy:latest image --exit-code 1 --severity HIGH,CRITICAL $repo_url4:$CODE_BRANCH.$BUILD_NUMBER
+                docker run --rm --name trivy -u root -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy:latest image $TRIVY_OPTIONS --exit-code 1 --severity HIGH,CRITICAL $repo_url4:$CODE_BRANCH.$BUILD_NUMBER
                                '''
 
                         }
