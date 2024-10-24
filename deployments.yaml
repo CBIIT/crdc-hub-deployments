@@ -16,23 +16,18 @@ services:
     image: 2.1.0.105
     buildNumber: '105'
   filevalidation:
-    version: 3.1.0.227
-    image: 3.1.0.227
-    buildNumber: '227'
+    version: 3.1.0.208
+    image: 3.1.0.208
+    buildNumber: '208'
   essentialvalidation:
-    version: 3.1.0.227
-    image: 3.1.0.227
-    buildNumber: '227'
+    version: 3.1.0.208
+    image: 3.1.0.208
+    buildNumber: '208'
   metadatavalidation:
-    version: 3.1.0.227
-    image: 3.1.0.227
-    buildNumber: '227'
+    version: 3.1.0.208
+    image: 3.1.0.208
+    buildNumber: '208'
   exportvalidation:
-    version: 3.1.0.227
-    image: 3.1.0.227
-    buildNumber: '227'
-  pvpuller:
-    version: 3.1.0.9
-    image: 3.1.0.9
-    buildNumber: '9'
-    additionalProperties: null
+    version: 3.1.0.208
+    image: 3.1.0.208
+    buildNumber: '208'
