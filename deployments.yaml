@@ -31,3 +31,8 @@ services:
     version: 3.1.0.226
     image: 3.1.0.226
     buildNumber: '226'
+  pvpuller:
+    version: 3.1.0.9
+    image: 3.1.0.9
+    buildNumber: '9'
+    additionalProperties: null
