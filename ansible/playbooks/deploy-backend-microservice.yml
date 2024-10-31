@@ -139,6 +139,6 @@
           - name: JAVA_OPTS
             value: "-javaagent:/usr/local/tomcat/newrelic/newrelic.jar"
           - name: HIDDEN_MODELS
-            value: "{% if tier == 'dev' or tier == 'dev2' %}"Hidden Model"{% elif tier == 'qa' or tier == 'qa2' %}"Hidden Model"{% else %}"Test MDF,Hidden Model"{% endif %}"
+            value: "{{ 'Hidden Model' if tier in ['dev', 'dev2', 'qa', 'qa2'] else 'Test MDF,Hidden Model' }}"
           - name: ROLE_ARN
             value: "arn:aws:iam::{{ caller_info.account }}:role/power-user-crdc-hub-{{ tier}}-ecs-task-execution-role"
