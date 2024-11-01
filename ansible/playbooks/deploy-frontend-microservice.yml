@@ -41,7 +41,7 @@
         upload_cli_version: "{{ lookup('env','UPLOAD_CLI_VERSION') }}" 
         image_version: "{{ frontend_version }}"
         tier: "{{ tier }}"
-        cli_zip_file: "https://github.com/CBIIT/crdc-datahub-cli-uploader/releases/download/{{upload_cli_version}}/crdc-datahub-cli-uploader.zip"
+        cli_zip_file: "https://github.com/CBIIT/crdc-datahub-cli-uploader/releases/download/{{upload_cli_version}}/crdc-datahub-cli-uploader-src.zip"
         cli_windows_zip_file: "https://github.com/CBIIT/crdc-datahub-cli-uploader/releases/download/{{upload_cli_version}}/crdc-datahub-cli-uploader-windows.zip"
         cli_mac_zip_x64_file: "https://github.com/CBIIT/crdc-datahub-cli-uploader/releases/download/{{upload_cli_version}}/crdc-datahub-cli-uploader-mac-x64.zip"
         cli_mac_zip_arm_file: "https://github.com/CBIIT/crdc-datahub-cli-uploader/releases/download/{{upload_cli_version}}/crdc-datahub-cli-uploader-mac-arm.zip"
