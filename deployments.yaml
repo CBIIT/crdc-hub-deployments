@@ -10,7 +10,7 @@ services:
     image: 3.0.0.402
     buildNumber: '402'
     additionalProperties:
-      uploadCliVersion: 1.2.0-alpha-5
+      uploadCliVersion: 3.1.0-alpha-1
   authn:
     version: 2.1.1.116
     image: 2.1.1.116
