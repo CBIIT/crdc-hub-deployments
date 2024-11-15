@@ -16,21 +16,21 @@ services:
     image: 2.1.0.105
     buildNumber: '105'
   filevalidation:
-    version: 3.1.0.264
-    image: 3.1.0.264
-    buildNumber: '264'
+    version: 3.1.0.265
+    image: 3.1.0.265
+    buildNumber: '265'
   essentialvalidation:
-    version: 3.1.0.264
-    image: 3.1.0.264
-    buildNumber: '264'
+    version: 3.1.0.265
+    image: 3.1.0.265
+    buildNumber: '265'
   metadatavalidation:
-    version: 3.1.0.264
-    image: 3.1.0.264
-    buildNumber: '264'
+    version: 3.1.0.265
+    image: 3.1.0.265
+    buildNumber: '265'
   exportvalidation:
-    version: 3.1.0.264
-    image: 3.1.0.264
-    buildNumber: '264'
+    version: 3.1.0.265
+    image: 3.1.0.265
+    buildNumber: '265'
   pvpuller:
     version: 3.1.0.12
     image: 3.1.0.12
