@@ -42,3 +42,7 @@ variable "region" {
 variable "lambda-funtions" {
   type = list(string)
 }
+
+variable "mongodb_catalog_name" {
+  type = list(string)
+}
