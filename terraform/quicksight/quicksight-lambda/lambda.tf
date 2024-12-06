@@ -4,6 +4,6 @@ resource "aws_athena_data_catalog" "mongodb_catalog" {
   type            = "LAMBDA"
   description     = "MongoDB data catalog for Athena"
   parameters = {
-    lambda_function = var.lambda-funtions
+    function = var.lambda-funtions
   }
 }
