@@ -6,15 +6,15 @@ services:
     image: 3.1.0.754
     buildNumber: '754'
   frontend:
-    version: 3.1.0.472
-    image: 3.1.0.472
-    buildNumber: '472'
+    version: 3.1.0.481
+    image: 3.1.0.481
+    buildNumber: '481'
     additionalProperties:
-      uploadCliVersion: 3.1.0-alpha-3
+      uploadCliVersion: 3.1.0-alpha-4
   authn:
-    version: 2.1.1.116
-    image: 2.1.1.116
-    buildNumber: '116'
+    version: 2.1.2.131
+    image: 2.1.2.131
+    buildNumber: '131'
   filevalidation:
     version: 3.1.0.267
     image: 3.1.0.267
