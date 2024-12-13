@@ -144,6 +144,7 @@ pipeline {
                     elif [ "$ENV" == "stage" ]; then
                     export TIER="stage"
                     else export TIER="prod"                    
+                    fi
                     #EXPORTER_QUEUE
                     if [ "$ENV" == "dev" ]; then
                     export EXPORTER_QUEUE="crdc-hub-dev-export-queue.fifo"
@@ -156,6 +157,7 @@ pipeline {
                     elif [ "$ENV" == "stage" ]; then
                     export EXPORTER_QUEUE="crdc-hub-stage-export-queue.fifo"
                     else export EXPORTER_QUEUE="crdc-hub-prod-export-queue.fifo"
+                    fi
                     #FILE_QUEUE
                     if [ "$ENV" == "dev" ]; then
                     export FILE_QUEUE="crdc-hub-dev-file-queue.fifo"
@@ -168,6 +170,7 @@ pipeline {
                     elif [ "$ENV" == "stage" ]; then
                     export FILE_QUEUE="crdc-hub-stage-file-queue.fifo"
                     else export FILE_QUEUE="crdc-hub-prod-file-queue.fifo"
+                    fi
                     #LOADER_QUEUE
                     if [ "$ENV" == "dev" ]; then
                     export LOADER_QUEUE="crdc-hub-dev-loader-queue.fifo"
@@ -180,6 +183,7 @@ pipeline {
                     elif [ "$ENV" == "stage" ]; then
                     export LOADER_QUEUE="crdc-hub-stage-loader-queue.fifo"
                     else export LOADER_QUEUE="crdc-hub-prod-loader-queue.fifo"
+                    fi
                     #METADATA_QUEUE
                     if [ "$ENV" == "dev" ]; then
                     export METADATA_QUEUE="crdc-hub-dev-metadata-queue.fifo"
@@ -192,6 +196,7 @@ pipeline {
                     elif [ "$ENV" == "stage" ]; then
                     export METADATA_QUEUE="crdc-hub-stage-metadata-queue.fifo"
                     else export METADATA_QUEUE="crdc-hub-prod-metadata-queue.fifo"
+                    fi
 
                     # Update and register task definition
                     TASK_DEFINTION_FOLDER=$WORKSPACE/aws/ecs/task-definitions
