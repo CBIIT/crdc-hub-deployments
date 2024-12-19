@@ -108,7 +108,7 @@
             value: "{{ '30' if tier in ['dev', 'qa', 'qa2', 'stage', 'prod'] else '' }}"
             #value: "30"
           - name: INACTIVE_APPLICATION_DAYS
-            value: "{{ '45' if tier in ['dev', 'qa', 'qa2', 'stage', 'prod'] else '' }}"
+            value: "{{ '180' if tier in ['dev', 'qa', 'qa2', 'stage', 'prod'] else '' }}"
             #value: "45"
           - name: SUBMISSION_BUCKET
             value: "{{submission_bucket}}"
