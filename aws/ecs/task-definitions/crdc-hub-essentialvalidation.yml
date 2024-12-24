@@ -16,7 +16,7 @@ containerDefinitions:
       enable-ecs-log-metadata: "true"
 
 - name: newrelic-infra
-  image: newrelic/nri-ecs:1.9.2
+  image: newrelic/nri-ecs:v1.12.5
   essential: true
   environment:
   - name: "FARGATE"
