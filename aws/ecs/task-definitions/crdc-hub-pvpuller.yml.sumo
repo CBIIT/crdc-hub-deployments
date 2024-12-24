@@ -39,7 +39,7 @@ containerDefinitions:
   - name: "NRIA_LICENSE_KEY"
     valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:monitoring/newrelic:api_key::"
 
-- name: essentialvalidation
+- name: pvpuller
   image: "$REGISTRY_URL/$ECR_REPO:$IMAGE_TAG"
   essential: true
   environment:
@@ -56,14 +56,14 @@ containerDefinitions:
   - name: "SESSION_SECRET"
     value: "abcd256asghaaamnkloofghj"
 
-  - name: "EXPORTER_QUEUE"
-    value: "$PROJECT-$ENV-export-queue.fifo"
-  - name: "FILE_QUEUE"
-    value: "$PROJECT-$ENV-file-queue.fifo"
-  - name: "LOADER_QUEUE"
-    value: "$PROJECT-$ENV-loader-queue.fifo"
-  - name: "METADATA_QUEUE"
-    value: "$PROJECT-$ENV-metadata-queue.fifo"
+#  - name: "EXPORTER_QUEUE"
+#    value: "$PROJECT-$ENV-export-queue.fifo"
+#  - name: "FILE_QUEUE"
+#    value: "$PROJECT-$ENV-file-queue.fifo"
+#  - name: "LOADER_QUEUE"
+#    value: "$PROJECT-$ENV-loader-queue.fifo"
+#  - name: "METADATA_QUEUE"
+#    value: "$PROJECT-$ENV-metadata-queue.fifo"
   - name: "JAVA_OPTS"
     value: "-javaagent:/usr/local/tomcat/newrelic/newrelic.jar"
   - name: "NEW_RELIC_APP_NAME"

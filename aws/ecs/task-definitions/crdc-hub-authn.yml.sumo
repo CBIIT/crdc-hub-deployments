@@ -1,7 +1,7 @@
 family: "$SERVICE"
 networkMode: awsvpc
 cpu: "512"
-memory: "2048"
+memory: "1024"
 executionRoleArn: "arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-execution-role"
 taskRoleArn: "arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-role"
 requiresCompatibilities:
@@ -39,8 +39,12 @@ containerDefinitions:
   - name: "NRIA_LICENSE_KEY"
     valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:monitoring/newrelic:api_key::"
 
-- name: essentialvalidation
+- name: authn
   image: "$REGISTRY_URL/$ECR_REPO:$IMAGE_TAG"
+  portMappings:
+  - protocol: tcp
+    containerPort: 8082
+    hostPort: 8082
   essential: true
   environment:
   - name: "PROJECT"
@@ -55,15 +59,12 @@ containerDefinitions:
     value: "arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$PROJECT-$ENV-ecs-task-execution-role"
   - name: "SESSION_SECRET"
     value: "abcd256asghaaamnkloofghj"
-
-  - name: "EXPORTER_QUEUE"
-    value: "$PROJECT-$ENV-export-queue.fifo"
-  - name: "FILE_QUEUE"
-    value: "$PROJECT-$ENV-file-queue.fifo"
-  - name: "LOADER_QUEUE"
-    value: "$PROJECT-$ENV-loader-queue.fifo"
-  - name: "METADATA_QUEUE"
-    value: "$PROJECT-$ENV-metadata-queue.fifo"
+  - name: "IDP"
+    value: "nih"
+  - name: "NIH_SCOPE"
+    value: "openid email profile"
+  - name: "NIH_PROMPT"
+    value: "login"
   - name: "JAVA_OPTS"
     value: "-javaagent:/usr/local/tomcat/newrelic/newrelic.jar"
   - name: "NEW_RELIC_APP_NAME"
@@ -89,6 +90,22 @@ containerDefinitions:
     valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:bento/$PROJECT/$ENV:mongo_db_password::"
   - name: "NEW_RELIC_LICENSE_KEY"
     valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:monitoring/newrelic:api_key::"
+  - name: "NIH_CLIENT_ID"
+    valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:auth/provider/nih/$ENV:nih_client_id::"
+  - name: "NIH_CLIENT_SECRET"
+    valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:auth/provider/nih/$ENV:nih_client_secret::"
+  - name: "NIH_BASE_URL"
+    valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:auth/provider/nih/$ENV:nih_base_url::"
+  - name: "NIH_REDIRECT_URL"
+    valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:auth/provider/nih/$ENV:nih_redirect_url::"
+  - name: "NIH_USERINFO_URL"
+    valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:auth/provider/nih/$ENV:nih_userinfo_url::"
+  - name: "NIH_AUTHORIZE_URL"
+    valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:auth/provider/nih/$ENV:nih_authorize_url::"
+  - name: "NIH_TOKEN_URL"
+    valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:auth/provider/nih/$ENV:nih_token_url::"
+  - name: "NIH_LOGOUT_URL"
+    valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:auth/provider/nih/$ENV:nih_logout_url::"
   logConfiguration:
     logDriver: awsfirelens
     options:
