@@ -87,7 +87,7 @@ pipeline {
 
                 expression {
 
-                ENV == 'prod'
+                ENV == 'stage'
 
             }
 
