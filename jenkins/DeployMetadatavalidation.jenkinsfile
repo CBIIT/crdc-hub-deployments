@@ -73,7 +73,7 @@ pipeline {
         stage('Add Production Tag') {
             when {
                 expression {
-                    ENV == 'prod'
+                    ENV == 'stage'
                 }
             }
 
