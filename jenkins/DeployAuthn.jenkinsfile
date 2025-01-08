@@ -132,6 +132,32 @@ pipeline {
                     #export SCHEDULE_JOB="0 */5 * * * *"
                     #else export SCHEDULE_JOB="0 0 0 * * *"
                     #fi
+                    #TIER
+                    if [ "$ENV" == "dev" ]; then
+                    export TIER="dev"
+                    elif [ "$ENV" == "qa" ]; then
+                    export TIER="qa"
+                    elif [ "$ENV" == "dev2" ]; then
+                    export TIER=""
+                    elif [ "$ENV" == "qa2" ]; then
+                    export TIER="qa2"
+                    elif [ "$ENV" == "stage" ]; then
+                    export TIER="stage"
+                    else export TIER="prod"
+                    fi
+                    #IDP
+                    if [ "$ENV" == "dev" ]; then
+                    export IDP="nih"
+                    elif [ "$ENV" == "qa" ]; then
+                    export IDP="nih"
+                    elif [ "$ENV" == "dev2" ]; then
+                    export IDP=""
+                    elif [ "$ENV" == "qa2" ]; then
+                    export IDP="nih"
+                    elif [ "$ENV" == "stage" ]; then
+                    export IDP="nih"
+                    else export IDP="nih"
+                    fi
                     
                     # Update and register task definition
                     TASK_DEFINTION_FOLDER=$WORKSPACE/aws/ecs/task-definitions
