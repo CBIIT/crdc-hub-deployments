@@ -10,7 +10,7 @@ services:
     image: 3.2.0.512
     buildNumber: '512'
     additionalProperties:
-      uploadCliVersion: 3.2.0-alpha-2
+      uploadCliVersion: 3.2.0-alpha-3
   authn:
     version: 2.1.1.116
     image: 2.1.1.116
