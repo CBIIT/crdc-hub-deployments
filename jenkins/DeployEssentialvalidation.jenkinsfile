@@ -141,7 +141,7 @@ pipeline {
                     elif [ "$ENV" == "dev2" ]; then
                     export TIER=""
                     elif [ "$ENV" == "qa2" ]; then
-                    export TIER="qa2"
+                    export TIER=""
                     elif [ "$ENV" == "stage" ]; then
                     export TIER="stage"
                     else export TIER="prod"
@@ -154,7 +154,7 @@ pipeline {
                     elif [ "$ENV" == "dev2" ]; then
                     export EXPORTER_QUEUE=""
                     elif [ "$ENV" == "qa2" ]; then
-                    export EXPORTER_QUEUE="crdc-hub-qa2-export-queue.fifo"
+                    export EXPORTER_QUEUE=""
                     elif [ "$ENV" == "stage" ]; then
                     export EXPORTER_QUEUE="crdc-hub-stage-export-queue.fifo"
                     else export EXPORTER_QUEUE="crdc-hub-prod-export-queue.fifo"
@@ -167,7 +167,7 @@ pipeline {
                     elif [ "$ENV" == "dev2" ]; then
                     export FILE_QUEUE=""
                     elif [ "$ENV" == "qa2" ]; then
-                    export FILE_QUEUE="crdc-hub-qa2-file-queue.fifo"
+                    export FILE_QUEUE=""
                     elif [ "$ENV" == "stage" ]; then
                     export FILE_QUEUE="crdc-hub-stage-file-queue.fifo"
                     else export FILE_QUEUE="crdc-hub-prod-file-queue.fifo"
@@ -180,7 +180,7 @@ pipeline {
                     elif [ "$ENV" == "dev2" ]; then
                     export LOADER_QUEUE=""
                     elif [ "$ENV" == "qa2" ]; then
-                    export LOADER_QUEUE="crdc-hub-qa2-loader-queue.fifo"
+                    export LOADER_QUEUE=""
                     elif [ "$ENV" == "stage" ]; then
                     export LOADER_QUEUE="crdc-hub-stage-loader-queue.fifo"
                     else export LOADER_QUEUE="crdc-hub-prod-loader-queue.fifo"
@@ -193,7 +193,7 @@ pipeline {
                     elif [ "$ENV" == "dev2" ]; then
                     export METADATA_QUEUE=""
                     elif [ "$ENV" == "qa2" ]; then
-                    export METADATA_QUEUE="crdc-hub-qa2-metadata-queue.fifo"
+                    export METADATA_QUEUE=""
                     elif [ "$ENV" == "stage" ]; then
                     export METADATA_QUEUE="crdc-hub-stage-metadata-queue.fifo"
                     else export METADATA_QUEUE="crdc-hub-prod-metadata-queue.fifo"
