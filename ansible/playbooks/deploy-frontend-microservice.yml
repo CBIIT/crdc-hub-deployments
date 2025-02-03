@@ -118,6 +118,8 @@
             value: "{{cli_mac_zip_x64_file}}"
           - name: REACT_APP_UPLOADER_CLI_MAC_ARM
             value: "{{cli_mac_zip_arm_file}}"
+          - name: REACT_APP_UPLOADER_CLI_VERSION
+            value: "{{upload_cli_version}}"
           - name: HIDDEN_MODELS
             value: "{{ 'Hidden Model' if tier in ['dev', 'dev2', 'qa', 'qa2'] else 'Test MDF,Hidden Model, CCDI' }}"
           - name: DEV_TIER
