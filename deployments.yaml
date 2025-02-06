@@ -17,20 +17,20 @@ services:
     buildNumber: '116'
   filevalidation:
     version: 3.2.0.277
-    image: 3.2.0.278
-    buildNumber: '278'
+    image: 3.2.0.277
+    buildNumber: '277'
   essentialvalidation:
     version: 3.2.0.277
-    image: 3.2.0.278
-    buildNumber: '278'
+    image: 3.2.0.277
+    buildNumber: '277'
   metadatavalidation:
     version: 3.2.0.277
-    image: 3.2.0.278
-    buildNumber: '278'
+    image: 3.2.0.277
+    buildNumber: '277'
   exportvalidation:
     version: 3.2.0.277
-    image: 3.2.0.278
-    buildNumber: '278'
+    image: 3.2.0.277
+    buildNumber: '277'
   pvpuller:
     version: 3.2.0.17
     image: 3.2.0.17
