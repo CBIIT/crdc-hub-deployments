@@ -6,8 +6,8 @@ locals {
 #  resource_prefix = "${var.project}-${var.tier}"
   
 # iam role for extra s3 to be accessible from ECS
-#  iam_role_name = "power-user-${var.project}-${var.tier}-ecs-task-execution-role"
-#  task_role_name = "power-user-${var.project}-${var.tier}-ecs-task-role"
+  task_exec_role_arn = "arn:aws:iam::${var.source-account}:role/power-user-${var.project}-${terraform.workspace}-ecs-task-execution-role"
+  task_role_arn = "arn:aws:iam::${var.source-account}:role/power-user-${var.project}-${terraform.workspace}-ecs-task-role"
 #  env = regex("^(.*?)(2+)?$", terraform.workspace) != null ? regex("^(.*?)(2+)?$", terraform.workspace)[0] : terraform.workspace
   env = terraform.workspace
 #  submission_bucket_arn = "arn:aws:s3:::crdc-hub-${local.env}-submission"

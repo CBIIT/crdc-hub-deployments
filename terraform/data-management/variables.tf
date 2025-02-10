@@ -1,8 +1,8 @@
 # global variables
-#variable "project" {
-#  description = "name of the project"
-#  type        = string
-#}
+variable "project" {
+  description = "name of the project"
+  type        = string
+}
 
 #variable "tier" {
 #  type = string

@@ -19,6 +19,19 @@ resource "aws_s3_bucket_policy" "s3_data_sync_policy" {
   policy = data.aws_iam_policy_document.s3_data_sync_policy.json
 }
 
+#create s3 bucket policy required for task exec 
+resource "aws_s3_bucket_policy" "s3_task_exec_policy" {
+  bucket = aws_s3_bucket.s3_data_management.id
+  policy = data.aws_iam_policy_document.s3_task_exec_policy.json
+}
+
+#create s3 bucket policy required for task exec
+resource "aws_s3_bucket_policy" "s3_task_policy" {
+  bucket = aws_s3_bucket.s3_data_management.id
+  policy = data.aws_iam_policy_document.s3_task_policy.json
+}
+
+
 #resource "aws_s3_bucket_server_side_encryption_configuration" "s3_data_management" {
 #  bucket = aws_s3_bucket.s3_data_management.id
 
