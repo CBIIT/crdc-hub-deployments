@@ -2,15 +2,15 @@ Notes: Jenkins pipeline
 project: crdc-dh
 services:
   backend:
-    version: 3.2.0.925
-    image: 3.2.0.925
-    buildNumber: '925'
+    version: 3.2.0.931
+    image: 3.2.0.931
+    buildNumber: '931'
   frontend:
-    version: 3.2.0.528
-    image: 3.2.0.528
-    buildNumber: '528'
+    version: 3.2.0.531
+    image: 3.2.0.531
+    buildNumber: '531'
     additionalProperties:
-      uploadCliVersion: 3.2.0-alpha-4
+      uploadCliVersion: 3.2.0-alpha-5
   authn:
     version: 2.1.1.116
     image: 2.1.1.116
@@ -32,7 +32,7 @@ services:
     image: 3.2.0.277
     buildNumber: '277'
   pvpuller:
-    version: 3.2.0.17
-    image: 3.2.0.17
-    buildNumber: '17'
+    version: 3.2.0.19
+    image: 3.2.0.19
+    buildNumber: '19'
     additionalProperties: null
