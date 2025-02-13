@@ -28,9 +28,9 @@ services:
     image: 3.2.0.282
     buildNumber: '282'
   exportvalidation:
-    version: 3.2.0.277
-    image: 3.2.0.277
-    buildNumber: '277'
+    version: 3.2.0.282
+    image: 3.2.0.282
+    buildNumber: '282'
   pvpuller:
     version: 3.2.0.19
     image: 3.2.0.19
