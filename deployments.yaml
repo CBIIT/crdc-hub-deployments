@@ -32,7 +32,7 @@ services:
     image: 3.2.0.283
     buildNumber: '283'
   pvpuller:
-    version: 3.2.0.19
-    image: 3.2.0.19
-    buildNumber: '19'
+    version: 3.2.0.22
+    image: 3.2.0.22
+    buildNumber: '22'
     additionalProperties: null
