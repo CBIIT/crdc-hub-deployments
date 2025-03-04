@@ -142,7 +142,7 @@ pipeline {
                     elif [ "$ENV" == "qa2" ]; then
                     export TIER=""
                     elif [ "$ENV" == "stage" ]; then
-                    export TIER="stage"
+                    export TIER=""
                     else export TIER="prod"
                     fi
 # values for subnet ids and security group ids
