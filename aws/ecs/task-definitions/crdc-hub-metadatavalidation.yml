@@ -10,13 +10,10 @@ containerDefinitions:
 - name: sumologic-firelens
   image: public.ecr.aws/aws-observability/aws-for-fluent-bit:stable
   essential: true
-  logConfiguration:
-    logDriver: awslogs
+  firelensConfiguration:
+    type: fluentbit
     options:
-      awslogs-group: "/ecs/$PROJECT/$ENV/logs"
-      awslogs-region: "$REGION"
-      awslogs-create-group: "true"
-      awslogs-stream-prefix: "$SERVICE"
+      enable-ecs-log-metadata: "true"
 
 - name: newrelic-infra
   image: newrelic/nri-ecs:1.9.2
@@ -98,24 +95,18 @@ containerDefinitions:
   - name: "NEW_RELIC_LICENSE_KEY"
     valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:monitoring/newrelic:api_key::"
   logConfiguration:
-    logDriver: awslogs
+    logDriver: awsfirelens
     options:
-      awslogs-group: "/ecs/$PROJECT/$ENV/logs"
-      awslogs-region: "$REGION"
-      awslogs-create-group: "true"
-      awslogs-stream-prefix: "$SERVICE"
-#    logDriver: awsfirelens
-#    options:
-#      Format: json_lines
-#      Name: http
-#      Port: "443"
-#      URI: "/receiver/v1/http/$SUMO_LOGIC_COLLECTOR_TOKEN"
-#      Retry_Limit: "2"
-#      tls: "on"
-#      tls.verify: "off"
-#    secretOptions:
-#      - name: "Host"
-#        valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:bento/$PROJECT/$ENV:sumo_collector_endpoint::"
+      Format: json_lines
+      Name: http
+      Port: "443"
+      URI: "/receiver/v1/http/$SUMO_LOGIC_COLLECTOR_TOKEN"
+      Retry_Limit: "2"
+      tls: "on"
+      tls.verify: "off"
+    secretOptions:
+      - name: "Host"
+        valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:bento/$PROJECT/$ENV:sumo_collector_endpoint::"
       # Todo: Add this back in when we have a secret key for sumo_collector_uri_metadata_validation
       # - name: "URI"
       #   valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:bento/$PROJECT/$ENV:sumo_collector_uri_metadata_validation::"
