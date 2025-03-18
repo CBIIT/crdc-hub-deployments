@@ -24,9 +24,9 @@ services:
     image: 3.2.0.299
     buildNumber: '299'
   metadatavalidation:
-    version: 3.2.0.297
-    image: 3.2.0.297
-    buildNumber: '297'
+    version: 3.2.0.299
+    image: 3.2.0.299
+    buildNumber: '299'
   exportvalidation:
     version: 3.2.0.294
     image: 3.2.0.294
