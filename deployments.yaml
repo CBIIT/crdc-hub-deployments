@@ -2,37 +2,37 @@ Notes: Jenkins pipeline
 project: crdc-dh
 services:
   backend:
-    version: 3.2.0.961
-    image: 3.2.0.961
-    buildNumber: '961'
+    version: 3.2.0.993
+    image: 3.2.0.993
+    buildNumber: '993'
   frontend:
-    version: 3.2.0.544
-    image: 3.2.0.544
-    buildNumber: '544'
+    version: 3.2.0.547
+    image: 3.2.0.547
+    buildNumber: '547'
     additionalProperties:
-      uploadCliVersion: 3.2.0-alpha-7
+      uploadCliVersion: 3.2.0-alpha-9
   authn:
     version: 2.1.3.137
     image: 2.1.3.137
     buildNumber: '137'
   filevalidation:
-    version: 3.2.0.283
-    image: 3.2.0.283
-    buildNumber: '283'
+    version: 3.2.0.299
+    image: 3.2.0.299
+    buildNumber: '299'
   essentialvalidation:
-    version: 3.2.0.283
-    image: 3.2.0.283
-    buildNumber: '283'
+    version: 3.2.0.299
+    image: 3.2.0.299
+    buildNumber: '299'
   metadatavalidation:
-    version: 3.2.0.283
-    image: 3.2.0.283
-    buildNumber: '283'
+    version: 3.2.0.299
+    image: 3.2.0.299
+    buildNumber: '299'
   exportvalidation:
-    version: 3.2.0.283
-    image: 3.2.0.283
-    buildNumber: '283'
+    version: 3.2.0.299
+    image: 3.2.0.299
+    buildNumber: '299'
   pvpuller:
-    version: 3.2.0.22
-    image: 3.2.0.22
-    buildNumber: '22'
+    version: 3.2.0.24
+    image: 3.2.0.24
+    buildNumber: '24'
     additionalProperties: null
