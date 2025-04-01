@@ -10,10 +10,13 @@ containerDefinitions:
 - name: sumologic-firelens
   image: public.ecr.aws/aws-observability/aws-for-fluent-bit:stable
   essential: true
-  firelensConfiguration:
-    type: fluentbit
+  logConfiguration:
+    logDriver: awslogs 
     options:
-      enable-ecs-log-metadata: "true"
+      awslogs-group: "/ecs/$PROJECT/$ENV/logs"
+      awslogs-region: "$REGION"
+      awslogs-create-group: "true"
+      awslogs-stream-prefix: "$SERVICE" 
 
 - name: newrelic-infra
   image: newrelic/nri-ecs:1.9.2
@@ -58,7 +61,6 @@ containerDefinitions:
     value: "abcd256asghaaamnkloofghj"
   - name: "DATASYNC_ROLE_ARN"
     value: "arn:aws:iam::$AWS_ACCOUNT_ID:role/power-user-$ENV-datasync-iam-role"
-
   - name: "DM_BUCKET_NAME"
     value: "$DM_BUCKET_NAME"
   - name: "EXPORTER_QUEUE"
@@ -99,18 +101,24 @@ containerDefinitions:
   - name: "NEW_RELIC_LICENSE_KEY"
     valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:monitoring/newrelic:api_key::"
   logConfiguration:
-    logDriver: awsfirelens
+#    logDriver: awsfirelens
+#    options:
+#      Format: json_lines
+#      Name: http
+#      Port: "443"
+#      URI: "/receiver/v1/http/$SUMO_LOGIC_COLLECTOR_TOKEN"
+#      Retry_Limit: "2"
+#      tls: "on"
+#      tls.verify: "off"
+#    secretOptions:
+#      - name: "Host"
+#        valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:bento/$PROJECT/$ENV:sumo_collector_endpoint::"
+#      # Todo: Add this back in when we have a secret key for sumo_collector_uri_metadata_validation
+#      # - name: "URI"
+#      #   valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:bento/$PROJECT/$ENV:sumo_collector_uri_metadata_validation::"
+    logDriver: awslogs
     options:
-      Format: json_lines
-      Name: http
-      Port: "443"
-      URI: "/receiver/v1/http/$SUMO_LOGIC_COLLECTOR_TOKEN"
-      Retry_Limit: "2"
-      tls: "on"
-      tls.verify: "off"
-    secretOptions:
-      - name: "Host"
-        valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:bento/$PROJECT/$ENV:sumo_collector_endpoint::"
-      # Todo: Add this back in when we have a secret key for sumo_collector_uri_metadata_validation
-      # - name: "URI"
-      #   valueFrom: "arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:bento/$PROJECT/$ENV:sumo_collector_uri_metadata_validation::"
+      awslogs-group: "/ecs/$PROJECT/$ENV/logs"
+      awslogs-region: "$REGION"
+      awslogs-create-group: "true"
+      awslogs-stream-prefix: "$SERVICE"
