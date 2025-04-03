@@ -98,43 +98,43 @@
             value: "{{email_password}}"
           - name: EMAIL_URL
             value: "{{email_url}}"
-          - name: SCHEDULE_JOB
-            value: "{% if tier == 'prod' or tier == 'stage' %}{% elif tier == 'qa2' %}{% elif tier == 'dev2' or tier == 'dev' %}{% else %}0 */5 * * * *{% endif %}"
+#          - name: SCHEDULE_JOB
+#            value: "{% if tier == 'prod' or tier == 'stage' %}{% elif tier == 'qa2' %}{% elif tier == 'dev2' or tier == 'dev' %}{% else %}0 */5 * * * *{% endif %}"
           ## Application related
-          - name: INACTIVE_USER_DAYS
+#          - name: INACTIVE_USER_DAYS
             #value: "60"
-            value: "{{ '60' if tier in ['qa'] else '' }}"
-          - name: REMIND_APPLICATION_DAYS
-            value: "{{ '30' if tier in ['qa'] else '' }}"
+#            value: "{{ '60' if tier in ['qa'] else '' }}"
+#          - name: REMIND_APPLICATION_DAYS
+#            value: "{{ '30' if tier in ['qa'] else '' }}"
             #value: "30"
-          - name: INACTIVE_APPLICATION_DAYS
-            value: "{{ '180' if tier in ['qa'] else '' }}"
+#          - name: INACTIVE_APPLICATION_DAYS
+#            value: "{{ '180' if tier in ['qa'] else '' }}"
             #value: "45"
           - name: SUBMISSION_BUCKET
             value: "{{submission_bucket}}"
-          - name: DEV_TIER
-            value: "{% if tier == 'qa' %}[QA2]{% else %}{% endif %}"
-          - name: TIER
-            value: "{% if tier == 'qa' %}qa{% else %}{% endif %}"
+#          - name: DEV_TIER
+#            value: "{% if tier == 'qa' %}[QA2]{% else %}{% endif %}"
+#          - name: TIER
+#            value: "{% if tier == 'qa' %}qa{% else %}{% endif %}"
 #            value: "{% if tier == 'dev' %}dev{% elif tier == 'qa' %}qa{% elif tier == 'qa2' %}{% elif tier == 'dev2' %}{% elif tier == 'stage' %}{% else %}prod{% endif %}"
             #value: "{{ tier }}"
-          - name: REVIEW_COMMITTEE_EMAIL
-            value: "{% if tier == 'qa' %}sofia.david@nih.gov, sohil.sohil@nih.gov, gayathri.radhakrishnan@nih.gov, laxmi.lolla@nih.gov{% else %}{% endif %}"
+#          - name: REVIEW_COMMITTEE_EMAIL
+#            value: "{% if tier == 'qa' %}sofia.david@nih.gov, sohil.sohil@nih.gov, gayathri.radhakrishnan@nih.gov, laxmi.lolla@nih.gov{% else %}{% endif %}"
 #            value: "{% if tier == 'dev' %}ming.ying@nih.gov, austin.mueller@nih.gov{% elif tier == 'qa' %}sofia.david@nih.gov, sohil.sohil@nih.gov, gayathri.radhakrishnan@nih.gov, laxmi.lolla@nih.gov{% elif tier == 'dev2' or tier == 'qa2' or tier == 'stage' %}{% else %}ncicrdcsubmissions@mail.nih.gov{% endif %}"
-          - name: LOADER_QUEUE
-            value: "{% if tier == 'qa' %}crdc-hub-qa-loader-queue.fifo{% else %}{% endif %}"
+#          - name: LOADER_QUEUE
+#            value: "{% if tier == 'qa' %}crdc-hub-qa-loader-queue.fifo{% else %}{% endif %}"
 #            value: "{% if tier == 'dev' %}crdc-hub-dev-loader-queue.fifo{% elif tier == 'qa' %}crdc-hub-qa-loader-queue.fifo{% elif tier == 'qa2' %}{% elif tier == 'dev2' %}{% elif tier == 'stage' %}{% else %}crdc-hub-prod-loader-queue.fifo{% endif %}"
             #value: "{{ project_name }}-{{ tier }}-loader-queue.fifo"
-          - name: FILE_QUEUE
-            value: "{% if tier == 'qa' %}crdc-hub-qa-file-queue.fifo{% else %}{% endif %}"
+#          - name: FILE_QUEUE
+#            value: "{% if tier == 'qa' %}crdc-hub-qa-file-queue.fifo{% else %}{% endif %}"
 #            value: "{% if tier == 'dev' %}crdc-hub-dev-file-queue.fifo{% elif tier == 'qa' %}crdc-hub-qa-file-queue.fifo{% elif tier == 'qa2' %}{% elif tier == 'dev2' %}{% elif tier == 'stage' %}{% else %}crdc-hub-prod-file-queue.fifo{% endif %}"
             #value: "{{ project_name }}-{{ tier }}-file-queue.fifo"
-          - name: METADATA_QUEUE
-            value: "{% if tier == 'qa' %}crdc-hub-qa-metadata-queue.fifo{% else %}{% endif %}"
+#          - name: METADATA_QUEUE
+#            value: "{% if tier == 'qa' %}crdc-hub-qa-metadata-queue.fifo{% else %}{% endif %}"
 #            value: "{% if tier == 'dev' %}crdc-hub-dev-metadata-queue.fifo{% elif tier == 'qa' %}crdc-hub-qa-metadata-queue.fifo{% elif tier == 'qa2' %}{% elif tier == 'dev2' %}{% elif tier == 'stage' %}{% else %}crdc-hub-prod-metadata-queue.fifo{% endif %}"
             #value: "{{ project_name }}-{{ tier }}-metadata-queue.fifo"
-          - name: EXPORTER_QUEUE
-            value: "{% if tier == 'qa' %}crdc-hub-qa-export-queue.fifo{% else %}{% endif %}"
+#          - name: EXPORTER_QUEUE
+#            value: "{% if tier == 'qa' %}crdc-hub-qa-export-queue.fifo{% else %}{% endif %}"
 #            value: "{% if tier == 'dev' %}crdc-hub-dev-export-queue.fifo{% elif tier == 'qa' %}crdc-hub-qa-export-queue.fifo{% elif tier == 'qa2' %}{% elif tier == 'dev2' %}{% elif tier == 'stage' %}{% else %}crdc-hub-prod-export-queue.fifo{% endif %}"
             #value: "{{ project_name }}-{{ tier }}-export-queue.fifo"
           - name: NEW_RELIC_LICENSE_KEY
