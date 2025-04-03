@@ -133,31 +133,32 @@ pipeline {
                     #else export SCHEDULE_JOB="0 0 0 * * *"
                     #fi
                     #TIER
-                    if [ "$ENV" == "dev" ]; then
-                    export TIER=""
-                    elif [ "$ENV" == "qa" ]; then
-                    export TIER="qa"
-                    elif [ "$ENV" == "dev2" ]; then
-                    export TIER=""
-                    elif [ "$ENV" == "qa2" ]; then
-                    export TIER=""
-                    elif [ "$ENV" == "stage" ]; then
-                    export TIER=""
-                    else export TIER="prod"
-                    fi
+#comment out from tkt CRDCDH-2213
+#                    if [ "$ENV" == "dev" ]; then
+#                    export TIER=""
+#                    elif [ "$ENV" == "qa" ]; then
+#                    export TIER="qa"
+#                    elif [ "$ENV" == "dev2" ]; then
+#                    export TIER=""
+#                    elif [ "$ENV" == "qa2" ]; then
+#                    export TIER=""
+#                    elif [ "$ENV" == "stage" ]; then
+#                    export TIER=""
+#                    else export TIER="prod"
+#                    fi
                     #IDP
-                    if [ "$ENV" == "dev" ]; then
-                    export IDP=""
-                    elif [ "$ENV" == "qa" ]; then
-                    export IDP="nih"
-                    elif [ "$ENV" == "dev2" ]; then
-                    export IDP=""
-                    elif [ "$ENV" == "qa2" ]; then
-                    export IDP=""
-                    elif [ "$ENV" == "stage" ]; then
-                    export IDP=""
-                    else export IDP=""
-                    fi
+#                    if [ "$ENV" == "dev" ]; then
+#                    export IDP=""
+#                    elif [ "$ENV" == "qa" ]; then
+#                    export IDP="nih"
+#                    elif [ "$ENV" == "dev2" ]; then
+#                    export IDP=""
+#                    elif [ "$ENV" == "qa2" ]; then
+#                    export IDP=""
+#                    elif [ "$ENV" == "stage" ]; then
+#                    export IDP=""
+#                    else export IDP=""
+#                    fi
                     
                     # Update and register task definition
                     TASK_DEFINTION_FOLDER=$WORKSPACE/aws/ecs/task-definitions

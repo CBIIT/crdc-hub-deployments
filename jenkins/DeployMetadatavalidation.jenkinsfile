@@ -133,70 +133,71 @@ pipeline {
                     #else export SCHEDULE_JOB="0 0 0 * * *"
                     #fi
                     #TIER
-                    if [ "$ENV" == "dev" ]; then
-                    export TIER=""
-                    elif [ "$ENV" == "qa" ]; then
-                    export TIER="qa"
-                    elif [ "$ENV" == "dev2" ]; then
-                    export TIER=""
-                    elif [ "$ENV" == "qa2" ]; then
-                    export TIER=""
-                    elif [ "$ENV" == "stage" ]; then
-                    export TIER=""
-                    else export TIER=""                    
-                    fi
+#comment out from tkt CRDCDH-2213
+                    #if [ "$ENV" == "dev" ]; then
+#                    export TIER=""
+#                    elif [ "$ENV" == "qa" ]; then
+#                    export TIER="qa"
+#                    elif [ "$ENV" == "dev2" ]; then
+#                    export TIER=""
+#                    elif [ "$ENV" == "qa2" ]; then
+#                    export TIER=""
+#                    elif [ "$ENV" == "stage" ]; then
+#                    export TIER=""
+#                    else export TIER=""                    
+#                    fi
                     #EXPORTER_QUEUE
-                    if [ "$ENV" == "dev" ]; then
-                    export EXPORTER_QUEUE=""
-                    elif [ "$ENV" == "qa" ]; then
-                    export EXPORTER_QUEUE="crdc-hub-qa-export-queue.fifo"
-                    elif [ "$ENV" == "dev2" ]; then
-                    export EXPORTER_QUEUE=""
-                    elif [ "$ENV" == "qa2" ]; then
-                    export EXPORTER_QUEUE=""
-                    elif [ "$ENV" == "stage" ]; then
-                    export EXPORTER_QUEUE=""
-                    else export EXPORTER_QUEUE=""
-                    fi
+#                    if [ "$ENV" == "dev" ]; then
+#                    export EXPORTER_QUEUE=""
+#                    elif [ "$ENV" == "qa" ]; then
+#                    export EXPORTER_QUEUE="crdc-hub-qa-export-queue.fifo"
+#                    elif [ "$ENV" == "dev2" ]; then
+#                    export EXPORTER_QUEUE=""
+#                    elif [ "$ENV" == "qa2" ]; then
+#                    export EXPORTER_QUEUE=""
+#                    elif [ "$ENV" == "stage" ]; then
+#                    export EXPORTER_QUEUE=""
+#                    else export EXPORTER_QUEUE=""
+#                    fi
                     #FILE_QUEUE
-                    if [ "$ENV" == "dev" ]; then
-                    export FILE_QUEUE=""
-                    elif [ "$ENV" == "qa" ]; then
-                    export FILE_QUEUE="crdc-hub-qa-file-queue.fifo"
-                    elif [ "$ENV" == "dev2" ]; then
-                    export FILE_QUEUE=""
-                    elif [ "$ENV" == "qa2" ]; then
-                    export FILE_QUEUE=""
-                    elif [ "$ENV" == "stage" ]; then
-                    export FILE_QUEUE=""
-                    else export FILE_QUEUE=""
-                    fi
+#                    if [ "$ENV" == "dev" ]; then
+#                    export FILE_QUEUE=""
+#                    elif [ "$ENV" == "qa" ]; then
+#                    export FILE_QUEUE="crdc-hub-qa-file-queue.fifo"
+#                    elif [ "$ENV" == "dev2" ]; then
+#                    export FILE_QUEUE=""
+#                    elif [ "$ENV" == "qa2" ]; then
+#                    export FILE_QUEUE=""
+#                    elif [ "$ENV" == "stage" ]; then
+#                    export FILE_QUEUE=""
+#                    else export FILE_QUEUE=""
+#                    fi
                     #LOADER_QUEUE
-                    if [ "$ENV" == "dev" ]; then
-                    export LOADER_QUEUE=""
-                    elif [ "$ENV" == "qa" ]; then
-                    export LOADER_QUEUE="crdc-hub-qa-loader-queue.fifo"
-                    elif [ "$ENV" == "dev2" ]; then
-                    export LOADER_QUEUE=""
-                    elif [ "$ENV" == "qa2" ]; then
-                    export LOADER_QUEUE=""
-                    elif [ "$ENV" == "stage" ]; then
-                    export LOADER_QUEUE=""
-                    else export LOADER_QUEUE=""
-                    fi
+#                    if [ "$ENV" == "dev" ]; then
+#                    export LOADER_QUEUE=""
+#                    elif [ "$ENV" == "qa" ]; then
+#                    export LOADER_QUEUE="crdc-hub-qa-loader-queue.fifo"
+#                    elif [ "$ENV" == "dev2" ]; then
+#                    export LOADER_QUEUE=""
+#                    elif [ "$ENV" == "qa2" ]; then
+#                    export LOADER_QUEUE=""
+#                    elif [ "$ENV" == "stage" ]; then
+#                    export LOADER_QUEUE=""
+#                    else export LOADER_QUEUE=""
+#                    fi
                     #METADATA_QUEUE
-                    if [ "$ENV" == "dev" ]; then
-                    export METADATA_QUEUE=""
-                    elif [ "$ENV" == "qa" ]; then
-                    export METADATA_QUEUE="crdc-hub-qa-metadata-queue.fifo"
-                    elif [ "$ENV" == "dev2" ]; then
-                    export METADATA_QUEUE=""
-                    elif [ "$ENV" == "qa2" ]; then
-                    export METADATA_QUEUE=""
-                    elif [ "$ENV" == "stage" ]; then
-                    export METADATA_QUEUE=""
-                    else export METADATA_QUEUE=""
-                    fi
+#                    if [ "$ENV" == "dev" ]; then
+#                    export METADATA_QUEUE=""
+#                    elif [ "$ENV" == "qa" ]; then
+#                    export METADATA_QUEUE="crdc-hub-qa-metadata-queue.fifo"
+#                    elif [ "$ENV" == "dev2" ]; then
+#                    export METADATA_QUEUE=""
+#                    elif [ "$ENV" == "qa2" ]; then
+#                    export METADATA_QUEUE=""
+#                    elif [ "$ENV" == "stage" ]; then
+#                    export METADATA_QUEUE=""
+#                    else export METADATA_QUEUE=""
+#                    fi
 
                     # Update and register task definition
                     TASK_DEFINTION_FOLDER=$WORKSPACE/aws/ecs/task-definitions

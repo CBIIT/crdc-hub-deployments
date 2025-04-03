@@ -133,18 +133,19 @@ pipeline {
                     #else export SCHEDULE_JOB="0 0 0 * * *"
                     #fi
                     #TIER
-                    if [ "$ENV" == "dev" ]; then
-                    export TIER=""
-                    elif [ "$ENV" == "qa" ]; then
-                    export TIER="qa"
-                    elif [ "$ENV" == "dev2" ]; then
-                    export TIER=""
-                    elif [ "$ENV" == "qa2" ]; then
-                    export TIER=""
-                    elif [ "$ENV" == "stage" ]; then
-                    export TIER=""
-                    else export TIER=""
-                    fi
+#comment out from tkt CRDCDH-2213
+#                    if [ "$ENV" == "dev" ]; then
+#                    export TIER=""
+#                    elif [ "$ENV" == "qa" ]; then
+#                    export TIER="qa"
+#                    elif [ "$ENV" == "dev2" ]; then
+#                    export TIER=""
+#                    elif [ "$ENV" == "qa2" ]; then
+#                    export TIER=""
+#                    elif [ "$ENV" == "stage" ]; then
+#                    export TIER=""
+#                    else export TIER=""
+#                    fi
 # values for subnet ids and security group ids
 #                    if [ "$ENV" == "dev" ] || [ "$ENV" == "dev2" ]; then
 #                    export SUBNET_ID="subnet-409a0424,subnet-4f35f112"
