@@ -134,7 +134,7 @@ pipeline {
                     #fi
                     #TIER
                     if [ "$ENV" == "dev" ]; then
-                    export TIER="dev"
+                    export TIER=""
                     elif [ "$ENV" == "qa" ]; then
                     export TIER="qa"
                     elif [ "$ENV" == "dev2" ]; then
@@ -143,7 +143,7 @@ pipeline {
                     export TIER=""
                     elif [ "$ENV" == "stage" ]; then
                     export TIER=""
-                    else export TIER="prod"
+                    else export TIER=""
                     fi
 # values for subnet ids and security group ids
 #                    if [ "$ENV" == "dev" ] || [ "$ENV" == "dev2" ]; then

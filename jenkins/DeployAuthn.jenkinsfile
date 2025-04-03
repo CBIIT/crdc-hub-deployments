@@ -134,7 +134,7 @@ pipeline {
                     #fi
                     #TIER
                     if [ "$ENV" == "dev" ]; then
-                    export TIER="dev"
+                    export TIER=""
                     elif [ "$ENV" == "qa" ]; then
                     export TIER="qa"
                     elif [ "$ENV" == "dev2" ]; then
@@ -147,7 +147,7 @@ pipeline {
                     fi
                     #IDP
                     if [ "$ENV" == "dev" ]; then
-                    export IDP="nih"
+                    export IDP=""
                     elif [ "$ENV" == "qa" ]; then
                     export IDP="nih"
                     elif [ "$ENV" == "dev2" ]; then
@@ -156,7 +156,7 @@ pipeline {
                     export IDP=""
                     elif [ "$ENV" == "stage" ]; then
                     export IDP=""
-                    else export IDP="nih"
+                    else export IDP=""
                     fi
                     
                     # Update and register task definition

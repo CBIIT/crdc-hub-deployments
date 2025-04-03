@@ -135,7 +135,7 @@ pipeline {
 
                     #TIER
                     if [ "$ENV" == "dev" ]; then
-                    export TIER="dev"
+                    export TIER=""
                     elif [ "$ENV" == "qa" ]; then
                     export TIER="qa"
                     elif [ "$ENV" == "dev2" ]; then
@@ -144,11 +144,11 @@ pipeline {
                     export TIER=""
                     elif [ "$ENV" == "stage" ]; then
                     export TIER=""
-                    else export TIER="prod"
+                    else export TIER=""
                     fi
                     #EXPORTER_QUEUE
                     if [ "$ENV" == "dev" ]; then
-                    export EXPORTER_QUEUE="crdc-hub-dev-export-queue.fifo"
+                    export EXPORTER_QUEUE=""
                     elif [ "$ENV" == "qa" ]; then
                     export EXPORTER_QUEUE="crdc-hub-qa-export-queue.fifo"
                     elif [ "$ENV" == "dev2" ]; then
@@ -157,11 +157,11 @@ pipeline {
                     export EXPORTER_QUEUE=""
                     elif [ "$ENV" == "stage" ]; then
                     export EXPORTER_QUEUE=""
-                    else export EXPORTER_QUEUE="crdc-hub-prod-export-queue.fifo"
+                    else export EXPORTER_QUEUE=""
                     fi
                     #FILE_QUEUE
                     if [ "$ENV" == "dev" ]; then
-                    export FILE_QUEUE="crdc-hub-dev-file-queue.fifo"
+                    export FILE_QUEUE=""
                     elif [ "$ENV" == "qa" ]; then
                     export FILE_QUEUE="crdc-hub-qa-file-queue.fifo"
                     elif [ "$ENV" == "dev2" ]; then
@@ -170,11 +170,11 @@ pipeline {
                     export FILE_QUEUE=""
                     elif [ "$ENV" == "stage" ]; then
                     export FILE_QUEUE=""
-                    else export FILE_QUEUE="crdc-hub-prod-file-queue.fifo"
+                    else export FILE_QUEUE=""
                     fi
                     #LOADER_QUEUE
                     if [ "$ENV" == "dev" ]; then
-                    export LOADER_QUEUE="crdc-hub-dev-loader-queue.fifo"
+                    export LOADER_QUEUE=""
                     elif [ "$ENV" == "qa" ]; then
                     export LOADER_QUEUE="crdc-hub-qa-loader-queue.fifo"
                     elif [ "$ENV" == "dev2" ]; then
@@ -183,11 +183,11 @@ pipeline {
                     export LOADER_QUEUE=""
                     elif [ "$ENV" == "stage" ]; then
                     export LOADER_QUEUE=""
-                    else export LOADER_QUEUE="crdc-hub-prod-loader-queue.fifo"
+                    else export LOADER_QUEUE=""
                     fi
                     #METADATA_QUEUE
                     if [ "$ENV" == "dev" ]; then
-                    export METADATA_QUEUE="crdc-hub-dev-metadata-queue.fifo"
+                    export METADATA_QUEUE=""
                     elif [ "$ENV" == "qa" ]; then
                     export METADATA_QUEUE="crdc-hub-qa-metadata-queue.fifo"
                     elif [ "$ENV" == "dev2" ]; then
@@ -196,7 +196,7 @@ pipeline {
                     export METADATA_QUEUE=""
                     elif [ "$ENV" == "stage" ]; then
                     export METADATA_QUEUE=""
-                    else export METADATA_QUEUE="crdc-hub-prod-metadata-queue.fifo"
+                    else export METADATA_QUEUE=""
                     fi
                     
                     # Update and register task definition
