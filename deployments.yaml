@@ -20,9 +20,9 @@ services:
     image: 3.3.0.310
     buildNumber: '310'
   essentialvalidation:
-    version: 3.3.0.305
-    image: 3.3.0.305
-    buildNumber: '305'
+    version: 3.3.0.310
+    image: 3.3.0.310
+    buildNumber: '310'
   metadatavalidation:
     version: 3.3.0.306
     image: 3.3.0.306
