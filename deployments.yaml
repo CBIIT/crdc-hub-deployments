@@ -10,7 +10,7 @@ services:
     image: 3.3.0.592
     buildNumber: '592'
     additionalProperties:
-      uploadCliVersion: 4.0.0-alpha-2
+      uploadCliVersion: 4.0.0-alpha-3
   authn:
     version: 2.1.3.137
     image: 2.1.3.137
