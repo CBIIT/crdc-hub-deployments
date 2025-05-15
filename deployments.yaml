@@ -10,29 +10,29 @@ services:
     image: 3.3.0.597
     buildNumber: '597'
     additionalProperties:
-      uploadCliVersion: 4.0.0-alpha-4
+      uploadCliVersion: 4.0.0-alpha-5
   authn:
     version: 3.3.0.141
     image: 3.3.0.141
     buildNumber: '141'
   filevalidation:
-    version: 3.3.0.318
-    image: 3.3.0.318
-    buildNumber: '318'
+    version: 3.3.0.329
+    image: 3.3.0.329
+    buildNumber: '329'
   essentialvalidation:
-    version: 3.3.0.318
-    image: 3.3.0.318
-    buildNumber: '318'
+    version: 3.3.0.329
+    image: 3.3.0.329
+    buildNumber: '329'
   metadatavalidation:
-    version: 3.3.0.318
-    image: 3.3.0.318
-    buildNumber: '318'
+    version: 3.3.0.329
+    image: 3.3.0.329
+    buildNumber: '329'
   exportvalidation:
-    version: 3.3.0.318
-    image: 3.3.0.318
-    buildNumber: '318'
+    version: 3.3.0.329
+    image: 3.3.0.329
+    buildNumber: '329'
   pvpuller:
-    version: 3.2.0.24
-    image: 3.2.0.24
-    buildNumber: '24'
+    version: 3.2.2.25
+    image: 3.2.2.25
+    buildNumber: '25'
     additionalProperties: null
