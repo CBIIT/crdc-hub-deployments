@@ -16,9 +16,9 @@ services:
     image: 3.3.0.141
     buildNumber: '141'
   filevalidation:
-    version: 3.3.0.332
-    image: 3.3.0.332
-    buildNumber: '332'
+    version: 3.3.0.334
+    image: 3.3.0.334
+    buildNumber: '334'
   essentialvalidation:
     version: 3.3.0.332
     image: 3.3.0.332
