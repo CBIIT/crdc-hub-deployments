@@ -20,9 +20,9 @@ services:
     image: 3.3.0.351
     buildNumber: '351'
   essentialvalidation:
-    version: 3.3.0.347
-    image: 3.3.0.347
-    buildNumber: '347'
+    version: 3.3.0.351
+    image: 3.3.0.351
+    buildNumber: '351'
   metadatavalidation:
     version: 3.3.0.347
     image: 3.3.0.347
