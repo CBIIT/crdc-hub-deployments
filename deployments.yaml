@@ -24,9 +24,9 @@ services:
     image: 3.3.0.355
     buildNumber: '355'
   metadatavalidation:
-    version: 3.3.0.353
-    image: 3.3.0.353
-    buildNumber: '353'
+    version: 3.3.0.355
+    image: 3.3.0.355
+    buildNumber: '355'
   exportvalidation:
     version: 3.3.0.353
     image: 3.3.0.353
