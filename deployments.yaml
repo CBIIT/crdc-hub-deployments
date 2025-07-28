@@ -2,15 +2,15 @@ Notes: Jenkins pipeline
 project: crdc-dh
 services:
   backend:
-    version: 3.3.0.1151
-    image: 3.3.0.1151
-    buildNumber: '1151'
+    version: 3.3.1.2
+    image: 3.3.1.2
+    buildNumber: '2'
   frontend:
     version: 3.3.0.629
     image: 3.3.0.629
     buildNumber: '629'
     additionalProperties:
-      uploadCliVersion: 4.0.0-alpha-15
+      uploadCliVersion: 4.0.1-alpha-1
   authn:
     version: 3.3.0.141
     image: 3.3.0.141
