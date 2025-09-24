@@ -6,9 +6,9 @@ services:
     image: 3.4.0.119
     buildNumber: '119'
   frontend:
-    version: 3.4.0.54
-    image: 3.4.0.54
-    buildNumber: '54'
+    version: 3.4.0.56
+    image: 3.4.0.56
+    buildNumber: '56'
     additionalProperties:
       uploadCliVersion: 4.2.0-alpha-8
   authn:
