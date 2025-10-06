@@ -2,9 +2,9 @@ Notes: Jenkins pipeline
 project: crdc-dh
 services:
   backend:
-    version: 3.4.0.125
-    image: 3.4.0.125
-    buildNumber: '125'
+    version: 3.5.0.1
+    image: 3.5.0.1
+    buildNumber: '1'
   frontend:
     version: 3.4.0.58
     image: 3.4.0.58
@@ -32,7 +32,7 @@ services:
     image: 3.4.0.16
     buildNumber: '16'
   pvpuller:
-    version: 3.4.0.8
-    image: 3.4.0.8
-    buildNumber: '8'
+    version: 3.5.0.1
+    image: 3.5.0.1
+    buildNumber: '1'
     additionalProperties: null
