@@ -16,21 +16,21 @@ services:
     image: 3.3.0.141
     buildNumber: '141'
   filevalidation:
-    version: 3.4.0.20
-    image: 3.4.0.20
-    buildNumber: '20'
+    version: 3.5.0.2
+    image: 3.5.0.2
+    buildNumber: '2'
   essentialvalidation:
-    version: 3.4.0.20
-    image: 3.4.0.20
-    buildNumber: '20'
+    version: 3.5.0.2
+    image: 3.5.0.2
+    buildNumber: '2'
   metadatavalidation:
-    version: 3.4.0.20
-    image: 3.4.0.20
-    buildNumber: '20'
+    version: 3.5.0.2
+    image: 3.5.0.2
+    buildNumber: '2'
   exportvalidation:
-    version: 3.4.0.20
-    image: 3.4.0.20
-    buildNumber: '20'
+    version: 3.5.0.2
+    image: 3.5.0.2
+    buildNumber: '2'
   pvpuller:
     version: 3.5.0.1
     image: 3.5.0.1
