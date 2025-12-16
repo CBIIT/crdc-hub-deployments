@@ -8,31 +8,31 @@ services:
   frontend:
     version: 3.5.0.34
     image: 3.5.0.34
-    buildNumber: '34'
+    buildNumber: "34"
     additionalProperties:
       uploadCliVersion: 4.3.0-alpha-5
   authn:
     version: 3.3.0.141
     image: 3.3.0.141
-    buildNumber: '141'
+    buildNumber: "141"
   filevalidation:
     version: 3.5.0.7
     image: 3.5.0.7
-    buildNumber: '7'
+    buildNumber: "7"
   essentialvalidation:
     version: 3.5.0.7
     image: 3.5.0.7
-    buildNumber: '7'
+    buildNumber: "7"
   metadatavalidation:
     version: 3.5.0.7
     image: 3.5.0.7
-    buildNumber: '7'
+    buildNumber: "7"
   exportvalidation:
     version: 3.5.0.7
     image: 3.5.0.7
-    buildNumber: '7'
+    buildNumber: "7"
   pvpuller:
     version: 3.5.0.1
     image: 3.5.0.1
-    buildNumber: '1'
+    buildNumber: "1"
     additionalProperties: null
